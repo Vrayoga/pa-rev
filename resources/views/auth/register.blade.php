@@ -59,6 +59,14 @@
                                             @enderror
                                         </div>
                                         <div class="mb-3">
+                                            <label for="userEmail" class="form-label">Alamat</label>
+                                            <input type="text" class="form-control" name="alamat" id="alamat"
+                                                placeholder="Alamat" value="{{ old('alamat') }}">
+                                            @error('alamat')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                        <div class="mb-3">
                                             <label for="userEmail" class="form-label">NIS</label>
                                             <input type="text" class="form-control" name="nis" id="nis"
                                                 placeholder="NIS" value="{{ old('nis') }}">

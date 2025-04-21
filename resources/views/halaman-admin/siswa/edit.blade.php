@@ -46,6 +46,10 @@
                                         <input id="sekolah_asal" name="sekolah_asal" type="text" class="form-control" 
                                                value="{{ old('sekolah_asal', $siswa->sekolah_asal) }}" placeholder="Masukkan Asal Sekolah" required>
                                     </div>
+                                    
+                                </div>
+
+                                <div class="col-sm-6">
                                     <div class="mb-3">
                                         <label for="id_kelas">Pilih kelas</label>
                                         <select id="id_kelas" name="id_kelas" class="form-control" required>
@@ -57,14 +61,6 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <div class="mb-3">
-                                        <label for="alamat">Alamat</label>
-                                        <input id="alamat" name="alamat" type="text" class="form-control" 
-                                               value="{{ old('alamat', $siswa->alamat) }}" placeholder="Masukkan alamat" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="nis">NIS</label>

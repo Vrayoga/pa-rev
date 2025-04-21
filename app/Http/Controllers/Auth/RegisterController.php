@@ -51,6 +51,8 @@ class RegisterController extends Controller
 
         Siswa::where('nis', $nis)->update([
             'tanggal_lahir' => $request->tanggal_lahir,
+            'no_telepon' => $request->no_telepon,
+            'alamat' => $request->alamat,
         ]);
         
         $user = User::create([

@@ -32,15 +32,14 @@ class KelasController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
+        // $request->validate([
+        //     'kelas' => 'required|max:100',
+        //     'jurusan' => 'required|max:100',
+        // ]);
 
-        $validatedData = $request->validate([
-            'kelas' => 'required|in:X,XI,XII',
-            'jurusan' => 'required|string|max:100'
-        ]);
-
-        Kelas::create($validatedData);
-
-        return redirect()->route('halaman-admin.kelas')->with('success', 'Data kelas berhasil ditambahkan');
+        Kelas::create($request->all());
+        return redirect('kelas')->with('success', 'Kategori berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -50,25 +49,30 @@ class KelasController extends Controller
             return redirect()->route('kelas.index')->with('error', 'Data kelas tidak ditemukan');
         }
 
-        return view('kelas.edit', compact('kelas'));
+        return view('halaman-admin.kelas.edit', compact('kelas'));
     }
 
     public function update(Request $request, $id)
-    {
-        $validatedData = $request->validate([
-            'kelas' => 'sometimes|in:X,XI,XII',
-            'jurusan' => 'sometimes|string|max:100'
-        ]);
+{
+    // Validasi langsung di dalam fungsi
+    $request->validate([
+        'kelas' => 'required|in:X,XI,XII',
+        'jurusan' => 'required|string|max:100'
+    ]);
 
-        $kelas = Kelas::find($id);
-        if (!$kelas) {
-            return redirect()->route('kelas.index')->with('error', 'Data kelas tidak ditemukan');
-        }
+    // Ambil data kelas
+    $kelas = Kelas::find($id);
 
-        $kelas->update($validatedData);
-
-        return redirect()->route('kelas.index')->with('success', 'Data kelas berhasil diperbarui');
+    if (!$kelas) {
+        return redirect()->route('kelas.index')->with('error', 'Data kelas tidak ditemukan.');
     }
+
+    // Update langsung dengan $request->all()
+    $kelas->update($request->all());
+
+    return redirect('/kelas')->with('success', 'Data kelas berhasil diperbarui.');
+}
+
 
     public function destroy($id)
     {

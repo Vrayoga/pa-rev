@@ -55,13 +55,13 @@ class SiswaController extends Controller
         $siswa =  Siswa::create($data);
 
 
-        User::create([
-            'siswas_id' => $siswa->id,
-            'nis' => $request->nis,
-            'password' => bcrypt('SMK_' . $pw),
-            'name' =>  $request->nama_siswa,
-            // 'email' => Str::random(8) . '@gmail.com',
-        ]);
+        // User::create([
+        //     'siswas_id' => $siswa->id,
+        //     'nis' => $request->nis,
+        //     'password' => bcrypt('SMK_' . $pw),
+        //     'name' =>  $request->nama_siswa,
+        //     // 'email' => Str::random(8) . '@gmail.com',
+        // ]);
 
         return redirect('siswa');
     }
@@ -79,17 +79,22 @@ class SiswaController extends Controller
     // Form edit
     public function edit(Siswa $siswa)
     {
-        return view('siswa.edit', compact('siswa'));
+        // $siswa = Siswa::where('id', $siswa->id)->first();
+
+        $Kelas = Kelas::all();
+
+
+        return view('halaman-admin.siswa.edit', compact('siswa', 'Kelas'));
     }
 
     // Update data siswa
     public function update(Request $request, Siswa $siswa)
     {
-        $request->validate([
-            'nama_siswa' => 'required|string|max:255',
-            'alamat' => 'required|string',
-            'nis' => 'required|string|unique:siswa,nis,' . $siswa->id,
-        ]);
+        // $request->validate([
+        //     'nama_siswa' => 'required|string|max:255',
+        //     'alamat' => 'required|string',
+        //     'nis' => 'required|string|unique:siswas,nis,' . $siswa->id,
+        // ]);
 
         $siswa->update($request->all());
 

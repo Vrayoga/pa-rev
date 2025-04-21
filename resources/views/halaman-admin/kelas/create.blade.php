@@ -29,7 +29,7 @@
                         <h4 class="card-title">SMKN 1 SUMENEP</h4>
                         <p class="card-title-desc">Data Kelas</p>
 
-                        <form action="/kelas-store" class="needs-validation" method="POST">
+                        <form action="{{route ('kelas.store')}}" class="needs-validation" method="POST">
                             @csrf
                             <div class="row">
                                 <div class="col-sm-6">
@@ -48,7 +48,7 @@
                                 <div class="col-sm-6">
                                     <div class="mb-3">
                                         <label for="manufacturername">Jurusan</label>
-                                        <input id="sekolah_asal" name="sekolah_asal" type="text" class="form-control" placeholder="Masukkan Asal Sekolah">
+                                        <input id="jurusan" name="jurusan" type="text" class="form-control" placeholder="Masukkan Asal Sekolah">
                                         <div class="invalid-feedback">Masukkan jurusan.</div>
                                     </div>
                                 </div>
