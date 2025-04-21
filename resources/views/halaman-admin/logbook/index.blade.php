@@ -63,7 +63,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="/logbook/{{ $logbook->id }}/edit" class="btn btn-warning btn-sm">Edit</a>
+                                            <a href="{{route ('logbook.edit', $logbook->id)}}" class="btn btn-warning btn-sm">Edit</a>
                                             <form action="/logbook/{{ $logbook->id }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')

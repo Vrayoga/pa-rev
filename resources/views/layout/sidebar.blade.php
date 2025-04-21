@@ -52,7 +52,7 @@
                 </li>
 
                 <li>
-                    <a href="javascript: void(0);" class="waves-effect">
+                    <a href="/prestasi" class="waves-effect">
                         <i class="bx bx-receipt"></i>
                         <span key="t-invoices">Prestasi</span>
                     </a>

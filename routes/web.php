@@ -97,8 +97,8 @@ Route::delete('/kelas-delete/{id}', [KelasController::class, 'destroy'])->name('
     Route::get('/logbook-create', [LogbookController::class, 'create'])->name('halaman-admin.logbook.create');
     Route::post('/logbook-store', [LogbookController::class, 'store'])->name('logbook.store');
     Route::get('/logbook/{logbook}', [LogbookController::class, 'show'])->name('logbook.show');
-    Route::get('/logbook/{logbook}/edit', [LogbookController::class, 'edit'])->name('logbook.edit');
-    Route::put('/logbook/{logbook}', [LogbookController::class, 'update'])->name('logbook.update');
+    Route::get('/logbook-edit/{logbook}', [LogbookController::class, 'edit'])->name('logbook.edit');
+    Route::post('/logbook/{logbook}', [LogbookController::class, 'update'])->name('logbook.update');
     Route::delete('/logbook/{logbook}', [LogbookController::class, 'destroy'])->name('logbook.destroy');
 
 
