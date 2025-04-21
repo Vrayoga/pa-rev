@@ -20,7 +20,7 @@ class RoleController extends Controller
             'title' => 'Roles', // Judul halaman roles
         ];
 
-        return view('admin.users_management.roles.page', $datas);
+        return view('halaman-admin.role.index', $datas);
     }
 
     public function store(Request $request)

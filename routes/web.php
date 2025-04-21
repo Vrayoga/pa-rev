@@ -11,6 +11,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\EkstrakurikulerController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::middleware(['guest'])->group(function () {
@@ -100,6 +101,14 @@ Route::delete('/kelas-delete/{id}', [KelasController::class, 'destroy'])->name('
     Route::get('/logbook-edit/{logbook}', [LogbookController::class, 'edit'])->name('logbook.edit');
     Route::post('/logbook/{logbook}', [LogbookController::class, 'update'])->name('logbook.update');
     Route::delete('/logbook/{logbook}', [LogbookController::class, 'destroy'])->name('logbook.destroy');
+
+    //route role
+    Route::get('/role', [RoleController::class, 'index'])->name('index');
+    Route::get('/role-create', [RoleController::class, 'create'])->name('create');
+    Route::post('/role-store', [RoleController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [RoleController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [RoleController::class, 'update'])->name('update');
+    Route::delete('/{id}', [RoleController::class, 'destroy'])->name('destroy');
 
 
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');

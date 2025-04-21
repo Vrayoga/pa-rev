@@ -71,7 +71,19 @@
                         <span key="t-projects">User</span>
                     </a>
                 </li>
-
+                <li class="menu-title" key="t-apps">USER MANAGEMENT</li>
+                <li>
+                    <a href="/role" class=" waves-effect">
+                        <i class="bx bx-briefcase-alt-2"></i>
+                        <span key="t-projects">Role</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/permission" class=" waves-effect">
+                        <i class="bx bx-briefcase-alt-2"></i>
+                        <span key="t-projects">Permission</span>
+                    </a>
+                </li>
             </ul>
         </div>
         <!-- Sidebar -->
