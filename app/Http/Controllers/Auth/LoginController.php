@@ -17,21 +17,47 @@ class LoginController extends Controller
 
     // Proses login
     public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+{
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+
+        $user = Auth::user();
+
+        if ($user->hasRole('admin') || $user->hasRole('guru')) {
             return redirect()->intended('/dashboard');
+        } elseif ($user->hasRole('siswa')) {
+            return redirect()->intended('/ekstraSiswa'); // Ganti dengan route siswa kamu
+        } else {
+            Auth::logout(); // kalau tidak punya role
+            return redirect('/login')->withErrors(['email' => 'Role tidak dikenali.']);
         }
-
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ])->onlyInput('email');
     }
+
+    return back()->withErrors([
+        'email' => 'Email atau password salah.',
+    ])->onlyInput('email');
+}
+    // public function login(Request $request)
+    // {
+    //     $credentials = $request->validate([
+    //         'email' => 'required|email',
+    //         'password' => 'required'
+    //     ]);
+
+    //     if (Auth::attempt($credentials)) {
+    //         $request->session()->regenerate();
+    //         return redirect()->intended('/dashboard');
+    //     }
+
+    //     return back()->withErrors([
+    //         'email' => 'Email atau password salah.',
+    //     ])->onlyInput('email');
+    // }
 
     // Logout
     public function logout(Request $request)

@@ -104,9 +104,11 @@ class RolePermissionSeeder extends Seeder
             'view ekstrakurikuler',
             'create ekstrakurikuler',
             'update ekstrakurikuler',
+            'edit ekstrakurikuler',
             'delete ekstrakurikuler',
 
             'view logbook',
+            'delete logbook',
             
             'view prestasi',
             'create prestasi',
@@ -117,11 +119,11 @@ class RolePermissionSeeder extends Seeder
             'view absensi',
 
 
-            'view role',
-            'create role',
-            'update role',
-            'edit role',
-            'delete role',
+            // 'view role',
+            // 'create role',
+            // 'update role',
+            // 'edit role',
+            // 'delete role',
         ]);
         $guru->givePermissionTo([
             'view dashboard',

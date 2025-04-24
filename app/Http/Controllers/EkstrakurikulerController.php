@@ -22,6 +22,18 @@ class EkstrakurikulerController extends Controller
         return view('halaman-admin.ekstrakurikuler.index', compact('ekstrakurikulers'));
     }
 
+    // index siswa
+    public function indexSiswa()
+    {
+        $ekstrakurikulers = DB::table('ekstrakurikuler')
+            ->join('kategori', 'ekstrakurikuler.id_kategori', '=', 'kategori.id')
+            ->select('ekstrakurikuler.*', 'kategori.nama_kategori as kategori')
+            ->get();
+
+        return view('users.index', compact('ekstrakurikulers'));
+    }
+
+
     // Show the form for creating a new resource
     public function create()
     {
@@ -54,8 +66,8 @@ class EkstrakurikulerController extends Controller
     // Display the specified resource
     public function show($id)
     {
-        $ekstrakurikuler = Ekstrakurikuler::findOrFail($id);
-        return view('ekstrakurikuler.show', compact('ekstrakurikuler'));
+        $ekstrakurikuler = Ekstrakurikuler::with('kategori')->findOrFail($id);
+        return view('users.detailEkstra', compact('ekstrakurikuler'));
     }
 
     // Show the form for editing the specified resource

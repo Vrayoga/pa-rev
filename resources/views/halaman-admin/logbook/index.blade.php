@@ -45,7 +45,9 @@
                                     <th>Jam mulai</th>
                                     <th>Jam selesai</th>
                                     <th>Foto kegiatan</th>
+                                   
                                     <th>Action</th>
+                                    
                                 </tr>
                                 </thead>
 
@@ -66,12 +68,16 @@
                                             @endif
                                         </td>
                                         <td>
+                                            @if (Auth::user()->can('edit logbook'))
                                             <a href="{{route ('logbook.edit', $logbook->id)}}" class="btn btn-warning btn-sm">Edit</a>
+                                            @endif
+                                            @if (Auth::user()->can('delete logbook'))
                                             <form action="/logbook/{{ $logbook->id }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
                                             </form>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach

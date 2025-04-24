@@ -69,12 +69,15 @@
                                         <td>{{ $ekstrakurikuler->Lokasi }}</td>
                                         <td>{{ $ekstrakurikuler->Periode }}</td>
                                         <td>
+                                            @can('edit ekstrakurikuler')
                                             <a href="{{route ('ekstrakurikuler.edit', $ekstrakurikuler->id )}}" class="btn btn-warning btn-sm">Edit</a>
+                                            @endcan
                                             <form action="{{route ('ekstrakurikuler.destroy', $ekstrakurikuler->id)}}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
                                             </form>
+                                   
                                         </td>
                                     </tr>
                                     @endforeach
@@ -87,9 +90,10 @@
             </div> <!-- end row -->
         </div>
     </div>
-    <script>
-        $(document).ready(function() {
-            $('#dataTableExample').DataTable();
-        });
-    </script>
+    <style>
+        table.dataTable td {
+            white-space: normal !important;
+        }
+    </style>
+    
 @endsection
