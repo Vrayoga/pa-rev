@@ -19,6 +19,7 @@ class Logbook extends Model
         'Jam_mulai',
         'Jam_selesai',
         'Foto_kegiatan',
+        
     ];
 
     public function user()

@@ -24,13 +24,16 @@
                 <div class="col-12">
                     <div class="card">
                         
+                        @can('create logbook')
+                        @if (!Auth::user()->hasRole('admin'))
                         <div class="card-body">
                             <div class="d-flex justify-content-end mb-3">
                                 <a href="/logbook-create" class="btn btn-primary btn-rounded waves-effect waves-light">
                                     <i class="mdi mdi-plus me-1"> Tambah Data Logbook </i>
                                 </a>
                             </div>
-                            
+                            @endif
+                            @endcan
                             <h4 class="card-title">Table Logbook</h4>
                             <table id="datatable" class="table table-bordered dt-responsive nowrap w-100">
                                 <thead>

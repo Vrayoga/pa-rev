@@ -1,7 +1,8 @@
 @extends('layout.MainLayout')
 
 @section('content')
-
+@can('view kategori')
+@if (!Auth::user()->hasRole('siswa'))
     <div class="page-content">
         <div class="container-fluid">
             <div class="row">
@@ -65,5 +66,6 @@
             </div> <!-- end row -->
         </div>
     </div>
-
+    @endif
+@endcan
 @endsection

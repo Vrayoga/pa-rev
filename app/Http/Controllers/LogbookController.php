@@ -12,16 +12,17 @@ class LogbookController extends Controller
 {
     // Tampilkan semua logbook
     public function index()
-    {
-        $logbooks = Logbook::join('ekstrakurikuler', 'logbook.ekstrakurikuler_id', '=', 'ekstrakurikuler.id')
-            ->select(
-                'logbook.*',
-                'ekstrakurikuler.nama_ekstrakurikuler as nama_ekstrakurikuler'
-            )
-            ->get();
-    
-        return view('halaman-admin.logbook.index', compact('logbooks'));
-    }
+{
+    $logbooks = Logbook::join('ekstrakurikuler', 'logbook.ekstrakurikuler_id', '=', 'ekstrakurikuler.id')
+        ->select(
+            'logbook.*',
+            'ekstrakurikuler.nama_ekstrakurikuler as nama_ekstrakurikuler'
+        )
+        ->get();
+
+    return view('halaman-admin.logbook.index', compact('logbooks'));
+}
+
 
     // Tampilkan form tambah
     public function create()

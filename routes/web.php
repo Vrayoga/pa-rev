@@ -58,27 +58,26 @@ Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 
-    Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
-    Route::get('/siswa-create', [SiswaController::class, 'create'])->name('siswa.create');
-    Route::post('/siswa-store', [SiswaController::class, 'store'])->name('siswa.store');
-    Route::get('/siswa/{siswa}', [SiswaController::class, 'show'])->name('siswa.show');
-    Route::get('/siswa-edit/{siswa}', [SiswaController::class, 'edit'])->name('siswa.edit');
-    Route::put('/siswa/{siswa}', [SiswaController::class, 'update'])->name('siswa.update');
-    Route::delete('/siswa/{siswa}', [SiswaController::class, 'destroy'])->name('siswa.destroy');
+    Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index')->middleware('permission:view siswa');
+    Route::get('/siswa-create', [SiswaController::class, 'create'])->name('siswa.create')->middleware('permission:create siswa');
+    Route::post('/siswa-store', [SiswaController::class, 'store'])->name('siswa.store')->middleware('permission:store siswa');
+    Route::get('/siswa-edit/{id}', [SiswaController::class, 'edit'])->name('siswa.edit')->middleware('permission:edit siswa');
+    Route::put('/siswa/{id}', [SiswaController::class, 'update'])->name('siswa.update');
+    Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])->name('siswa.destroy')->middleware('permission:delete siswa');
 
     // route kelas
    // Route untuk Kelas
-Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index');
-Route::get('/kelas-create', [KelasController::class, 'create'])->name('kelas.create');
-Route::post('/kelas-store', [KelasController::class, 'store'])->name('kelas.store');
-Route::get('/kelas/{id}', [KelasController::class, 'show'])->name('kelas.show');
+Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index')->middleware('permission:view kelas');
+Route::get('/kelas-create', [KelasController::class, 'create'])->name('kelas.create')->middleware('permission:create kelas');
+Route::post('/kelas-store', [KelasController::class, 'store'])->name('kelas.store')->middleware('permission:store kelas');
+// Route::get('/kelas/{id}', [KelasController::class, 'show'])->name('kelas.show');
 Route::get('/kelas-edit/{id}', [KelasController::class, 'edit'])->name('kelas.edit');
 Route::put('/kelas-update/{id}', [KelasController::class, 'update'])->name('kelas.update');
 Route::delete('/kelas-delete/{id}', [KelasController::class, 'destroy'])->name('kelas.destroy');
 
     // route kategori
-    Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
-    Route::get('/kategori-create', [KategoriController::class, 'create'])->name('halaman-admin.kategori.create');
+    Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index')->middleware('permission:view kategori');
+    Route::get('/kategori-create', [KategoriController::class, 'create'])->name('halaman-admin.kategori.create')->middleware('permission: create kategori');
     Route::post('/kategori-store', [KategoriController::class, 'store'])->name('kategori.store');
     Route::get('/kategori/{kategori}', [KategoriController::class, 'show'])->name('kategori.show');
     Route::get('/kategori-edit/{kategori}', [KategoriController::class, 'edit'])->name('kategori.edit');
@@ -86,7 +85,7 @@ Route::delete('/kelas-delete/{id}', [KelasController::class, 'destroy'])->name('
     Route::delete('/kategori/{kategori}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
 
     // route ekstrakurikuler
-    Route::get('/ekstrakurikuler', [EkstrakurikulerController::class, 'index'])->name('ekstrakurikuler.index');
+    Route::get('/ekstrakurikuler', [EkstrakurikulerController::class, 'index'])->name('ekstrakurikuler.index')->middleware('permission:view ekstrakurikuler');
     Route::get('/ekstrakurikuler-create', [EkstrakurikulerController::class, 'create'])->name('halaman-admin.ekstrakurikuler.create');
     Route::post('/ekstrakurikuler-store', [EkstrakurikulerController::class, 'store'])->name('ekstrakurikuler.store');
     Route::get('/ekstrakurikuler/{id}', [EkstrakurikulerController::class, 'show'])->name('ekstrakurikuler.show');
@@ -94,7 +93,7 @@ Route::delete('/kelas-delete/{id}', [KelasController::class, 'destroy'])->name('
     Route::put('/ekstrakurikuler/{id}', [EkstrakurikulerController::class, 'update'])->name('ekstrakurikuler.update');
     Route::delete('/ekstrakurikuler/{id}', [EkstrakurikulerController::class, 'destroy'])->name('ekstrakurikuler.destroy');
     // route logbook
-    Route::get('/logbook', [LogbookController::class, 'index'])->name('halaman-admin.logbook.index');
+    Route::get('/logbook', [LogbookController::class, 'index'])->name('halaman-admin.logbook.index')->middleware('permission:view logbook');
     Route::get('/logbook-create', [LogbookController::class, 'create'])->name('halaman-admin.logbook.create');
     Route::post('/logbook-store', [LogbookController::class, 'store'])->name('logbook.store');
     Route::get('/logbook/{logbook}', [LogbookController::class, 'show'])->name('logbook.show');
@@ -106,7 +105,7 @@ Route::delete('/kelas-delete/{id}', [KelasController::class, 'destroy'])->name('
     Route::get('/role', [RoleController::class, 'index'])->name('index');
     Route::get('/role-create', [RoleController::class, 'create'])->name('create');
     Route::post('/role-store', [RoleController::class, 'store'])->name('store');
-    Route::get('/{id}/edit', [RoleController::class, 'edit'])->name('edit');
+    Route::get('/role-edit/{id}/', [RoleController::class, 'edit'])->name('edit');
     Route::put('/{id}', [RoleController::class, 'update'])->name('update');
     Route::delete('/{id}', [RoleController::class, 'destroy'])->name('destroy');
 

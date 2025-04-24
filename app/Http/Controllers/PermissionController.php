@@ -15,7 +15,7 @@ class PermissionController extends Controller
             'title' => 'Permissions',
         ];
 
-
+            
 
         return view('admin.users_management.permissions.page', $datas);
     }
