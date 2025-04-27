@@ -27,9 +27,6 @@ Route::middleware(['guest'])->group(function () {
 
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login_action', [LoginController::class, 'login']);
-
-   
-
 });
 
 
@@ -102,6 +99,8 @@ Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
     Route::put('/ekstrakurikuler/{id}', [EkstrakurikulerController::class, 'update'])->name('ekstrakurikuler.update')->middleware('permission:update ekstrakurikuler');
     Route::delete('/ekstrakurikuler/{id}', [EkstrakurikulerController::class, 'destroy'])->name('ekstrakurikuler.destroy')->middleware('permission:delete ekstrakurikuler');
     // route logbook
+
+
     Route::get('/logbook', [LogbookController::class, 'index'])->name('halaman-admin.logbook.index')->middleware('permission:view logbook');
     Route::get('/logbook-create', [LogbookController::class, 'create'])->name('halaman-admin.logbook.create')->middleware('permission:create logbook');
     Route::post('/logbook-store', [LogbookController::class, 'store'])->name('logbook.store');
@@ -111,12 +110,15 @@ Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
     Route::delete('/logbook/{logbook}', [LogbookController::class, 'destroy'])->name('logbook.destroy')->middleware('permission:delete logbook');
 
     //route role
-    Route::get('/role', [RoleController::class, 'index'])->name('index');
-    Route::get('/role-create', [RoleController::class, 'create'])->name('create');
-    Route::post('/role-store', [RoleController::class, 'store'])->name('store');
-    Route::get('/role-edit/{id}/', [RoleController::class, 'edit'])->name('edit');
+    Route::get('/role', [RoleController::class, 'index'])->name('roles.index');
+    Route::get('/role-create', [RoleController::class, 'create'])->name('role.create');
+    Route::post('/role-store', [RoleController::class, 'store'])->name('role.store');
+    Route::get('/role-edit/{id}/', [RoleController::class, 'edit'])->name('roles.edit');
+    route::post('/role/{id}', [RoleController::class, 'update'])->name('roles.update');
+    Route::get('/roles/{id}/manage-permissions', [RoleController::class, 'managePermissions'])->name('roles.manage-permissions');
+    Route::post('/roles/{id}/update-permissions', [RoleController::class, 'updatePermissions'])->name('roles.update-permissions');
     Route::put('/{id}', [RoleController::class, 'update'])->name('update');
-    Route::delete('/{id}', [RoleController::class, 'destroy'])->name('destroy');
+    Route::post('roles/{id}', [RoleController::class, 'destroy'])->name('roles.destroy');
 
 
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');

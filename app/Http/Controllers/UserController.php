@@ -12,22 +12,26 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $role = $request->input('role');
+        $roleFilter = $request->input('role');
         
         // Query dasar
         $usersQuery = User::query();
         
         // Filter berdasarkan role jika ada
-        if ($role) {
-            $usersQuery->role($role);
+        if ($roleFilter) {
+            $usersQuery->role($roleFilter);
         }
         
         // Ambil data user
         $users = $usersQuery->get();
         
+        // Ambil semua role yang ada
+        $roles = Role::all();
+        
         // Data untuk view
         $data = [
-            'users' => $users
+            'users' => $users,
+            'roles' => $roles
         ];
         
         return view('halaman-admin.user.index', compact('data'));
@@ -70,7 +74,7 @@ class UserController extends Controller
         return redirect('/users')->with('success', 'User berhasil dibuat dan diberikan role.');
     }
 
-    
+
     public function destroy($id)
     {
         $user = User::find($id);

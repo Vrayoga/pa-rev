@@ -89,16 +89,17 @@
                 @endcan
 
                 {{-- @can('view user') --}}
+                
+                {{-- @endcan --}}
+                <li class="menu-title" key="t-apps">USER MANAGEMENT</li>
+
+                {{-- @can('view role') --}}
                 <li>
                     <a href="/users" class=" waves-effect">
                         <i class="bx bx-briefcase-alt-2"></i>
                         <span key="t-projects">User</span>
                     </a>
                 </li>
-                {{-- @endcan --}}
-                <li class="menu-title" key="t-apps">USER MANAGEMENT</li>
-
-                {{-- @can('view role') --}}
                 <li>
                     <a href="/role" class=" waves-effect">
                         <i class="bx bx-briefcase-alt-2"></i>
@@ -106,12 +107,6 @@
                     </a>
                 </li>
                 {{-- @endcan --}}
-                <li>
-                    <a href="/permission" class=" waves-effect">
-                        <i class="bx bx-briefcase-alt-2"></i>
-                        <span key="t-projects">Permission</span>
-                    </a>
-                </li>
             </ul>
         </div>
         <!-- Sidebar -->

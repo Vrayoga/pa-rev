@@ -26,7 +26,7 @@
                     
                     <div class="card-body">
                         <div class="d-flex justify-content-end mb-3">
-                            <a href="#" class="btn btn-primary btn-rounded waves-effect waves-light">
+                            <a href="/role-create" class="btn btn-primary btn-rounded waves-effect waves-light">
                                 <i class="mdi mdi-plus me-1"></i> Tambah Role
                             </a>
                         </div>
@@ -37,7 +37,7 @@
                                 <tr>
                                     <th style="width: 5%;">No</th>
                                     <th>Role</th>
-                                    <th>Guard</th> <!-- Tambah ini -->
+                                    <th>Guard</th>
                                     <th>Action</th>
                                 </tr>
                                 
@@ -49,8 +49,10 @@
                                     <td>{{ $role->name }}</td>
                                     <td>{{ $role->guard_name }}</td> <!-- Tampilkan guard_name -->
                                     <td>
-                                        <a href="#" class="btn btn-warning btn-sm">Edit</a>
-                                        <form action="#" method="POST" style="display:inline;">
+                                        <a href="{{route ('roles.edit', $role->id )}}" class="btn btn-warning btn-sm">Edit</a>
+                                        <a href="{{ route('roles.manage-permissions', $role->id) }}" class="btn btn-warning btn-sm">Manage</a>
+                                        <form action="{{route ('roles.destroy', $role->id )}}" method="POST" style="display:inline;">
+                                            @csrf
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus role ini?')">Delete</button>
                                         </form>
                                     </td>

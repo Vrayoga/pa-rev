@@ -22,11 +22,17 @@ class RoleController extends Controller
         return view('halaman-admin.role.index', $datas);
     }
 
+    public function create()
+    {
+        return view('halaman-admin.role.createRole');
+    }
+
+
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'permissions' => 'array', // Pastikan permissions dikirim sebagai array
+            'permissions' => 'array',
         ]);
 
         $role = Role::create(['name' => $request->name]);
@@ -39,6 +45,14 @@ class RoleController extends Controller
         }
 
         return redirect()->route('roles.index')->with('success', 'Role created successfully.');
+    }
+
+    public function edit($id)
+    {
+        $role = Role::findOrFail($id);
+        $permissions = Permission::all();
+        
+        return view('halaman-admin.role.editRole', compact('role', 'permissions'));
     }
 
     public function update(Request $request, $roleId)
@@ -67,6 +81,51 @@ class RoleController extends Controller
         }
     }
 
+
+    public function managePermissions($id)
+    {
+        // Ambil data role berdasarkan ID
+        $role = Role::findOrFail($id);
+        
+        // Ambil semua permission yang tersedia
+        $permissions = Permission::all();
+        
+        // Ambil permission yang sudah dimiliki role ini
+        $rolePermissions = $role->permissions->pluck('id')->toArray();
+        
+        return view('halaman-admin.role.manage', compact('role', 'permissions', 'rolePermissions'));
+    }
+    
+    /**
+     * Update permissions untuk role tertentu
+     */
+    public function updatePermissions(Request $request, $id)
+    {
+        // Validasi input
+        $validated = $request->validate([
+            'permissions' => 'nullable|array',
+            'permissions.*' => 'exists:permissions,id',
+        ]);
+        
+        // Ambil role berdasarkan ID
+        $role = Role::findOrFail($id);
+        
+        // Jika tidak ada permissions yang dipilih
+        if (!$request->has('permissions')) {
+            $role->syncPermissions([]);
+            return redirect()->route('roles.index')
+                         ->with('success', 'Permissions untuk role ' . $role->name . ' berhasil diperbarui.');
+        }
+        
+        // Ambil semua permission yang dipilih berdasarkan ID
+        $permissions = Permission::whereIn('id', $request->permissions)->get();
+        
+        // Sync permissions menggunakan collection permission
+        $role->syncPermissions($permissions);
+        
+        return redirect()->route('roles.index')
+                         ->with('success', 'Permissions untuk role ' . $role->name . ' berhasil diperbarui.');
+    }
 
 
     public function destroy($id)

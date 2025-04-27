@@ -31,9 +31,11 @@
                                         <label for="roleFilter" class="me-2">Filter Role:</label>
                                         <select id="roleFilter" name="role" class="form-select me-2" style="width: 150px;">
                                             <option value="">Semua Role</option>
-                                            <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                                            <option value="guru" {{ request('role') == 'guru' ? 'selected' : '' }}>Guru</option>
-                                            <option value="siswa" {{ request('role') == 'siswa' ? 'selected' : '' }}>Siswa</option>
+                                            @foreach($data['roles'] as $role)
+                                                <option value="{{ $role->name }}" {{ request('role') == $role->name ? 'selected' : '' }}>
+                                                    {{ ucfirst($role->name) }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                         <button type="submit" class="btn btn-info btn-sm">Filter</button>
                                     </form>
@@ -62,7 +64,7 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->getRoleNames()->first() }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-warning btn-sm">Edit</a>                                       
+                                        <a href="" class="btn btn-warning btn-sm">Edit</a>                                       
                                          <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;"> 
                                             @csrf
                                             @method('DELETE')
