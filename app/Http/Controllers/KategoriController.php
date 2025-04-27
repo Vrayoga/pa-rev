@@ -38,7 +38,7 @@ class KategoriController extends Controller
     public function edit($id)
     {
         $kategori = Kategori::findOrFail($id);
-        return view('kategori.edit', compact('kategori'));
+        return view('halaman-admin.kategori.edit', compact('kategori'));
     }
 
     public function update(Request $request, $id)

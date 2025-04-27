@@ -16,7 +16,6 @@ class RoleController extends Controller
     {
         $datas = [
             'roles' => Role::with('permissions')->get(),
-            'permissions' => Permission::all(), // Ambil semua permissions
             'title' => 'Roles', // Judul halaman roles
         ];
 

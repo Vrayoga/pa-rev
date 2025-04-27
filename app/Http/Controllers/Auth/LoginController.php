@@ -88,7 +88,7 @@ class LoginController extends Controller
             $user->password = bcrypt($request->password);
             $user->save();
 
-            return redirect('/dashboard')->with('success', 'Password berhasil diubah.');
+            return redirect('/ekstraSiswa')->with('success', 'Password berhasil diubah.');
         } else {
             return back()->withErrors(['email' => 'Email tidak ditemukan.']);
         }

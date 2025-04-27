@@ -37,29 +37,25 @@
                                 <tr>
                                     <th style="width: 5%;">No</th>
                                     <th>Role</th>
-                                    <th>Permissions</th>
+                                    <th>Guard</th> <!-- Tambah ini -->
                                     <th>Action</th>
                                 </tr>
+                                
                             </thead>
                             <tbody>
                                 @foreach($roles as $index => $role)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $role->name }}</td>
-                                    <td>
-                                        @foreach($role->permissions as $perm)
-                                            <span class="badge bg-info text-dark">{{ $perm->name }}</span>
-                                        @endforeach
-                                    </td>
+                                    <td>{{ $role->guard_name }}</td> <!-- Tampilkan guard_name -->
                                     <td>
                                         <a href="#" class="btn btn-warning btn-sm">Edit</a>
                                         <form action="#" method="POST" style="display:inline;">
-                                            {{-- @csrf
-                                            @method('DELETE') --}}
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus role ini?')">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
+                                
                                 @endforeach
                             </tbody>
                         </table>
@@ -71,10 +67,10 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function() {
-        $('#datatable').DataTable(); // pastikan id-nya sesuai
-    });
-</script>
+<style>
+    table.dataTable td {
+        white-space: normal !important;
+    }
+</style>
 
 @endsection

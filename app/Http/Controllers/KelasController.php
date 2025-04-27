@@ -76,6 +76,8 @@ class KelasController extends Controller
 
     public function destroy($id)
     {
+
+
         $kelas = Kelas::find($id);
         if (!$kelas) {
             return redirect()->route('kelas.index')->with('error', 'Data kelas tidak ditemukan');

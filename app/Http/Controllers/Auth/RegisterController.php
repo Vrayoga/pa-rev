@@ -54,7 +54,7 @@ class RegisterController extends Controller
             'no_telepon' => $request->no_telepon,
             'alamat' => $request->alamat,
         ]);
-        
+
         $user = User::create([
             'name' => $name,
             'email' => $email,
@@ -63,7 +63,8 @@ class RegisterController extends Controller
             'password' => bcrypt($password),
         ]);
 
-       
+        $user->assignRole('siswa');
+
 
         event(new Registered($user));
 

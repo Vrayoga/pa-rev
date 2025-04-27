@@ -102,9 +102,15 @@ class SiswaController extends Controller
     }
 
     // Hapus siswa
-    public function destroy(Siswa $siswa)
+    public function destroy($id)
     {
+        $siswa = Siswa::find($id);
+        if (!$siswa) {
+            return redirect()->route('siswa.index')->with('error', 'Data kelas tidak ditemukan');
+        }
+
         $siswa->delete();
-        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil dihapus.');
+
+        return redirect()->route('siswa.index')->with('success', 'Data kelas berhasil dihapus');
     }
 }

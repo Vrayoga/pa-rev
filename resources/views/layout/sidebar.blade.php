@@ -88,24 +88,24 @@
                 </li>
                 @endcan
 
-                @can('view user')
+                {{-- @can('view user') --}}
                 <li>
-                    <a href="javascript: void(0);" class=" waves-effect">
+                    <a href="/users" class=" waves-effect">
                         <i class="bx bx-briefcase-alt-2"></i>
                         <span key="t-projects">User</span>
                     </a>
                 </li>
-                @endcan
+                {{-- @endcan --}}
                 <li class="menu-title" key="t-apps">USER MANAGEMENT</li>
 
-                @can('view role')
+                {{-- @can('view role') --}}
                 <li>
                     <a href="/role" class=" waves-effect">
                         <i class="bx bx-briefcase-alt-2"></i>
                         <span key="t-projects">Role</span>
                     </a>
                 </li>
-                @endcan
+                {{-- @endcan --}}
                 <li>
                     <a href="/permission" class=" waves-effect">
                         <i class="bx bx-briefcase-alt-2"></i>
