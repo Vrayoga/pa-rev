@@ -28,9 +28,8 @@
                         <h4 class="card-title">SMKN 1 SUMENEP</h4>
                         <p class="card-title-desc">Edit data siswa</p>
 
-                        <form action="{{ route('siswa.update', $siswa->id) }}" class="needs-validation" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('siswa.update', $siswa) }}" class="needs-validation" method="POST" enctype="multipart/form-data">
                             @csrf
-                            @method('PUT')
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="mb-3">

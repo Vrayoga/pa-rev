@@ -79,7 +79,6 @@ class SiswaController extends Controller
     // Form edit
     public function edit(Siswa $siswa)
     {
-        // $siswa = Siswa::where('id', $siswa->id)->first();
 
         $Kelas = Kelas::all();
 
@@ -95,7 +94,7 @@ class SiswaController extends Controller
         //     'alamat' => 'required|string',
         //     'nis' => 'required|string|unique:siswas,nis,' . $siswa->id,
         // ]);
-
+        
         $siswa->update($request->all());
 
         return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil diupdate.');

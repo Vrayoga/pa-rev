@@ -20,6 +20,7 @@ return new class extends Migration
             $table->time('Jam_mulai');
             $table->time('Jam_selesai');
             $table->string('Foto_kegiatan');
+            $table->boolean('is_locked')->default(false);
             $table->timestamps();
         });
     }

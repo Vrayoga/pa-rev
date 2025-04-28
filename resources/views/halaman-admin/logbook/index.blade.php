@@ -28,7 +28,7 @@
                         @if (!Auth::user()->hasRole('admin'))
                         <div class="card-body">
                             <div class="d-flex justify-content-end mb-3">
-                                <a href="/logbook-create" class="btn btn-primary btn-rounded waves-effect waves-light">
+                                <a href="{{route ('logbook.create')}}" class="btn btn-primary btn-rounded waves-effect waves-light">
                                     <i class="mdi mdi-plus me-1"> Tambah Data Logbook </i>
                                 </a>
                             </div>
@@ -68,15 +68,19 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if (Auth::user()->can('edit logbook'))
-                                            <a href="{{route ('logbook.edit', $logbook->id)}}" class="btn btn-warning btn-sm">Edit</a>
-                                            @endif
-                                            @if (Auth::user()->can('delete logbook'))
-                                            <form action="/logbook/{{ $logbook->id }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
-                                            </form>
+                                            @if(!$logbook->is_locked)  <!-- Menggunakan !$logbook->is_locked untuk kejelasan -->
+                                                @can('edit logbook')
+                                                    <a href="{{ route('logbook.edit', $logbook->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                @endcan
+                                                @can('delete logbook')
+                                                    <form action="/logbook/{{ $logbook->id }}" method="POST" style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                                                    </form>
+                                                @endcan
+                                            @else
+                                                <span class="badge bg-secondary">Locked</span>
                                             @endif
                                         </td>
                                     </tr>

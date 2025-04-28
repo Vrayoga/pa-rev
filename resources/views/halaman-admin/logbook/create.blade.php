@@ -29,7 +29,7 @@
                         <h4 class="card-title">SMKN 1 SUMENEP</h4>
                         <p class="card-title-desc">Data Logbook</p>
 
-                        <form action="/logbook-store" class="needs-validation" method="POST" enctype="multipart/form-data">
+                        <form action="{{route ('logbook.store')}}" class="needs-validation" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-sm-6">

@@ -12,16 +12,18 @@ class LogbookController extends Controller
 {
     // Tampilkan semua logbook
     public function index()
-{
-    $logbooks = Logbook::join('ekstrakurikuler', 'logbook.ekstrakurikuler_id', '=', 'ekstrakurikuler.id')
-        ->select(
-            'logbook.*',
-            'ekstrakurikuler.nama_ekstrakurikuler as nama_ekstrakurikuler'
-        )
-        ->get();
+    {
+        // Menampilkan semua logbook, termasuk yang terkunci
+        $logbooks = Logbook::join('ekstrakurikuler', 'logbook.ekstrakurikuler_id', '=', 'ekstrakurikuler.id')
+            ->select(
+                'logbook.*',
+                'ekstrakurikuler.nama_ekstrakurikuler as nama_ekstrakurikuler'
+            )
+            ->get();
 
-    return view('halaman-admin.logbook.index', compact('logbooks'));
-}
+        return view('halaman-admin.logbook.index', compact('logbooks'));
+    }
+
 
 
     // Tampilkan form tambah
@@ -69,52 +71,50 @@ class LogbookController extends Controller
     }
 
     public function edit($id)
-{
-    $logbook = Logbook::findOrFail($id);
-    $ekstrakurikuler = Ekstrakurikuler::all();
+    {
+        $logbook = Logbook::findOrFail($id);
+        $ekstrakurikuler = Ekstrakurikuler::all();
 
-    return view('halaman-admin.logbook.edit', compact('logbook', 'ekstrakurikuler'));
-}
-
-
-
-public function update(Request $request, $id)
-{
-
-    $logbook = Logbook::findOrFail($id);
-    $data = $request->except('Gambar');
-
-    if ($request->hasFile('Gambar')) {
-        $file = $request->file('Gambar');
-        $filename = time() . '_' . $file->getClientOriginalName();
-        $destinationPath = public_path('storage/images');
-
-        // Buat folder kalau belum ada
-        if (!file_exists($destinationPath)) {
-            mkdir($destinationPath, 0775, true);
-        }
-
-        // Hapus gambar lama jika ada
-        if ($logbook->Gambar && file_exists(public_path('storage/' . $logbook->Gambar))) {
-            File::delete(public_path('storage/' . $logbook->Gambar));
-        }
-
-        // Simpan gambar baru
-        $file->move($destinationPath, $filename);
-        $data['Gambar'] = 'images/' . $filename;
+        return view('halaman-admin.logbook.edit', compact('logbook', 'ekstrakurikuler'));
     }
 
-    $logbook->update($data);
-
-    return redirect('/logbook')->with('success', 'Ekstrakurikuler updated successfully.');
-}
-
-public function destroy($id)
-{
-    $logbook = Logbook::findOrFail($id);
-    $logbook->delete();
-    return redirect('/logbook')->with('success', 'Kategori berhasil dihapus.');
-}
 
 
+    public function update(Request $request, $id)
+    {
+
+        $logbook = Logbook::findOrFail($id);
+        $data = $request->except('Gambar');
+
+        if ($request->hasFile('Gambar')) {
+            $file = $request->file('Gambar');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $destinationPath = public_path('storage/images');
+
+            // Buat folder kalau belum ada
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0775, true);
+            }
+
+            // Hapus gambar lama jika ada
+            if ($logbook->Gambar && file_exists(public_path('storage/' . $logbook->Gambar))) {
+                File::delete(public_path('storage/' . $logbook->Gambar));
+            }
+
+            // Simpan gambar baru
+            $file->move($destinationPath, $filename);
+            $data['Gambar'] = 'images/' . $filename;
+        }
+
+        $logbook->update($data);
+
+        return redirect('/logbook')->with('success', 'Ekstrakurikuler updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $logbook = Logbook::findOrFail($id);
+        $logbook->delete();
+        return redirect('/logbook')->with('success', 'Kategori berhasil dihapus.');
+    }
 }

@@ -29,7 +29,7 @@
                         <h4 class="card-title">SMKN 1 SUMENEP</h4>
                         <p class="card-title-desc">Data Ekstrakurikuler</p>
 
-                        <form action="/ekstrakurikuler-store" class="needs-validation" method="POST" enctype="multipart/form-data">
+                        <form action="{{route ('ekstrakurikuler.store')}}" class="needs-validation" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-sm-6">

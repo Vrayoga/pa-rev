@@ -26,7 +26,7 @@
                         
                         <div class="card-body">
                             <div class="d-flex justify-content-end mb-3">
-                                <a href="/ekstrakurikuler-create" class="btn btn-primary btn-rounded waves-effect waves-light">
+                                <a href="/ekstrakurikuler/create" class="btn btn-primary btn-rounded waves-effect waves-light">
                                     <i class="mdi mdi-plus me-1"> Tambah Data Ekstrakurikuler </i>
                                 </a>
                             </div>

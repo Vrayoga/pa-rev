@@ -29,7 +29,7 @@
                         <h4 class="card-title">SMKN 1 SUMENEP</h4>
                         <p class="card-title-desc">Data Kategori</p>
 
-                        <form action="/kategori-store" class="needs-validation" method="POST">
+                        <form action="{{route ('kategori.store')}}" class="needs-validation" method="POST">
                             @csrf
                             <div class="row">
                                 <div class="col-sm-6">
