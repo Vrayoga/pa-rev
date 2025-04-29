@@ -119,6 +119,8 @@ Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
         Route::put('/{id}', [EkstrakurikulerController::class, 'update'])->name('ekstrakurikuler.update')->middleware('permission:update ekstrakurikuler');
         Route::delete('/{id}', [EkstrakurikulerController::class, 'destroy'])->name('ekstrakurikuler.destroy')->middleware('permission:delete ekstrakurikuler');
     });
+
+    
     
     // Ekstrakurikuler Siswa
     Route::get('/ekstraSiswa', [EkstrakurikulerController::class, 'indexSiswa'])->name('userSiswa.index');

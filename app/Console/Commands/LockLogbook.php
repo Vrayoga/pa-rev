@@ -34,6 +34,7 @@ class LockLogbook extends Command
         
         // Untuk produksi, gunakan 24 jam
         // $cutoffTime = Carbon::now()->subHours(24);
+
         
         $affected = Logbook::where('created_at', '<', $cutoffTime)
             ->where('is_locked', false)

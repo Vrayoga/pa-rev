@@ -45,6 +45,9 @@
                                     <th>Jam selesai</th>
                                     <th>Lokasi</th>
                                     <th>Periode</th>
+                                    <th>jenis</th>
+                                    <th>stok</th>
+                                    <th>guru pembimbing</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -68,6 +71,9 @@
                                         <td>{{ $ekstrakurikuler->Jam_selesai }}</td>
                                         <td>{{ $ekstrakurikuler->Lokasi }}</td>
                                         <td>{{ $ekstrakurikuler->Periode }}</td>
+                                        <td>{{ $ekstrakurikuler->jenis }}</td>
+                                        <td>{{ $ekstrakurikuler->stok }}</td>
+                                        <td>{{ $ekstrakurikuler->user_name }}</td>
                                         <td>
                                             @can('edit ekstrakurikuler')
                                             <a href="{{route ('ekstrakurikuler.edit', $ekstrakurikuler->id )}}" class="btn btn-warning btn-sm">Edit</a>

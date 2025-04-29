@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('no_telepon');
             $table->string('alasan');
             $table->string('nomer_wali');
+            $table->enum('status_validasi', ['pending', 'diterima', 'ditolak'])->default('pending');
             $table->timestamps();
         });
     }

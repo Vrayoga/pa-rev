@@ -52,6 +52,7 @@
                                     <th style="width: 5%;">No</th>
                                     <th>nama</th>
                                     <th>role</th>
+                                    <th>email</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -63,6 +64,7 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->getRoleNames()->first() }}</td>
+                                    <td>{{ $user->email }}</td>
                                     <td>
                                         <a href="" class="btn btn-warning btn-sm">Edit</a>                                       
                                          <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;"> 

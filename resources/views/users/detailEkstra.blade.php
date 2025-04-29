@@ -95,8 +95,8 @@
 
         {{-- Share --}}
         <div class="info-box share-buttons d-flex align-items-center gap-3 justify-content-center">
-          <a href="" class="btn btn-primary" target="_blank" title="Bagikan ke Facebook"><i class="bi bi-fire"></i> Daftar Sekarang</a>
-          <a href="{{route ('userSiswa.index')}}" class="btn btn-primary" target="_blank" title="Bagikan ke Facebook"><i class="bi bi-x-lg"></i> Kembali</a>
+          <a href="" class="btn btn-primary" target="_blank" title=""><i class="bi bi-fire"></i> Daftar Sekarang</a>
+          <a href="{{route ('userSiswa.index')}}" class="btn btn-primary" target="" title="Bagikan ke Facebook"><i class="bi bi-x-lg"></i> Kembali</a>
         </div>
 
       </div>

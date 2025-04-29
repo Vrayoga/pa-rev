@@ -50,9 +50,9 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="manufacturername">Deskripsi</label>
-                                        <input id="Deskripsi" name="Deskripsi" type="text" class="form-control" placeholder="Masukkan Deskripsi ekstrakurikuler">
-                                        
+                                        <textarea id="Deskripsi" name="Deskripsi" class="form-control" placeholder="Masukkan Deskripsi ekstrakurikuler" rows="4"></textarea>
                                     </div>
+                                  
                                     <div class="mb-3">
                                         <label for="id_kategori">Kategori</label>
                                         <select id="id_kategori" name="id_kategori" class="form-control">
@@ -62,6 +62,17 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                  
+                                    <div class="mb-3">
+                                        <label for="id_kategori">Pilih guru</label>
+                                        <select id="id_users" name="id_users" class="form-control">
+                                            <option value="" disabled selected>Pilih Guru</option>
+                                            @foreach($gurus as $guru)
+                                            <option value="{{ $guru->id }}">{{ $guru->name }}</option>
+                                        @endforeach
+                                        </select>
+                                    </div>
+
                                 </div>
 
                                 <div class="col-sm-6">
@@ -78,13 +89,27 @@
                                         <input id="Lokasi" name="Lokasi" type="text" class="form-control" placeholder="Masukkan lokasi ekstrakurikuler">
                                         <div class="invalid-feedback"></div>
                                     </div>
-                                    <div class="mb-3">
+                                    {{-- <div class="mb-3">
                                         <label for="status">Periode</label>
                                         <select id="periode" name="periode" class="form-control">
                                             <option value="" disabled selected>Pilih Status</option>
                                             <option value="aktif">Aktif</option>
                                             <option value="tidak_aktif">Tidak Aktif</option>
                                         </select>
+                                    </div> --}}
+                                    <div class="mb-3">
+                                        <label for="status">jenis Ekstrakurikuler</label>
+                                        <select id="jenis" name="jenis" class="form-control">
+                                            <option value="" disabled selected>Pilih Jenis Ekstrakurikuler</option>
+                                            <option value="wajib">wajib</option>
+                                            <option value="pilihan">pilihan</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="manufacturername">stok</label>
+                                        <input id="stok" name="stok" type="text" class="form-control" placeholder="Masukkan Jumlah ekstrakurikuler">
+                                        
                                     </div>
                                 </div>
                             </div>

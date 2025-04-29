@@ -10,7 +10,7 @@ class KelasController extends Controller
     public function index()
     {
         // Ambil semua data kelas dan kirim ke view
-        $kelas = Kelas::all();
+        $kelas = Kelas::orderBy('id', 'desc')->get();
         return view('halaman-admin.kelas.index', compact('kelas'));
     }
 

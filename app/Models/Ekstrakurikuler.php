@@ -21,10 +21,18 @@ class Ekstrakurikuler extends Model
         'Jam_selesai',
         'Lokasi',
         'Periode',
+        'jenis',
+        'stok',
+        'id_users',
     ];
 
     public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'id_kategori');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_users');
     }
 }

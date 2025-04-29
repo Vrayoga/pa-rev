@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Ekstrakurikuler;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class EkstrakurikulerController extends Controller
 {
@@ -16,13 +17,14 @@ class EkstrakurikulerController extends Controller
     {
         $ekstrakurikulers = DB::table('ekstrakurikuler')
             ->join('kategori', 'ekstrakurikuler.id_kategori', '=', 'kategori.id')
-            ->select('ekstrakurikuler.*', 'kategori.nama_kategori as kategori')
+            ->join('users', 'ekstrakurikuler.id_users', '=', 'users.id') // Assuming there's an id_user column in ekstrakurikuler
+            ->select('ekstrakurikuler.*', 'kategori.nama_kategori as kategori', 'users.name as user_name') // Assuming 'name' is the column for user names
             ->get();
 
         return view('halaman-admin.ekstrakurikuler.index', compact('ekstrakurikulers'));
     }
 
-    // index siswa
+    // index siswa(tampilan untuk users)
     public function indexSiswa()
     {
         $ekstrakurikulers = DB::table('ekstrakurikuler')
@@ -38,7 +40,8 @@ class EkstrakurikulerController extends Controller
     public function create()
     {
         $kategori = Kategori::all();
-        return view('halaman-admin.ekstrakurikuler.create', compact('kategori'));
+        $gurus = \App\Models\User::role('guru')->get(); // Ambil semua user dengan role guru    
+        return view('halaman-admin.ekstrakurikuler.create', compact('kategori', 'gurus'));
     }
 
     // Store a newly created resource in storage
@@ -63,6 +66,8 @@ class EkstrakurikulerController extends Controller
 
         return redirect('/ekstrakurikuler')->with('success', 'Ekstrakurikuler created successfully.');
     }
+
+    
     // Display the specified resource
     public function show($id)
     {
@@ -75,7 +80,8 @@ class EkstrakurikulerController extends Controller
     {
         $ekstrakurikuler = Ekstrakurikuler::findOrFail($id);
         $kategori = Kategori::all(); // Ambil semua kategori untuk dropdown
-        return view('halaman-admin.ekstrakurikuler.edit', compact('ekstrakurikuler', 'kategori'));
+        $gurus = \App\Models\User::role('guru')->get(); // Ambil semua user dengan role guru
+        return view('halaman-admin.ekstrakurikuler.edit', compact('ekstrakurikuler', 'kategori', 'gurus'));
     }
 
     // Update the specified resource in storage
