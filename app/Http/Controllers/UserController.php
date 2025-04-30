@@ -74,6 +74,55 @@ class UserController extends Controller
         return redirect('/users')->with('success', 'User berhasil dibuat dan diberikan role.');
     }
 
+    public function edit($id)
+    {
+        $user = User::with('roles')->findOrFail($id);
+        $roles = Role::all();
+        
+        return view('halaman-admin.user.editUser', compact('user', 'roles'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        // Validasi input
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
+            'password' => 'nullable|string|min:8|confirmed', // Gunakan confirmed untuk validasi password konfirmasi
+            'nis' => 'required|string|unique:users,nis,'.$user->id,
+            'role' => 'required|exists:roles,id',
+        ]);
+
+        // Cek jika password baru sama dengan password lama
+        if (!empty($validated['password']) && Hash::check($validated['password'], $user->password)) {
+            return redirect()->back()->withErrors(['password' => 'Password baru tidak boleh sama dengan password lama.']);
+        }
+
+        // Update data user
+        $updateData = [
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'nis' => $validated['nis'],
+        ];
+
+        // Jika password diisi, update password
+        if (!empty($validated['password'])) {
+            $updateData['password'] = bcrypt($validated['password']);
+        }
+
+        $user->update($updateData);
+
+        // Update role
+        $role = Role::findById($validated['role']);
+        
+        // Hapus semua role yang ada kemudian assign role baru
+        $user->syncRoles([$role->name]);
+
+        return redirect('/users')->with('success', 'Data user berhasil diperbarui.');
+    }
+
 
     public function destroy($id)
     {

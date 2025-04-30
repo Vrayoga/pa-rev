@@ -57,6 +57,14 @@
                 </li>
                 @endcan
 
+                     
+                <li>
+                    <a href="/pendaftaran" class="waves-effect">
+                        <i class="bx bx-bitcoin"></i>
+                        <span key="t-crypto">Pendaftaran</span>
+                    </a>
+                </li>
+
                 @can('view logbook')
 
                 <li>

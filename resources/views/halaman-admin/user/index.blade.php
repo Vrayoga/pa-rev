@@ -66,7 +66,7 @@
                                     <td>{{ $user->getRoleNames()->first() }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>
-                                        <a href="" class="btn btn-warning btn-sm">Edit</a>                                       
+                                        <a href="{{route ('users.edit', $user->id)}}" class="btn btn-warning btn-sm">Edit</a>                                       
                                          <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;"> 
                                             @csrf
                                             @method('DELETE')

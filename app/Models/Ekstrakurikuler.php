@@ -35,4 +35,11 @@ class Ekstrakurikuler extends Model
     {
         return $this->belongsTo(User::class, 'id_users');
     }
+    public function pendaftaran()
+    {
+        return $this->hasMany(Pendaftaran::class);
+    }
+
+    
+
 }

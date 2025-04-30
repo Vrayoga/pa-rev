@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('Lokasi', 100);
             $table->foreignId('id_users')->constrained('users')->onDelete('cascade');
             $table->enum('Periode', ['Aktif', 'Tidak_aktif'])->default('aktif');
-            $table->enum('jenis', ['wajib', 'pilihan'])->default('pilihan');
+            $table->enum('jenis', ['wajib', 'pilihan'])->default('wajib');
             $table->integer('stok')->nullable(); 
             $table->timestamps();
 

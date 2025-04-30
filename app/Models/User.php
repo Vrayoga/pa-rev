@@ -23,4 +23,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'nis',
         'email_verified_at', // tambahkan juga nis jika kamu mass-assign ini
     ];
+    
+    public function siswa()
+{
+    return $this->belongsTo(Siswa::class, 'nis', 'nis');
+}
 }
