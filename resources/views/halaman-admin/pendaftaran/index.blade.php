@@ -6,8 +6,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0 font-size-18">Daftar Anggota Ekstrakurikuler</h4>
-
+                    <h4 class="mb-sm-0 font-size-18">Daftar Anggota Ekstrakurikuler {{ $pendaftarans->first()->ekstrakurikuler->nama_ekstrakurikuler ?? 'Ekstrakurikuler' }}</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
@@ -42,7 +41,6 @@
                                     <th style="width: 5%;">No</th>
                                     <th>Nama Lengkap</th>
                                     <th>Kelas</th>
-                                    <th>Ekstrakurikuler</th>
                                     <th>No. Telepon</th>
                                     <th>No. Wali</th>
                                     <th>Alasan</th>
@@ -56,7 +54,6 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $pendaftaran->nama_lengkap }}</td>
                                     <td>{{ $pendaftaran->kelas->kelas }} {{$pendaftaran->kelas->jurusan}} </td>
-                                    <td>{{ $pendaftaran->ekstrakurikuler->nama_ekstrakurikuler ?? 'N/A' }}</td>
                                     <td>{{ $pendaftaran->no_telepon }}</td>
                                     <td>{{ $pendaftaran->nomer_wali }}</td>
                                     <td>{{ $pendaftaran->alasan }}</td>
@@ -75,17 +72,17 @@
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                             @if($pendaftaran->status_validasi == 'pending')
-                                            <form action="" method="POST" class="d-inline">
-                                                {{-- @csrf
-                                                @method('PUT') --}}
+                                            <form action="{{ route('pendaftaran.validasi', $pendaftaran->id) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('PUT')
                                                 <input type="hidden" name="status" value="diterima">
                                                 <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Terima pendaftaran ini?')">
                                                     <i class="fas fa-check"></i>
                                                 </button>
                                             </form>
-                                            <form action="" method="POST" class="d-inline">
-                                                {{-- @csrf
-                                                @method('PUT') --}}
+                                            <form action="{{ route('pendaftaran.validasi', $pendaftaran->id) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('PUT')
                                                 <input type="hidden" name="status" value="ditolak">
                                                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Tolak pendaftaran ini?')">
                                                     <i class="fas fa-times"></i>

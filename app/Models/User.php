@@ -28,4 +28,10 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     return $this->belongsTo(Siswa::class, 'nis', 'nis');
 }
+
+public function ekstrakurikuler()
+{
+    return $this->hasMany(Ekstrakurikuler::class, 'id_users'); // Sesuaikan foreign key
+}
+
 }

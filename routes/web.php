@@ -13,7 +13,6 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\LogbookController;
 use App\Http\Controllers\pendaftaranController;
-use App\Http\Controllers\PendaftaranController as ControllersPendaftaranController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\UserController;
@@ -63,25 +62,24 @@ Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
 
     // Users Management
     Route::prefix('users')->group(function () {
-        Route::get('/', [UserController::class, 'index'])->name('users.index');
-        Route::get('/create', [UserController::class, 'create'])->name('users.create');
+        Route::get('/', [UserController::class, 'index'])->name('users.index')->middleware('permission:view user');
+        Route::get('/create', [UserController::class, 'create'])->name('users.create')->middleware('permission:create user');
         Route::post('/store', [UserController::class, 'store'])->name('users.store');
-        Route::get('/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
-        Route::post('/{id}', [UserController::class, 'update'])->name('users.update');
-        Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+        Route::get('/edit/{id}', [UserController::class, 'edit'])->name('users.edit')->middleware('permission:edit user');
+        Route::post('/{id}', [UserController::class, 'update'])->name('users.update')->middleware('permission:update user');
+        Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy')->middleware('permission:delete user');
     });
 
     // Role Management
     Route::prefix('role')->group(function () {
-        Route::get('/', [RoleController::class, 'index'])->name('roles.index');
-        Route::get('/create', [RoleController::class, 'create'])->name('role.create');
+        Route::get('/', [RoleController::class, 'index'])->name('roles.index')->middleware('permission:view role');
+        Route::get('/create', [RoleController::class, 'create'])->name('role.create')->middleware('permission:create role');
         Route::post('/store', [RoleController::class, 'store'])->name('role.store');
-        Route::get('/edit/{id}', [RoleController::class, 'edit'])->name('roles.edit');
-        Route::post('/{id}', [RoleController::class, 'update'])->name('roles.update');
+        Route::get('/edit/{id}', [RoleController::class, 'edit'])->name('roles.edit')->middleware('permission:edit role');
+        Route::post('/{id}', [RoleController::class, 'update'])->name('roles.update')->middleware('permission:update role');
         Route::get('/{id}/manage-permissions', [RoleController::class, 'managePermissions'])->name('roles.manage-permissions');
         Route::post('/{id}/update-permissions', [RoleController::class, 'updatePermissions'])->name('roles.update-permissions');
-        Route::put('/{id}', [RoleController::class, 'update'])->name('update');
-        Route::post('/{id}', [RoleController::class, 'destroy'])->name('roles.destroy');
+        Route::post('/{id}', [RoleController::class, 'destroy'])->name('roles.destroy')->middleware('permission:delete role')->middleware('permission:delete role');
     });
 
     // Siswa Management
@@ -128,12 +126,11 @@ Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
 
     // Pendaftaran Ekstrakurikuler 
     Route::prefix('pendaftaran')->group(function () {
-        Route::get('/', [PendaftaranController::class, 'showAnggota'])->name('pendaftaran.index');
-        Route::get('/ekstra', [PendaftaranController::class, 'daftarEkstra'])->name('daftar.create');
+        Route::get('/', [PendaftaranController::class, 'showAnggota'])->name('pendaftaran.index')->middleware('permission:view pendaftaran');
+        Route::get('/ekstra', [PendaftaranController::class, 'daftarEkstra'])->name('daftar.create')->middleware('permission:create pendaftaran');
         Route::post('/ekstra-store', [PendaftaranController::class, 'storeRegisEkstra'])->name('ekstraDaftar.store');
+        Route::put('/{id}/validasi', [PendaftaranController::class, 'validasi'])->name('pendaftaran.validasi');
 
-        Route::get('/create', [EkstrakurikulerController::class, 'createPendaftaran'])->name('pendaftaran.create');
-        Route::post('/store', [EkstrakurikulerController::class, 'storePendaftaran'])->name('pendaftaran.store');
         Route::get('/edit/{id}', [EkstrakurikulerController::class, 'editPendaftaran'])->name('pendaftaran.edit');
         Route::put('/{id}', [EkstrakurikulerController::class, 'updatePendaftaran'])->name('pendaftaran.update');
         Route::delete('/{id}', [EkstrakurikulerController::class, 'destroyPendaftaran'])->name('pendaftaran.destroy');

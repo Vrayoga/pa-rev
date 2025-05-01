@@ -17,7 +17,8 @@ class Pendaftaran extends Model
         'no_telepon',
         'alasan',
         'nomer_wali',
-        'status_validasi'
+        'status_validasi',
+         'validator_id',
     ];
 
     // Define relationships
@@ -35,4 +36,9 @@ class Pendaftaran extends Model
     {
         return $this->belongsTo(Kelas::class, 'kelas_id', 'id');
     }
+
+    public function validator()
+{
+    return $this->belongsTo(User::class, 'validator_id');
+}
 }

@@ -70,7 +70,25 @@ class RolePermissionSeeder extends Seeder
             'view role',
             'create role',
             'update role',
+            'edit role',
             'delete role',
+
+            'view permission',
+            'create permission',
+            'update permission',
+            'edit permission',
+            'delete permission',
+            'manage permissions',
+            'update permissions',
+
+
+            'view user',
+            'create user',
+            'update user',
+            'delete user',
+            'edit user',
+            'update user',
+            'delete user',
         ];
 
         foreach ($permissions as $permission) {
@@ -118,12 +136,28 @@ class RolePermissionSeeder extends Seeder
 
             'view absensi',
 
+            'view role',
+            'create role',
+            'update role',
+            'edit role',
+            'delete role',
 
-            // 'view role',
-            // 'create role',
-            // 'update role',
-            // 'edit role',
-            // 'delete role',
+            'view permission',
+            'create permission',
+            'update permission',
+            'edit permission',
+            'delete permission',
+            'manage permissions',
+            'update permissions',
+
+
+            'view user',
+            'create user',
+            'update user',
+            'delete user',
+            'edit user',
+            'update user',
+            'delete user',
         ]);
         $guru->givePermissionTo([
             'view dashboard',

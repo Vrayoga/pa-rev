@@ -7,7 +7,85 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
   <link rel="stylesheet" href="{{asset ('')}}assets/css/app.min.css">
- 
+ <style>
+  /* css awal ekstra */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ffffff;
+  }
+
+  .navbar {
+    background-color: #0A3981;
+  }
+
+  .nav-link,
+  .navbar-brand {
+    color: white;
+    font-weight: 500;
+  }
+
+  .nav-link:hover {
+    color: #e0f7fa;
+  }
+
+  .btn-login {
+    background-color: #fff;
+    color: #1da9b4;
+    font-weight: 500;
+    border-radius: 50px;
+    padding: 5px 30px;
+  }
+
+  .hero-section {
+    padding: 60px 0 20px;
+  }
+
+  .card {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .card img {
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .card-title-button {
+    background: white;
+    color: black;
+    border-radius: 20px;
+    padding: 5px 20px;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 600;
+    width: fit-content;
+  }
+
+  .small-author {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  /* end tampilan userEkstra */
+
+ </style>
 
 </head>
 <body>

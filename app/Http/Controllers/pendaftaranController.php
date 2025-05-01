@@ -81,8 +81,34 @@ class PendaftaranController extends Controller
             'status_validasi' => 'pending' // Default status
         ]);
 
-        return redirect()->route('dashboard')
+        return redirect('/ekstraSiswa')
             ->with('success', 'Pendaftaran ekstrakurikuler berhasil diajukan');
+    }
+
+    public function validasi(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:diterima,ditolak'
+        ]);
+
+        $pendaftaran = Pendaftaran::findOrFail($id);
+        
+        // Pastikan hanya guru pembimbing yang bisa validasi
+        if (Auth::user()->hasRole('guru')) {
+            $ekstraGuru = Auth::user()->ekstrakurikuler->pluck('id')->toArray();
+            
+            if (!in_array($pendaftaran->ekstrakurikuler_id, $ekstraGuru)) {
+                return back()->with('error', 'Anda tidak berhak memvalidasi pendaftaran ini');
+            }
+        }
+
+        $pendaftaran->update([
+            'status_validasi' => $request->status,
+            'validator_id' => Auth::id()
+        ]);
+
+        $status = $request->status == 'diterima' ? 'diterima' : 'ditolak';
+        return back()->with('success', "Pendaftaran berhasil di$status");
     }
 
 

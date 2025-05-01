@@ -50,6 +50,7 @@
                                     <td>{{ $role->guard_name }}</td> <!-- Tampilkan guard_name -->
                                     <td>
                                         <a href="{{route ('roles.edit', $role->id )}}" class="btn btn-warning btn-sm">Edit</a>
+                                      
                                         <a href="{{ route('roles.manage-permissions', $role->id) }}" class="btn btn-warning btn-sm">Manage</a>
                                         <form action="{{route ('roles.destroy', $role->id )}}" method="POST" style="display:inline;">
                                             @csrf

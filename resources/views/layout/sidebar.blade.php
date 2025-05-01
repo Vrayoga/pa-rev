@@ -57,27 +57,25 @@
                 </li>
                 @endcan
 
-                     
+                @can('view pendaftaran')     
                 <li>
                     <a href="/pendaftaran" class="waves-effect">
                         <i class="bx bx-bitcoin"></i>
                         <span key="t-crypto">Pendaftaran</span>
                     </a>
                 </li>
+                @endcan
 
                 @can('view logbook')
-
                 <li>
                     <a href="/logbook" class="waves-effect">
                         <i class="bx bx-envelope"></i>
                         <span key="t-email">Logbook</span>
                     </a>
                 </li>  
-                
                 @endcan
 
-                @can('view prestasi')
-                    
+                @can('view prestasi') 
                 <li>
                     <a href="/prestasi" class="waves-effect">
                         <i class="bx bx-receipt"></i>
@@ -96,25 +94,26 @@
                 </li>
                 @endcan
 
-                {{-- @can('view user') --}}
-                
-                {{-- @endcan --}}
+
+                @can('view user')
                 <li class="menu-title" key="t-apps">USER MANAGEMENT</li>
 
-                {{-- @can('view role') --}}
                 <li>
                     <a href="/users" class=" waves-effect">
                         <i class="bx bx-briefcase-alt-2"></i>
                         <span key="t-projects">User</span>
                     </a>
                 </li>
+                @endcan
+
+                @can('view role')
                 <li>
                     <a href="/role" class=" waves-effect">
                         <i class="bx bx-briefcase-alt-2"></i>
                         <span key="t-projects">Role</span>
                     </a>
                 </li>
-                {{-- @endcan --}}
+                @endcan
             </ul>
         </div>
         <!-- Sidebar -->
