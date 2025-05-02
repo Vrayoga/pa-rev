@@ -111,7 +111,6 @@ class EkstrakurikulerController extends Controller
         return redirect()->route('ekstrakurikuler.index')->with('success', 'Ekstrakurikuler updated successfully.');
     }
 
-    
 
     // Remove the specified resource from storage
     public function destroy($id)

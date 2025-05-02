@@ -118,6 +118,8 @@ Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
         Route::get('/create', [EkstrakurikulerController::class, 'create'])->name('halaman-admin.ekstrakurikuler.create')->middleware('permission:create ekstrakurikuler');
         Route::post('/store', [EkstrakurikulerController::class, 'store'])->name('ekstrakurikuler.store');
         Route::get('/show/{id}', [EkstrakurikulerController::class, 'show'])->name('ekstrakurikuler.show');
+        // routes/web.php
+        Route::get('/guru/ekstrakurikuler', [EkstrakurikulerController::class, 'ekstrakurikulerDiampu'])->name('guru.ekstrakurikuler');
         Route::get('/{id}/edit', [EkstrakurikulerController::class, 'edit'])->name('ekstrakurikuler.edit')->middleware('permission:edit ekstrakurikuler');
         Route::put('/{id}', [EkstrakurikulerController::class, 'update'])->name('ekstrakurikuler.update')->middleware('permission:update ekstrakurikuler');
         Route::delete('/{id}', [EkstrakurikulerController::class, 'destroy'])->name('ekstrakurikuler.destroy')->middleware('permission:delete ekstrakurikuler');
@@ -131,9 +133,6 @@ Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
         Route::post('/ekstra-store', [PendaftaranController::class, 'storeRegisEkstra'])->name('ekstraDaftar.store');
         Route::put('/{id}/validasi', [PendaftaranController::class, 'validasi'])->name('pendaftaran.validasi');
 
-        Route::get('/edit/{id}', [EkstrakurikulerController::class, 'editPendaftaran'])->name('pendaftaran.edit');
-        Route::put('/{id}', [EkstrakurikulerController::class, 'updatePendaftaran'])->name('pendaftaran.update');
-        Route::delete('/{id}', [EkstrakurikulerController::class, 'destroyPendaftaran'])->name('pendaftaran.destroy');
     });
 
 
