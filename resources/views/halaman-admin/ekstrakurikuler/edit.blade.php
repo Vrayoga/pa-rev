@@ -46,15 +46,7 @@
                                             <img src="{{ asset('storage/' . $ekstrakurikuler->Gambar) }}" width="100" class="mt-2">
                                             <small class="text-muted">Gambar saat ini</small>
                                         @endif
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="Jadwal">Jadwal</label>
-                                        <input id="Jadwal" name="Jadwal" type="text" class="form-control" 
-                                               value="{{ old('Jadwal', $ekstrakurikuler->Jadwal) }}" 
-                                               placeholder="Masukkan Jadwal ekstrakurikuler">
-                                    </div>
-                                    
+                                    </div>                    
                                     <div class="mb-3">
                                         <label for="Deskripsi">Deskripsi</label>
                                         <textarea id="Deskripsi" name="Deskripsi" class="form-control" 
@@ -91,18 +83,7 @@
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <div class="mb-3">
-                                        <label for="Jam_mulai">Jam mulai</label>
-                                        <input id="Jam_mulai" name="Jam_mulai" type="time" class="form-control" 
-                                               value="{{ old('Jam_mulai', $ekstrakurikuler->Jam_mulai) }}">
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <label for="Jam_selesai">Jam selesai</label>
-                                        <input id="Jam_selesai" name="Jam_selesai" type="time" class="form-control" 
-                                               value="{{ old('Jam_selesai', $ekstrakurikuler->Jam_selesai) }}">
-                                    </div>
-                                    
+
                                     <div class="mb-3">
                                         <label for="Lokasi">Lokasi</label>
                                         <input id="Lokasi" name="Lokasi" type="text" class="form-control" 
@@ -120,9 +101,9 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="stok">Stok</label>
-                                        <input id="stok" name="stok" type="number" class="form-control" 
-                                               value="{{ old('stok', $ekstrakurikuler->stok) }}" 
+                                        <label for="kuota">kuota</label>
+                                        <input id="kuota" name="kuota" type="number" class="form-control" 
+                                               value="{{ old('kuota', $ekstrakurikuler->kuota) }}" 
                                                placeholder="Masukkan Jumlah ekstrakurikuler">
                                     </div>
 

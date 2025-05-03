@@ -69,7 +69,7 @@
                                                        ->where('status_validasi', 'diterima')
                                                        ->count();
                                     $sisaKuota = $ekstra->jenis == 'wajib' ? 'Tak Terbatas' : 
-                                              ($ekstra->stok === null ? 'Tak Terbatas' : ($ekstra->stok - $pendaftarDiterima));
+                                              ($ekstra->kuota === null ? 'Tak Terbatas' : ($ekstra->kuota - $pendaftarDiterima));
                                 @endphp
                                 <option value="{{ $ekstra->id }}" {{ $isRegistered ? 'disabled' : '' }} 
                                         {{ old('ekstrakurikuler_id') == $ekstra->id ? 'selected' : '' }}>

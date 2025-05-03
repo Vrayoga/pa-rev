@@ -14,15 +14,15 @@ class KelasController extends Controller
         return view('halaman-admin.kelas.index', compact('kelas'));
     }
 
-    public function show($id)
-    {
-        $kelas = Kelas::find($id);
-        if (!$kelas) {
-            return redirect()->route('kelas.index')->with('error', 'Data kelas tidak ditemukan');
-        }
+    // public function show($id)
+    // {
+    //     $kelas = Kelas::find($id);
+    //     if (!$kelas) {
+    //         return redirect()->route('kelas.index')->with('error', 'Data kelas tidak ditemukan');
+    //     }
 
-        return view('halaman-admin.kelas', compact('kelas'));
-    }
+    //     return view('halaman-admin.kelas', compact('kelas'));
+    // }
 
     public function create()
     {

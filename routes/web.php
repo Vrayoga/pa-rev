@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EkstrakurikulerController;
+use App\Http\Controllers\jadwalEkstrakurikulerController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\LogbookController;
@@ -100,6 +101,17 @@ Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
         Route::get('/edit/{id}', [KelasController::class, 'edit'])->name('kelas.edit')->middleware('permission:edit kelas');
         Route::put('/update/{id}', [KelasController::class, 'update'])->name('kelas.update')->middleware('permission:update kelas');
         Route::delete('/delete/{id}', [KelasController::class, 'destroy'])->name('kelas.destroy')->middleware('permission:delete kelas');
+    });
+
+    // Jadwal Management
+    Route::prefix('jadwal')->group(function () {
+        Route::get('/', [jadwalEkstrakurikulerController::class, 'index'])->name('jadwal.index');
+        Route::get('/create', [JadwalEkstrakurikulerController::class, 'create'])->name('jadwal.create');
+        Route::post('/store', [JadwalEkstrakurikulerController::class, 'store'])->name('jadwal.store');
+        Route::get('/show/{id}', [JadwalEkstrakurikulerController::class, 'show'])->name('jadwal.show');
+        Route::get('/edit/{id}', [JadwalEkstrakurikulerController::class, 'edit'])->name('jadwal.edit');
+        Route::put('/{id}', [JadwalEkstrakurikulerController::class, 'update'])->name('jadwal.update');
+        Route::post('/{id}', [JadwalEkstrakurikulerController::class, 'destroy'])->name('jadwal.destroy');
     });
 
     // Kategori Management

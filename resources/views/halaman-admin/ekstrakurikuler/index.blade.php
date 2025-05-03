@@ -1,5 +1,9 @@
 @extends('layout.MainLayout')
 
+@php
+    $user = auth()->user();
+@endphp
+
 @section('content')
 
     <div class="page-content">
@@ -23,72 +27,115 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        
+
                         <div class="card-body">
                             <div class="d-flex justify-content-end mb-3">
-                                <a href="/ekstrakurikuler/create" class="btn btn-primary btn-rounded waves-effect waves-light">
+                                <a href="/ekstrakurikuler/create"
+                                    class="btn btn-primary btn-rounded waves-effect waves-light">
                                     <i class="mdi mdi-plus me-1"> Tambah Data Ekstrakurikuler </i>
                                 </a>
                             </div>
-                            
-                            <h4 class="card-title">Table Ekstrakurikuler</h4>
-                            <table id="datatable" class="table table-bordered dt-responsive nowrap w-100">
-                                <thead>
-                                <tr>
-                                    <th style="width: 5%;">No</th>
-                                    <th>Nama Ekstrakurikuler</th>
-                                    <th>Gambar</th>
-                                    <th>Jadwal</th>
-                                    <th>Deskripsi</th>
-                                    <th>Kategori</th>
-                                    <th>Jam mulai</th>
-                                    <th>Jam selesai</th>
-                                    <th>Lokasi</th>
-                                    <th>Periode</th>
-                                    <th>jenis</th>
-                                    <th>stok</th>
-                                    <th>guru pembimbing</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
 
-                                <tbody>
-                                    @foreach($ekstrakurikulers as $index => $ekstrakurikuler)
-                                    <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ $ekstrakurikuler->nama_ekstrakurikuler }}</td>
-                                        <td>
-                                            @if($ekstrakurikuler->Gambar)
-                                                <img src="{{ asset('storage/' . $ekstrakurikuler->Gambar) }}" alt="Gambar" width="50">
-                                            @else
-                                                Tidak ada gambar
-                                            @endif
-                                        </td>
-                                        <td>{{ $ekstrakurikuler->Jadwal }}</td>
-                                        <td>{{ $ekstrakurikuler->Deskripsi }}</td>
-                                        <td>{{ $ekstrakurikuler->kategori }}</td>
-                                        <td>{{ $ekstrakurikuler->Jam_mulai }}</td>
-                                        <td>{{ $ekstrakurikuler->Jam_selesai }}</td>
-                                        <td>{{ $ekstrakurikuler->Lokasi }}</td>
-                                        <td>{{ $ekstrakurikuler->Periode }}</td>
-                                        <td>{{ $ekstrakurikuler->jenis }}</td>
-                                        <td>{{ $ekstrakurikuler->stok }}</td>
-                                        <td>{{ $ekstrakurikuler->user_name }}</td>
-                                        <td>
-                                            @can('edit ekstrakurikuler')
-                                            <a href="{{route ('ekstrakurikuler.edit', $ekstrakurikuler->id )}}" class="btn btn-warning btn-sm">Edit</a>
-                                            @endcan
-                                            <form action="{{route ('ekstrakurikuler.destroy', $ekstrakurikuler->id)}}" method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
-                                            </form>
-                                   
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                            <h4 class="card-title">Table Ekstrakurikuler</h4>
+                            @if ($ekstrakurikulers->isEmpty() && $user->hasRole('guru'))
+                                <div class="alert alert-warning">
+                                    Anda masih belum mengampu ekstrakurikuler.
+                                </div>
+                                @else
+                                <table id="datatable" class="table table-bordered dt-responsive nowrap w-100">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 5%;">No</th>
+                                            <th>Nama Ekstrakurikuler</th>
+                                            <th>Gambar</th>
+                                            <th>Deskripsi</th>
+                                            <th>Kategori</th>
+                                            <th>Lokasi</th>
+                                            <th>Jadwal</th>
+                                            <th>Jam Mulai</th>
+                                            <th>Jam Selesai</th>
+                                            <th>Periode</th>
+                                            <th>Jenis</th>
+                                            <th>Kuota</th>
+                                            <th>Guru Pembimbing</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($ekstrakurikulers as $index => $ekstrakurikuler)
+                                            <tr>
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $ekstrakurikuler->nama_ekstrakurikuler }}</td>
+                                                <td>
+                                                    @if ($ekstrakurikuler->Gambar)
+                                                        <img src="{{ asset('storage/' . $ekstrakurikuler->Gambar) }}"
+                                                            alt="Gambar" width="50">
+                                                    @else
+                                                        Tidak ada gambar
+                                                    @endif
+                                                </td>
+                                                <td>{{ $ekstrakurikuler->Deskripsi }}</td>
+                                                <td>{{ $ekstrakurikuler->kategori->nama_kategori }}</td>
+                                                <td>{{ $ekstrakurikuler->Lokasi }}</td>
+
+                                                @php $jadwals = $ekstrakurikuler->jadwals; @endphp
+                                                <td>
+                                                    @if ($jadwals->isEmpty())
+                                                        <span class="text-danger">N/A</span>
+                                                    @else
+                                                        @foreach ($jadwals as $jadwal)
+                                                            {{ ucfirst($jadwal->hari) }}<br>
+                                                        @endforeach
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($jadwals->isEmpty())
+                                                        <span class="text-danger">N/A</span>
+                                                    @else
+                                                        @foreach ($jadwals as $jadwal)
+                                                            {{ $jadwal->jam_mulai }}<br>
+                                                        @endforeach
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($jadwals->isEmpty())
+                                                        <span class="text-danger">N/A</span>
+                                                    @else
+                                                        @foreach ($jadwals as $jadwal)
+                                                            {{ $jadwal->jam_selesai }}<br>
+                                                        @endforeach
+                                                    @endif
+                                                </td>
+
+                                                <td>{{ $ekstrakurikuler->Periode }}</td>
+                                                <td>{{ $ekstrakurikuler->jenis }}</td>
+                                                <td>{{ $ekstrakurikuler->kuota }}</td>
+                                                <td>{{ $ekstrakurikuler->user->name }}</td>
+                                                <td>
+                                                    @can('edit ekstrakurikuler')
+                                                        <a href="{{ route('ekstrakurikuler.edit', $ekstrakurikuler->id) }}"
+                                                            class="btn btn-warning btn-sm">Edit</a>
+                                                    @endcan
+
+                                                    {{-- <a href="{{ route('ekstrakurikuler.show', $ekstrakurikuler->id) }}" class="btn btn-info btn-sm">Detail</a> --}}
+                                                    @can('delete ekstrakurikuler')
+                                                        <form
+                                                            action="{{ route('ekstrakurikuler.destroy', $ekstrakurikuler->id) }}"
+                                                            method="POST" style="display:inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                                onclick="return confirm('Are you sure?')">Delete</button>
+                                                        </form>
+                                                    @endcan
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                    @endif
+                                </table>
+
+
 
                         </div>
                     </div>
@@ -101,5 +148,5 @@
             white-space: normal !important;
         }
     </style>
-    
+
 @endsection

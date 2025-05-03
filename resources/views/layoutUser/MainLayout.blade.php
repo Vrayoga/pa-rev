@@ -118,7 +118,7 @@ body {
               {{-- <li><a class="dropdown-item" href="{{ route('profile') }}">Profil</a></li> --}}
               <li><hr class="dropdown-divider"></li>
               <li>
-              <form action="{{ route('logout') }}" method="POST">
+              <form action="{{ route('logout') }}" method="">
                 @csrf
                 <button type="submit" class="dropdown-item">Keluar</button>
               </form>

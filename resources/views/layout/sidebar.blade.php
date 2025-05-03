@@ -16,16 +16,6 @@
                 </li>
                 <li class="menu-title" key="t-apps">Apps</li>
 
-
-                @can('view siswa')    
-                <li>
-                    <a href="/siswa" class="waves-effect">
-                        <i class="bx bx-chat"></i>
-                        <span key="t-chat">Siswa</span>
-                    </a>
-                </li>
-                @endcan
-
                 @can('view kelas')
                     
                 <li>
@@ -36,26 +26,44 @@
                 </li>
                 @endcan
 
-                @can('view kategori')
-                @if (!Auth::user()->hasRole('siswa'))
+                @can('view siswa')    
                 <li>
-                    <a href="/kategori" class="waves-effect">
-                        <i class="bx bx-store"></i>
-                        <span key="t-ecommerce">Kategori</span>
+                    <a href="/siswa" class="waves-effect">
+                        <i class="bx bx-chat"></i>
+                        <span key="t-chat">Siswa</span>
                     </a>
                 </li>
-                @endif
                 @endcan
 
-                @can('view ekstrakurikuler')
-                    
                 <li>
-                    <a href="/ekstrakurikuler" class="waves-effect">
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bx-bitcoin"></i>
                         <span key="t-crypto">Ekstrakurikuler</span>
                     </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        @can('view kategori')
+                        {{-- @if (!Auth::user()->hasRole('siswa')) --}}
+                        <li>
+                            <a href="/kategori" class="waves-effect">
+                                <i class="bx bx-store"></i>
+                                <span key="t-ecommerce">Kategori</span>
+                            </a>
+                        </li>
+                        @endcan
+                        @can('view ekstrakurikuler')
+                        <li>
+                            <a href="/ekstrakurikuler" key="t-ekstrakurikuler">
+                                <i class="bx bx-data"></i> <span>Data Ekstrakurikuler</span>
+                            </a>
+                        </li>
+                        @endcan
+                        <li>
+                            <a href="/jadwal" key="t-jadwal-ekstrakurikuler">
+                                <i class="bx bx-calendar"></i> <span>Jadwal</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                @endcan
 
                 @can('view pendaftaran')     
                 <li>

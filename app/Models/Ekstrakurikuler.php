@@ -22,7 +22,7 @@ class Ekstrakurikuler extends Model
         'Lokasi',
         'Periode',
         'jenis',
-        'stok',
+        'kuota',
         'id_users',
     ];
 
@@ -39,7 +39,11 @@ class Ekstrakurikuler extends Model
     {
         return $this->hasMany(Pendaftaran::class);
     }
-
+    public function jadwals()
+    {
+        return $this->hasMany(JadwalEkstrakurikuler::class, 'ekstrakurikuler_id');
+    }
     
+
 
 }

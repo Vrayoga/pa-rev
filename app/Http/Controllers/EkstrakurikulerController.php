@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 use App\Models\Ekstrakurikuler;
+use App\Models\User;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -15,32 +16,38 @@ class EkstrakurikulerController extends Controller
     // Display a listing of the resource
     public function index()
     {
-        $ekstrakurikulers = DB::table('ekstrakurikuler')
-            ->join('kategori', 'ekstrakurikuler.id_kategori', '=', 'kategori.id')
-            ->join('users', 'ekstrakurikuler.id_users', '=', 'users.id') // Assuming there's an id_user column in ekstrakurikuler
-            ->select('ekstrakurikuler.*', 'kategori.nama_kategori as kategori', 'users.name as user_name') // Assuming 'name' is the column for user names
-            ->get();
-
+        // Ambil user login
+        $user = auth()->user();
+    
+        // Cek role jika perlu (opsional, jika multi-role)
+        if ($user->hasRole('guru')) {
+            // Jika guru, ambil hanya ekstrakurikuler yang dia ampu
+            $ekstrakurikulers = Ekstrakurikuler::with(['jadwals', 'kategori', 'user'])
+                ->where('id_users', $user->id)
+                ->get();
+        } else {
+            // Jika admin atau role lain, ambil semua data
+            $ekstrakurikulers = Ekstrakurikuler::with(['jadwals', 'kategori', 'user'])->get();
+        }
+    
         return view('halaman-admin.ekstrakurikuler.index', compact('ekstrakurikulers'));
     }
+    
 
     // index siswa(tampilan untuk users)
     public function indexSiswa()
     {
-        $ekstrakurikulers = DB::table('ekstrakurikuler')
-            ->join('kategori', 'ekstrakurikuler.id_kategori', '=', 'kategori.id')
-            ->select('ekstrakurikuler.*', 'kategori.nama_kategori as kategori')
-            ->get();
-
+        $ekstrakurikulers = Ekstrakurikuler::with(['jadwals', 'kategori'])->get();
         return view('users.index', compact('ekstrakurikulers'));
     }
+    
 
 
     // Show the form for creating a new resource
     public function create()
     {
         $kategori = Kategori::all();
-        $gurus = \App\Models\User::role('guru')->get(); // Ambil semua user dengan role guru    
+        $gurus = User::role('guru')->get(); // Ambil semua user dengan role guru    
         return view('halaman-admin.ekstrakurikuler.create', compact('kategori', 'gurus'));
     }
 

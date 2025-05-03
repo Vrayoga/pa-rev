@@ -1,9 +1,12 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Pendaftaran;
-use App\Models\Ekstrakurikuler;
 use Illuminate\Http\Request;
+use App\Models\Ekstrakurikuler;
+use App\Models\notifPendaftaran;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 class PendaftaranController extends Controller
@@ -39,7 +42,7 @@ class PendaftaranController extends Controller
                     if ($ekstra->jenis == 'wajib') {
                         $ekstra->sisa_kuota = 'tak_terbatas';
                     } else {
-                        $ekstra->sisa_kuota = $ekstra->stok - $pendaftarDiterima;
+                        $ekstra->sisa_kuota = $ekstra->kuota - $pendaftarDiterima;
                     }
                 }
             }
@@ -86,10 +89,10 @@ class PendaftaranController extends Controller
             ->pluck('ekstrakurikuler_id')
             ->toArray();
     
-        // Ekstrakurikuler tersedia (stok masih ada, bukan wajib, dan belum ditolak)
+        // Ekstrakurikuler tersedia (kuota masih ada, bukan wajib, dan belum ditolak)
         $ekstrakurikulers = Ekstrakurikuler::where(function($query) {
-                $query->where('stok', '>', 0)
-                      ->orWhereNull('stok');
+                $query->where('kuota', '>', 0)
+                      ->orWhereNull('kuota');
             })
             ->where('jenis', '!=', 'wajib')
             ->whereNotIn('id', $rejectedEkstraIds)
@@ -143,12 +146,12 @@ class PendaftaranController extends Controller
         // Check if extracurricular still has available slots
         $ekstrakurikuler = Ekstrakurikuler::find($request->ekstrakurikuler_id);
         
-        if ($ekstrakurikuler->jenis != 'wajib' && $ekstrakurikuler->stok !== null) {
+        if ($ekstrakurikuler->jenis != 'wajib' && $ekstrakurikuler->kuota !== null) {
             $pendaftarDiterima = Pendaftaran::where('ekstrakurikuler_id', $ekstrakurikuler->id)
                 ->where('status_validasi', 'diterima')
                 ->count();
                 
-            if ($pendaftarDiterima >= $ekstrakurikuler->stok) {
+            if ($pendaftarDiterima >= $ekstrakurikuler->kuota) {
                 return back()->with('error', 'Kuota ekstrakurikuler ini sudah penuh');
             }
         }
@@ -164,6 +167,38 @@ class PendaftaranController extends Controller
             'nomer_wali' => $request->nomer_wali,
             'status_validasi' => 'pending' // Default status
         ]);
+
+
+        $ekstra = Ekstrakurikuler::find($request->ekstrakurikuler_id);
+    
+    // Debugging
+    Log::debug('Attempting to create notification', [
+        'user_id' => $user->id,
+        'receiver_id' => $ekstra->id_users,
+        'ekstra' => $ekstra->toArray()
+    ]);
+
+    // Pastikan receiver ada dan punya role guru
+    $guru = User::with('roles')->find($ekstra->id_users);
+    
+    if (!$guru) {
+        Log::error('Guru not found for ekstra', ['id_users' => $ekstra->id_users]);
+        return back()->with('error', 'Pembimbing tidak ditemukan');
+    }
+
+    if (!$guru->hasRole('guru')) {
+        Log::error('Receiver is not a guru', ['user' => $guru->toArray()]);
+        return back()->with('error', 'Pembimbing tidak valid');
+    }
+    
+        NotifPendaftaran::create([
+            'user_id' => $user->id,
+            'receiver_id' => $ekstra->id_users,
+            'title' => 'Pendaftaran Baru',
+            'message' => 'Siswa ' . $user->name . ' mendaftar ke ekstrakurikuler ' . $ekstra->nama_ekstrakurikuler,
+            'is_read' => false,
+        ]);
+    
     
         return redirect()->route('userSiswa.index')->with('success', 'Pendaftaran ekstrakurikuler berhasil diajukan. Harap tunggu validasi dari pembimbing.');
     }

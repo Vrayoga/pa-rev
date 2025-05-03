@@ -42,25 +42,25 @@
   {{-- Navbar --}}
   <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="#">
-          <img src="{{ asset('') }}assets/images/logo-smk1.png" width="50" class="me-2" alt="logo">
-          Smkn 1 Sumenep
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item"><a class="nav-link" href="/usersEkstra">Beranda</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Prestasi</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Artikel</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Hasil PPDB</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Informasi</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Kontak</a></li>
-            <li class="nav-item"><a class="btn btn-login" href="/login">Masuk <i class="bi bi-lock-fill"></i></a></li>
-          </ul>
-        </div>
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <img src="{{ asset('') }}assets/images/logo-smk1.png" width="50" class="me-2" alt="logo">
+        Smkn 1 Sumenep
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="/usersEkstra">Beranda</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Prestasi</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Artikel</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Hasil PPDB</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Informasi</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Kontak</a></li>
+          <li class="nav-item"><a class="btn btn-login" href="/login">Masuk <i class="bi bi-lock-fill"></i></a></li>
+        </ul>
       </div>
+    </div>
   </nav>
 
   {{-- Content --}}
@@ -86,17 +86,34 @@
         <div class="info-box mb-4">
           <h5><i class="bi bi-calendar-week info-icon"></i> Informasi Ekstrakurikuler</h5>
           <ul class="list-unstyled mb-0">
-            <li class="mb-2"><i class="bi bi-calendar-event info-icon"></i><strong>Jadwal:</strong> {{ $ekstrakurikuler->Jadwal }}</li>
-            <li class="mb-2"><i class="bi bi-clock info-icon"></i><strong>Jam:</strong> {{ $ekstrakurikuler->Jam_mulai }} - {{ $ekstrakurikuler->Jam_selesai }}</li>
-            <li class="mb-2"><i class="bi bi-geo-alt info-icon"></i><strong>Lokasi:</strong> {{ $ekstrakurikuler->Lokasi }}</li>
-            <li class="mb-2"><i class="bi bi-tag-fill info-icon"></i><strong>Kategori:</strong> {{ $ekstrakurikuler->kategori->nama_kategori }}</li>
+            @if($ekstrakurikuler->jadwals->count())
+              <li class="mb-2">
+                <i class="bi bi-calendar-event info-icon"></i>
+                <strong>Hari dan Jam :</strong>
+                @foreach ($ekstrakurikuler->jadwals as $jadwal)
+                  {{ $jadwal->hari }} ({{ $jadwal->jam_mulai }} - {{ $jadwal->jam_selesai }})@if (!$loop->last), @endif
+                @endforeach
+              </li>
+            @else
+              <li class="mb-2 text-muted"><em>Belum ada jadwal tersedia</em></li>
+            @endif
+        
+            <li class="mb-2">
+              <i class="bi bi-geo-alt info-icon"></i>
+              <strong>Lokasi:</strong> {{ $ekstrakurikuler->Lokasi }}
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-tag-fill info-icon"></i>
+              <strong>Kategori:</strong> {{ $ekstrakurikuler->kategori->nama_kategori }}
+            </li>
           </ul>
         </div>
+        
 
         {{-- Share --}}
         <div class="info-box share-buttons d-flex align-items-center gap-3 justify-content-center">
           <a href="" class="btn btn-primary" target="_blank" title=""><i class="bi bi-fire"></i> Daftar Sekarang</a>
-          <a href="{{route ('userSiswa.index')}}" class="btn btn-primary" target="" title="Bagikan ke Facebook"><i class="bi bi-x-lg"></i> Kembali</a>
+          <a href="{{ route('userSiswa.index') }}" class="btn btn-primary" title="Kembali"><i class="bi bi-x-lg"></i> Kembali</a>
         </div>
 
       </div>

@@ -15,16 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('nama_ekstrakurikuler',100);
             $table->string('Gambar')->nullable();
-            $table->text('Jadwal');
             $table->text('Deskripsi');
             $table->foreignId('id_kategori')->constrained('kategori')->onDelete('cascade');
-            $table->time('Jam_mulai');
-            $table->time('Jam_selesai');
             $table->string('Lokasi', 100);
             $table->foreignId('id_users')->constrained('users')->onDelete('cascade');
             $table->enum('Periode', ['Aktif', 'Tidak_aktif'])->default('aktif');
             $table->enum('jenis', ['wajib', 'pilihan'])->default('wajib');
-            $table->integer('stok')->nullable(); 
+            $table->integer('kuota')->nullable(); 
             $table->timestamps();
 
             

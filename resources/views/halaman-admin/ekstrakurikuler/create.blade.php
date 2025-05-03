@@ -42,12 +42,6 @@
                                         <label for="gambar">Gambar</label>
                                         <input id="Gambar" name="Gambar" type="file" class="form-control" accept="image/*">
                                     </div>
-
-                                    <div class="mb-3">
-                                        <label for="manufacturername">Jadwal</label>
-                                        <input id="Jadwal" name="Jadwal" type="text" class="form-control" placeholder="Masukkan Jadwal ekstrakurikuler">
-                                        
-                                    </div>
                                     <div class="mb-3">
                                         <label for="manufacturername">Deskripsi</label>
                                         <textarea id="Deskripsi" name="Deskripsi" class="form-control" placeholder="Masukkan Deskripsi ekstrakurikuler" rows="4"></textarea>
@@ -62,7 +56,15 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                  
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <label for="manufacturername">Lokasi</label>
+                                        <input id="Lokasi" name="Lokasi" type="text" class="form-control" placeholder="Masukkan lokasi ekstrakurikuler">
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                    
                                     <div class="mb-3">
                                         <label for="id_kategori">Pilih guru</label>
                                         <select id="id_users" name="id_users" class="form-control">
@@ -72,31 +74,6 @@
                                         @endforeach
                                         </select>
                                     </div>
-
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <div class="mb-3">
-                                        <label for="manufacturername">Jam mulai</label>
-                                        <input id="Jam_mulai" name="Jam_mulai" type="time" class="form-control" placeholder="Jam mulai kegiatan">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="manufacturername">Jam selesai</label>
-                                        <input id="Jam_selesai" name="Jam_selesai" type="time" class="form-control" placeholder="Jam selesai kegiatan">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="manufacturername">Lokasi</label>
-                                        <input id="Lokasi" name="Lokasi" type="text" class="form-control" placeholder="Masukkan lokasi ekstrakurikuler">
-                                        <div class="invalid-feedback"></div>
-                                    </div>
-                                    {{-- <div class="mb-3">
-                                        <label for="status">Periode</label>
-                                        <select id="periode" name="periode" class="form-control">
-                                            <option value="" disabled selected>Pilih Status</option>
-                                            <option value="aktif">Aktif</option>
-                                            <option value="tidak_aktif">Tidak Aktif</option>
-                                        </select>
-                                    </div> --}}
                                     <div class="mb-3">
                                         <label for="status">jenis Ekstrakurikuler</label>
                                         <select id="jenis" name="jenis" class="form-control">
@@ -107,8 +84,8 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="manufacturername">stok</label>
-                                        <input id="stok" name="stok" type="text" class="form-control" placeholder="Masukkan Jumlah ekstrakurikuler">
+                                        <label for="manufacturername">kuota</label>
+                                        <input id="kuota" name="kuota" type="text" class="form-control" placeholder="Masukkan Jumlah ekstrakurikuler">
                                         
                                     </div>
                                 </div>

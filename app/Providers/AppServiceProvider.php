@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\NotifPendaftaran;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -29,5 +33,54 @@ class AppServiceProvider extends ServiceProvider
                     'url' => $url,
                 ]);
         });
+
+        // Tambahkan view composer untuk notifikasi
+// View::composer('*', function ($view) {
+//     if (Auth::check()) {
+//         $user = Auth::user();
+
+//         $notifications = NotifPendaftaran::where('receiver_id', $user->id)
+//             ->orderBy('created_at', 'desc')
+//             ->take(10)
+//             ->get();
+
+//         $unreadCount = NotifPendaftaran::where('receiver_id', $user->id)
+//             ->where('is_read', false)
+//             ->count();
+
+//         $view->with([
+//             'notifications' => $notifications,
+//             'unreadNotificationsCount' => $unreadCount
+//         ]);
+//     }
+// });
+
+View::composer('*', function ($view) {
+    if (Auth::check()) {
+        $user = Auth::user();
+        Log::debug('View composer for notifications', ['user_id' => $user->id]);
+
+        $notifications = NotifPendaftaran::where('receiver_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->take(10)
+            ->get();
+
+        $unreadCount = NotifPendaftaran::where('receiver_id', $user->id)
+            ->where('is_read', false)
+            ->count();
+
+        Log::debug('Notifications data', [
+            'count' => $notifications->count(),
+            'unread' => $unreadCount
+        ]);
+
+        $view->with([
+            'notifications' => $notifications,
+            'unreadNotificationsCount' => $unreadCount
+        ]);
+    }
+});
+
+        
     }
 }
