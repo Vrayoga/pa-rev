@@ -203,31 +203,53 @@ class PendaftaranController extends Controller
         return redirect()->route('userSiswa.index')->with('success', 'Pendaftaran ekstrakurikuler berhasil diajukan. Harap tunggu validasi dari pembimbing.');
     }
 
+
     public function validasi(Request $request, $id)
     {
         $request->validate([
             'status' => 'required|in:diterima,ditolak'
         ]);
-
+    
         $pendaftaran = Pendaftaran::findOrFail($id);
+        $user = Auth::user();
         
         // Pastikan hanya guru pembimbing yang bisa validasi
-        if (Auth::user()->hasRole('guru')) {
-            $ekstraGuru = Auth::user()->ekstrakurikuler->pluck('id')->toArray();
+        if ($user->hasRole('guru')) {
+            $ekstraGuru = $user->ekstrakurikuler->pluck('id')->toArray();
             
             if (!in_array($pendaftaran->ekstrakurikuler_id, $ekstraGuru)) {
                 return back()->with('error', 'Anda tidak berhak memvalidasi pendaftaran ini');
             }
         }
-
+    
+        // Proses validasi seperti sebelumnya
+        if ($request->status == 'diterima' && $pendaftaran->status_validasi != 'diterima') {
+            $ekstra = Ekstrakurikuler::find($pendaftaran->ekstrakurikuler_id);
+            
+            if ($ekstra->kuota > 0) {
+                $ekstra->decrement('kuota');
+            } else {
+                return back()->with('error', 'Kuota sudah habis, tidak bisa menerima pendaftaran');
+            }
+        }
+        elseif ($request->status == 'ditolak' && $pendaftaran->status_validasi == 'diterima') {
+            Ekstrakurikuler::find($pendaftaran->ekstrakurikuler_id)->increment('kuota');
+        }
+    
         $pendaftaran->update([
             'status_validasi' => $request->status,
-            'validator_id' => Auth::id()
+            'validator_id' => $user->id
         ]);
-
+    
         $status = $request->status == 'diterima' ? 'diterima' : 'ditolak';
+        
+        // Redirect ke halaman anggota ekstra dengan pengecekan role
+        if ($request->status == 'diterima') {
+            return redirect()->route('anggota.ekstra', ['id' => $pendaftaran->ekstrakurikuler_id])
+                           ->with('success', "Pendaftaran berhasil di$status");
+        }
+        
         return back()->with('success', "Pendaftaran berhasil di$status");
     }
-
 
 }

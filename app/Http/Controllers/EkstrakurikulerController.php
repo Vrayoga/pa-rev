@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\User;
 use App\Models\Kategori;
+use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
 use App\Models\Ekstrakurikuler;
-use App\Models\User;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
 
 class EkstrakurikulerController extends Controller
 {
@@ -32,7 +33,35 @@ class EkstrakurikulerController extends Controller
     
         return view('halaman-admin.ekstrakurikuler.index', compact('ekstrakurikulers'));
     }
+
+// menampilkan anggota ekstrakurikuler saat sudah keterima di ekstrakurikuler
+public function showAnggota($id)
+{
+    $ekstrakurikuler = Ekstrakurikuler::findOrFail($id);
+    $user = Auth::user();
     
+    // Jika user adalah guru, pastikan dia pembimbing ekstra ini
+    if ($user->hasRole('guru')) {
+        $ekstraGuru = $user->ekstrakurikuler->pluck('id')->toArray();
+        
+        if (!in_array($ekstrakurikuler->id, $ekstraGuru)) {
+            return back()->with('error', 'Anda tidak berhak melihat anggota ekstrakurikuler ini');
+        }
+    }
+    
+    // Ambil pendaftaran yang sudah diterima untuk ekstra ini
+    $anggota = Pendaftaran::where('ekstrakurikuler_id', $id)
+                ->where('status_validasi', 'diterima')
+                ->with(['kelas', 'user'])
+                ->get();
+    
+    return view('halaman-admin.ekstrakurikuler.anggotaEkstra', [
+        'anggota' => $anggota,
+        'ekstrakurikuler' => $ekstrakurikuler
+    ]);
+}
+ 
+
 
     // index siswa(tampilan untuk users)
     public function indexSiswa()

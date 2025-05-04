@@ -56,7 +56,7 @@
                         <a href="{{ route('userSiswa.index') }}" class="btn btn-light">Kembali</a>
                     </div>
                 @else
-                    <form action="{{ route('ekstraDaftar.store') }}" method="POST">
+                    <form id="pendaftaranForm" action="{{ route('ekstraDaftar.store') }}" method="POST">
                         @csrf
                         <div class="mb-3">
                             <label for="ekstrakurikuler_id" class="form-label">Ekstrakurikuler</label>
@@ -125,3 +125,4 @@
     });
   </script>
 @endif
+

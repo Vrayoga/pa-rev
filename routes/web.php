@@ -131,6 +131,8 @@ Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
         Route::get('/create', [EkstrakurikulerController::class, 'create'])->name('halaman-admin.ekstrakurikuler.create')->middleware('permission:create ekstrakurikuler');
         Route::post('/store', [EkstrakurikulerController::class, 'store'])->name('ekstrakurikuler.store');
         Route::get('/show/{id}', [EkstrakurikulerController::class, 'show'])->name('ekstrakurikuler.show');
+        //ngeshow ekstra dibagian role 'guru' sesuai dengan ekstra yang diampu
+        Route::get('/{id}/anggota', [EkstrakurikulerController::class, 'showAnggota'])->name('anggota.ekstra'); 
         // routes/web.php
         Route::get('/guru/ekstrakurikuler', [EkstrakurikulerController::class, 'ekstrakurikulerDiampu'])->name('guru.ekstrakurikuler');
         Route::get('/{id}/edit', [EkstrakurikulerController::class, 'edit'])->name('ekstrakurikuler.edit')->middleware('permission:edit ekstrakurikuler');
@@ -144,12 +146,14 @@ Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
         Route::get('/', [PendaftaranController::class, 'showAnggota'])->name('pendaftaran.index')->middleware('permission:view pendaftaran');
         Route::get('/ekstra', [PendaftaranController::class, 'daftarEkstra'])->name('daftar.create')->middleware('permission:create pendaftaran');
         Route::post('/ekstra-store', [PendaftaranController::class, 'storeRegisEkstra'])->name('ekstraDaftar.store');
+        Route::get('/by-ekstra/{ekstraId}', [PendaftaranController::class, 'getPendaftaranByEkstra'])->name('pendaftaran.by-ekstra');
         Route::put('/{id}/validasi', [PendaftaranController::class, 'validasi'])->name('pendaftaran.validasi');
 
     });
 
 //notif memberitahu Guru
 Route::post('/notifications/mark-as-read/{id}', [notifPendaftaranController::class, 'markAsRead'])->name('notifications.markAsRead');
+
 
     // Ekstrakurikuler Siswa
     Route::get('/ekstraSiswa', [EkstrakurikulerController::class, 'indexSiswa'])->name('userSiswa.index');

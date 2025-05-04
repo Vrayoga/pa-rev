@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\NotifPendaftaran;
+use Illuminate\Support\Facades\Auth;
 
 class notifPendaftaranController extends Controller
 {
@@ -14,4 +15,5 @@ class notifPendaftaranController extends Controller
         
         return response()->json(['success' => true]);
     }
+
 }

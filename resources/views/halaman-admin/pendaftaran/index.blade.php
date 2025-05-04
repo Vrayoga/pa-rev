@@ -103,7 +103,7 @@
 </div>
 
 {{-- modal view ekstrakurikuler by id --}}
-{{-- modal view ekstrakurikuler by id --}}
+
 <div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

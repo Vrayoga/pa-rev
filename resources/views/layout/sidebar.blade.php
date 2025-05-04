@@ -35,6 +35,7 @@
                 </li>
                 @endcan
 
+
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bx-bitcoin"></i>
@@ -70,6 +71,35 @@
                     <a href="/pendaftaran" class="waves-effect">
                         <i class="bx bx-bitcoin"></i>
                         <span key="t-crypto">Pendaftaran</span>
+                    </a>
+                </li>
+                @endcan
+
+       <li>
+    <a href="javascript: void(0);" class="has-arrow waves-effect">
+        <i class="bx bx-group"></i>
+        <span key="t-crypto">Anggota</span>
+    </a>
+    <ul class="sub-menu" aria-expanded="false">
+        @if(auth()->user()->hasRole('admin'))
+            <!-- Untuk admin - tampilkan semua ekstra atau opsi melihat semua -->
+            <li><a href="{{ route('anggota.semua') }}">Semua Anggota</a></li>
+            @foreach(App\Models\Ekstrakurikuler::all() as $ekstra)
+                <li><a href="{{ route('anggota.ekstra', $ekstra->id) }}">{{ $ekstra->nama_ekstrakurikuler }}</a></li>
+            @endforeach
+        @elseif(auth()->user()->hasRole('guru'))
+            <!-- Untuk guru - hanya tampilkan ekstra yang dibimbing -->
+            @foreach(auth()->user()->ekstrakurikuler as $ekstra)
+                <li><a href="{{ route('anggota.ekstra', $ekstra->id) }}">{{ $ekstra->nama_ekstrakurikuler }}</a></li>
+            @endforeach
+        @endif
+    </ul>
+</li>
+                @can('view absensi')
+                <li>
+                    <a href="/absensi" class="waves-effect">
+                        <i class="bx bx-bitcoin"></i>
+                        <span key="t-crypto">Absensi</span>
                     </a>
                 </li>
                 @endcan
