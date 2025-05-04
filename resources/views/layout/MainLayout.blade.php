@@ -9,6 +9,7 @@
     <title>Smkn 1 Sumenep</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('') }}assets/images/logo-smk1.png">
@@ -36,6 +37,16 @@
     <script src="{{ asset('') }}assets/js/plugin.js"></script>
 
     @stack('css')
+
+    
+    <style>
+        .notification-item.unread {
+            background-color: rgba(70, 127, 207, 0.1);
+        }
+        .notification-item.unread:hover {
+            background-color: rgba(70, 127, 207, 0.2);
+        }
+        </style>
 
 </head>
 

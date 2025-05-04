@@ -2,21 +2,22 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\RoleController;
 
 // Controllers
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\EkstrakurikulerController;
-use App\Http\Controllers\jadwalEkstrakurikulerController;
-use App\Http\Controllers\KategoriController;
-use App\Http\Controllers\KelasController;
-use App\Http\Controllers\LogbookController;
-use App\Http\Controllers\pendaftaranController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\KelasController;
+use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\LogbookController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\pendaftaranController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\EkstrakurikulerController;
+use App\Http\Controllers\notifPendaftaranController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\jadwalEkstrakurikulerController;
 
 
 Route::middleware(['guest'])->group(function () {
@@ -147,7 +148,8 @@ Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
 
     });
 
-
+//notif memberitahu Guru
+Route::post('/notifications/mark-as-read/{id}', [notifPendaftaranController::class, 'markAsRead'])->name('notifications.markAsRead');
 
     // Ekstrakurikuler Siswa
     Route::get('/ekstraSiswa', [EkstrakurikulerController::class, 'indexSiswa'])->name('userSiswa.index');
