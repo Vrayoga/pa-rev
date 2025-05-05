@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 use App\Models\Ekstrakurikuler;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use App\Http\Middleware\CheckAbsensiSession;
 
 class LogbookController extends Controller
 {
+
+ 
     // Tampilkan semua logbook
     public function index()
     {

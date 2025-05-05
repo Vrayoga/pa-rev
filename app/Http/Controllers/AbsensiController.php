@@ -36,12 +36,21 @@ class AbsensiController extends Controller
         ];
         $hariIni = $hariMap[$hariIni] ?? $hariIni;
 
-        // Ambil data ekstrakurikuler beserta jadwal hari ini
+        // Ambil ekstrakurikuler beserta semua jadwal dan sesi absensinya
         $ekstraGuru = Ekstrakurikuler::where('id_users', $user->id)
-            ->with(['jadwals' => function ($query) use ($hariIni) {
-                $query->where('hari', $hariIni);
+            ->with(['jadwals' => function ($q) use ($hariIni) {
+                $q->where('hari', $hariIni)
+                    ->with(['sesiAbsen' => function ($s) {
+                        $s->whereDate('waktu_buka', now()->toDateString())
+                            ->latest();
+                    }]);
             }])
             ->get();
+
+        // Filter hanya ekstra yang memiliki jadwal di hari ini
+        $ekstraGuru = $ekstraGuru->filter(function ($ekstra) {
+            return $ekstra->jadwals->isNotEmpty();
+        });
 
         return view('halaman-admin.guru', [
             'ekstraGuru' => $ekstraGuru,
@@ -106,6 +115,7 @@ class AbsensiController extends Controller
             session(['sudah_presensi' => $alreadyPresensi]);
             session(['tidak_boleh_buka' => true]);
 
+            session(['has_opened_attendance' => true]);
             return redirect()->route('absensi.siswa')->with('success', 'Sesi absensi berhasil dibuka');
         } catch (\Exception $e) {
             Log::error('Error saat membuka sesi absensi: ' . $e->getMessage());

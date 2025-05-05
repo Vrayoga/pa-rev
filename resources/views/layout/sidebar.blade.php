@@ -115,10 +115,17 @@
 
                 @can('view logbook')
                 <li>
-                    <a href="/logbook" class="waves-effect">
-                        <i class="bx bx-envelope"></i>
-                        <span key="t-email">Logbook</span>
-                    </a>
+                    @if(auth()->user()->hasRole('guru') && !session('has_opened_attendance'))
+                        <a href="#" class="waves-effect text-muted" onclick="alert('Anda harus membuka sesi absensi terlebih dahulu')">
+                            <i class="bx bx-envelope"></i>
+                            <span>Logbook</span>
+                        </a>
+                    @else
+                        <a href="/logbook" class="waves-effect">
+                            <i class="bx bx-envelope"></i>
+                            <span>Logbook</span>
+                        </a>
+                    @endif
                 </li>  
                 @endcan
 

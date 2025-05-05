@@ -15,7 +15,6 @@
                             <li class="breadcrumb-item active">Data Jadwal </li>
                         </ol>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -30,71 +29,71 @@
                         <p class="card-title-desc">Data Jadwal Ekstrakurikuler</p>
 
                         @php
-                        $user = auth()->user();
-                    @endphp
-                    
-                    <form action="{{route('jadwal.store')}}" class="needs-validation" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="mb-3">
-                                    <label for="ekstrakurikuler_id">Ekstrakurikuler</label>
-                                    @if($user->hasRole('guru'))
-                                        {{-- Guru hanya bisa pilih 1 ekstra --}}
-                                        <input type="hidden" name="ekstrakurikuler_id" value="{{ $ekstrakurikuler->first()->id }}">
-                                        <input type="text" class="form-control" value="{{ $ekstrakurikuler->first()->nama_ekstrakurikuler }}" readonly>
-                                    @else
-                                        <select id="ekstrakurikuler_id" name="ekstrakurikuler_id" class="form-control">
-                                            <option value="" disabled selected>Pilih Ekstrakurikuler</option>
-                                            @foreach($ekstrakurikuler as $item)
-                                                <option value="{{ $item->id }}">{{ $item->nama_ekstrakurikuler }}</option>
-                                            @endforeach
+                            $user = auth()->user();
+                        @endphp
+
+                        <form action="{{ route('jadwal.store') }}" class="needs-validation" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <label for="ekstrakurikuler_id">Ekstrakurikuler</label>
+                                        @if($user->hasRole('guru'))
+                                            {{-- Guru hanya bisa pilih dari ekstrakurikuler yang dia ampu --}}
+                                            <select id="ekstrakurikuler_id" name="ekstrakurikuler_id" class="form-control">
+                                                <option value="" disabled selected>Pilih Ekstrakurikuler</option>
+                                                @foreach($ekstrakurikuler as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->nama_ekstrakurikuler }}</option>
+                                                @endforeach
+                                            </select>
+                                        @else
+                                            <select id="ekstrakurikuler_id" name="ekstrakurikuler_id" class="form-control">
+                                                <option value="" disabled selected>Pilih Ekstrakurikuler</option>
+                                                @foreach($ekstrakurikuler as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->nama_ekstrakurikuler }}</option>
+                                                @endforeach
+                                            </select>
+                                        @endif
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="hari">Hari</label>
+                                        <select id="hari" name="hari" class="form-control">
+                                            <option value="" disabled selected>Pilih Hari</option>
+                                            <option value="senin">Senin</option>
+                                            <option value="selasa">Selasa</option>
+                                            <option value="rabu">Rabu</option>
+                                            <option value="kamis">Kamis</option>
+                                            <option value="jumat">Jumat</option>
+                                            <option value="sabtu">Sabtu</option>
+                                            <option value="minggu">Minggu</option>
                                         </select>
-                                    @endif
+                                    </div>
                                 </div>
-                    
-                                <div class="mb-3">
-                                    <label for="hari">Hari</label>
-                                    <select id="hari" name="hari" class="form-control">
-                                        <option value="" disabled selected>Pilih Hari</option>
-                                        <option value="senin">Senin</option>
-                                        <option value="selasa">Selasa</option>
-                                        <option value="rabu">Rabu</option>
-                                        <option value="kamis">Kamis</option>
-                                        <option value="jumat">Jumat</option>
-                                        <option value="sabtu">Sabtu</option>
-                                        <option value="minggu">Minggu</option>
-                                    </select>
+
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <label for="jam_mulai">Jam Mulai</label>
+                                        <input id="jam_mulai" name="jam_mulai" type="time" class="form-control" placeholder="Jam mulai kegiatan">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="jam_selesai">Jam Selesai</label>
+                                        <input id="jam_selesai" name="jam_selesai" type="time" class="form-control" placeholder="Jam selesai kegiatan">
+                                    </div>
                                 </div>
                             </div>
-                    
-                            <div class="col-sm-6">
-                                <div class="mb-3">
-                                    <label for="jam_mulai">Jam Mulai</label>
-                                    <input id="jam_mulai" name="jam_mulai" type="time" class="form-control" placeholder="Jam mulai kegiatan">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="jam_selesai">Jam Selesai</label>
-                                    <input id="jam_selesai" name="jam_selesai" type="time" class="form-control" placeholder="Jam selesai kegiatan">
-                                </div>
+
+                            <div class="d-flex flex-wrap gap-2">
+                                <button type="submit" class="btn btn-primary waves-effect waves-light">Save Changes</button>
+                                <a href="/jadwal" class="btn btn-secondary waves-effect waves-light">Cancel</a>
                             </div>
-                        </div>
-                    
-                        <div class="d-flex flex-wrap gap-2">
-                            <button type="submit" class="btn btn-primary waves-effect waves-light">Save Changes</button>
-                            <a href="/jadwal" class="btn btn-secondary waves-effect waves-light">Cancel</a>
-                        </div>
-                    </form>
-                    
+                        </form>
 
                     </div>
                 </div>
-
-
             </div>
         </div>
         <!-- end row -->
-
 
     </div>
 </div>

@@ -161,15 +161,6 @@ Route::post('/notifications/mark-as-read/{id}', [notifPendaftaranController::cla
     Route::get('/ekstraSiswa', [EkstrakurikulerController::class, 'indexSiswa'])->name('userSiswa.index');
 
     // Logbook Management
-    Route::prefix('logbook')->group(function () {
-        Route::get('/', [LogbookController::class, 'index'])->name('logbook.index')->middleware('permission:view logbook');
-        Route::get('/create', [LogbookController::class, 'create'])->name('logbook.create')->middleware('permission:create logbook');
-        Route::post('/store', [LogbookController::class, 'store'])->name('logbook.store');
-        Route::get('/{logbook}', [LogbookController::class, 'show'])->name('logbook.show');
-        Route::get('/edit/{logbook}', [LogbookController::class, 'edit'])->name('logbook.edit')->middleware('permission:edit logbook');
-        Route::post('/{logbook}', [LogbookController::class, 'update'])->name('logbook.update')->middleware('permission:update logbook');
-        Route::delete('/{logbook}', [LogbookController::class, 'destroy'])->name('logbook.destroy')->middleware('permission:delete logbook');
-    });
 
     Route::post('/absensi/buka', [AbsensiController::class, 'bukaAbsen'])
     ->name('absensi.buka');
@@ -180,4 +171,15 @@ Route::post('/notifications/mark-as-read/{id}', [notifPendaftaranController::cla
 
     // Logout
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+    
+});
+
+Route::prefix('logbook')->middleware(['auth', 'verified', 'role_permission'])->group(function () {
+    Route::get('/', [LogbookController::class, 'index'])->name('logbook.index')->middleware('permission:view logbook');  
+    Route::get('/create', [LogbookController::class, 'create'])->name('logbook.create')->middleware('permission:create logbook');
+    Route::post('/store', [LogbookController::class, 'store'])->name('logbook.store');
+    Route::get('/{logbook}', [LogbookController::class, 'show'])->name('logbook.show');
+    Route::get('/edit/{logbook}', [LogbookController::class, 'edit'])->name('logbook.edit')->middleware('permission:edit logbook');
+    Route::post('/{logbook}', [LogbookController::class, 'update'])->name('logbook.update')->middleware('permission:update logbook');
+    Route::delete('/{logbook}', [LogbookController::class, 'destroy'])->name('logbook.destroy')->middleware('permission:delete logbook');
 });

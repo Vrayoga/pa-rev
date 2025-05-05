@@ -6,7 +6,9 @@ use App\Models\NotifPendaftaran;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
+use App\Http\Middleware\CheckAbsensiSession;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
 
@@ -34,53 +36,31 @@ class AppServiceProvider extends ServiceProvider
                 ]);
         });
 
-        // Tambahkan view composer untuk notifikasi
-// View::composer('*', function ($view) {
-//     if (Auth::check()) {
-//         $user = Auth::user();
 
-//         $notifications = NotifPendaftaran::where('receiver_id', $user->id)
-//             ->orderBy('created_at', 'desc')
-//             ->take(10)
-//             ->get();
+        View::composer('*', function ($view) {
+            if (Auth::check()) {
+                $user = Auth::user();
+                Log::debug('View composer for notifications', ['user_id' => $user->id]);
 
-//         $unreadCount = NotifPendaftaran::where('receiver_id', $user->id)
-//             ->where('is_read', false)
-//             ->count();
+                $notifications = NotifPendaftaran::where('receiver_id', $user->id)
+                    ->orderBy('created_at', 'desc')
+                    ->take(10)
+                    ->get();
 
-//         $view->with([
-//             'notifications' => $notifications,
-//             'unreadNotificationsCount' => $unreadCount
-//         ]);
-//     }
-// });
+                $unreadCount = NotifPendaftaran::where('receiver_id', $user->id)
+                    ->where('is_read', false)
+                    ->count();
 
-View::composer('*', function ($view) {
-    if (Auth::check()) {
-        $user = Auth::user();
-        Log::debug('View composer for notifications', ['user_id' => $user->id]);
+                Log::debug('Notifications data', [
+                    'count' => $notifications->count(),
+                    'unread' => $unreadCount
+                ]);
 
-        $notifications = NotifPendaftaran::where('receiver_id', $user->id)
-            ->orderBy('created_at', 'desc')
-            ->take(10)
-            ->get();
-
-        $unreadCount = NotifPendaftaran::where('receiver_id', $user->id)
-            ->where('is_read', false)
-            ->count();
-
-        Log::debug('Notifications data', [
-            'count' => $notifications->count(),
-            'unread' => $unreadCount
-        ]);
-
-        $view->with([
-            'notifications' => $notifications,
-            'unreadNotificationsCount' => $unreadCount
-        ]);
-    }
-});
-
-        
+                $view->with([
+                    'notifications' => $notifications,
+                    'unreadNotificationsCount' => $unreadCount
+                ]);
+            }
+        });
     }
 }
