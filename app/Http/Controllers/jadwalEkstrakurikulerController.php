@@ -33,7 +33,6 @@ class jadwalEkstrakurikulerController extends Controller
         return view('halaman-admin.jadwal-ekstrakurikuler.index', compact('jadwal', 'ekstrakurikuler'));
     }
     
-    
 
     // Show the form for creating a new resource
     public function create()

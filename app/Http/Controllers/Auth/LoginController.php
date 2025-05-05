@@ -32,10 +32,12 @@ class LoginController extends Controller
 
         $user = Auth::user();
 
-        if ($user->hasRole('admin') || $user->hasRole('guru')) {
+        if ($user->hasRole('admin')) {
             return redirect()->intended('/dashboard');
+        } elseif ($user->hasRole('guru')) {
+            return redirect()->intended('/guru'); // Route untuk guru
         } elseif ($user->hasRole('siswa')) {
-            return redirect()->intended('/ekstraSiswa'); // Ganti dengan route siswa kamu
+            return redirect()->intended('/ekstraSiswa'); // Route untuk siswa
         } else {
             Auth::logout(); // kalau tidak punya role
             return redirect('/login')->withErrors(['email' => 'Role tidak dikenali.']);

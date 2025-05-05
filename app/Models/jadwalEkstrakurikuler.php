@@ -18,6 +18,12 @@ class jadwalEkstrakurikuler extends Model
         'jam_selesai',
     ];
 
+
+    public function sesiAbsen()
+    {
+        return $this->hasMany(SesiAbsensi::class, 'jadwal_id');
+    }
+
     public function ekstrakurikuler()
     {
         return $this->belongsTo(Ekstrakurikuler::class, 'ekstrakurikuler_id');

@@ -34,4 +34,8 @@ public function ekstrakurikuler()
     return $this->hasMany(Ekstrakurikuler::class, 'id_users'); // Sesuaikan foreign key
 }
 
+public function pendaftaran()
+{
+    return $this->hasMany(Pendaftaran::class);
+}
 }

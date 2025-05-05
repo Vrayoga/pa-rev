@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbsensiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
@@ -56,6 +57,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
 
     // Home & Password Change
     Route::get('/home', [LoginController::class, 'showChangePasswordForm']);
@@ -168,6 +170,13 @@ Route::post('/notifications/mark-as-read/{id}', [notifPendaftaranController::cla
         Route::post('/{logbook}', [LogbookController::class, 'update'])->name('logbook.update')->middleware('permission:update logbook');
         Route::delete('/{logbook}', [LogbookController::class, 'destroy'])->name('logbook.destroy')->middleware('permission:delete logbook');
     });
+
+    Route::post('/absensi/buka', [AbsensiController::class, 'bukaAbsen'])
+    ->name('absensi.buka');
+    Route::get('/absensi/siswa', [AbsensiController::class, 'absensiSiswa'])
+    ->name('absensi.siswa');
+    Route::get('/guru', [AbsensiController::class, 'dashboardPresensi'])->name('dashboardGuru.index');
+    Route::post('/absensi/tutup', [AbsensiController::class, 'tutupAbsen'])->name('absensi.tutup');
 
     // Logout
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');

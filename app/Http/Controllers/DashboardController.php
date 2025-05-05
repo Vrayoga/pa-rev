@@ -13,4 +13,12 @@ class DashboardController extends Controller
         $total_kelas = Kelas::count();
         return view('halaman-admin.index', compact('total_siswa', 'total_kelas'));
     }
+
+
+    // public function dashboardGuruEkstrakurikuler(){
+    //     $total_siswa = Siswa::count();
+    //     $total_kelas = Kelas::count();
+    //     return view('halaman-admin.Guru', compact('total_siswa', 'total_kelas'));
+    // }
+
 }

@@ -8,8 +8,17 @@
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title" key="t-menu">Menu</li>
 
+                @can('view dashboard')
                 <li>
                     <a href="/dashboard" class="waves-effect">
+                        <i class="bx bx-home-circle"></i>
+                        <span key="t-dashboards">Dashboards</span>
+                    </a>
+                </li>
+                @endcan
+                
+                <li>
+                    <a href="/guru" class="waves-effect">
                         <i class="bx bx-home-circle"></i>
                         <span key="t-dashboards">Dashboards</span>
                     </a>
@@ -83,7 +92,7 @@
     <ul class="sub-menu" aria-expanded="false">
         @if(auth()->user()->hasRole('admin'))
             <!-- Untuk admin - tampilkan semua ekstra atau opsi melihat semua -->
-            <li><a href="{{ route('anggota.semua') }}">Semua Anggota</a></li>
+            <li><a href="">Semua Anggota</a></li>
             @foreach(App\Models\Ekstrakurikuler::all() as $ekstra)
                 <li><a href="{{ route('anggota.ekstra', $ekstra->id) }}">{{ $ekstra->nama_ekstrakurikuler }}</a></li>
             @endforeach
