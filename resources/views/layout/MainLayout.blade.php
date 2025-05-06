@@ -15,14 +15,12 @@
     <link rel="shortcut icon" href="{{ asset('') }}assets/images/logo-smk1.png">
 
     <!-- DataTables -->
-    <link href="{{ asset('') }}assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css"
-        rel="stylesheet" />
+    <link href="{{ asset('') }}assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="{{ asset('') }}assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css"
         rel="stylesheet" />
 
     <!-- bootstrap-datepicker css -->
-    <link href="{{ asset('') }}assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css"
-        rel="stylesheet">
+    <link href="{{ asset('') }}assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
 
     <!-- Responsive datatable examples -->
     <link href="{{ asset('') }}assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css"
@@ -36,17 +34,23 @@
     <!-- App js -->
     <script src="{{ asset('') }}assets/js/plugin.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+    <!-- Toastify JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
     @stack('css')
 
-    
+
     <style>
         .notification-item.unread {
             background-color: rgba(70, 127, 207, 0.1);
         }
+
         .notification-item.unread:hover {
             background-color: rgba(70, 127, 207, 0.2);
         }
-        </style>
+    </style>
 
 </head>
 
@@ -91,10 +95,8 @@
     <script src="{{ asset('') }}assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
 
     <!-- Responsive examples -->
-    <script src="{{ asset('') }}assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js">
-    </script>
-    <script src="{{ asset('') }}assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js">
-    </script>
+    <script src="{{ asset('') }}assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="{{ asset('') }}assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
     <!-- Datatable init js -->
     <script src="{{ asset('') }}assets/js/pages/datatables.init.js"></script>

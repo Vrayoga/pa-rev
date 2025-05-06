@@ -35,6 +35,10 @@
     <!-- App js -->
     <script src="{{ asset('') }}assets/js/plugin.js"></script>
 
+    <!-- Toastify CSS -->
+
+
+
             @yield('Auth')
     </div>
     <script src="{{asset ('')}}assets/libs/jquery/jquery.min.js"></script>
