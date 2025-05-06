@@ -174,7 +174,7 @@ Route::post('/notifications/mark-as-read/{id}', [notifPendaftaranController::cla
     
 });
 
-Route::prefix('logbook')->middleware(['auth', 'verified', 'role_permission'])->group(function () {
+Route::prefix('logbook')->middleware(['auth', 'verified', 'role_permission', 'check.absensi'])->group(function () {
     Route::get('/', [LogbookController::class, 'index'])->name('logbook.index')->middleware('permission:view logbook');  
     Route::get('/create', [LogbookController::class, 'create'])->name('logbook.create')->middleware('permission:create logbook');
     Route::post('/store', [LogbookController::class, 'store'])->name('logbook.store');
@@ -182,4 +182,11 @@ Route::prefix('logbook')->middleware(['auth', 'verified', 'role_permission'])->g
     Route::get('/edit/{logbook}', [LogbookController::class, 'edit'])->name('logbook.edit')->middleware('permission:edit logbook');
     Route::post('/{logbook}', [LogbookController::class, 'update'])->name('logbook.update')->middleware('permission:update logbook');
     Route::delete('/{logbook}', [LogbookController::class, 'destroy'])->name('logbook.destroy')->middleware('permission:delete logbook');
+});
+
+Route::get('/test-session', function() {
+    return [
+        'has_opened_attendance' => session('has_opened_attendance'),
+        'all_keys' => array_keys(session()->all())
+    ];
 });

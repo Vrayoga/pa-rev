@@ -115,18 +115,30 @@
 
                 @can('view logbook')
                 <li>
-                    @if(auth()->user()->hasRole('guru') && !session('has_opened_attendance'))
-                        <a href="#" class="waves-effect text-muted" onclick="alert('Anda harus membuka sesi absensi terlebih dahulu')">
+                    @php
+                        $hasOpenedAttendance = session('has_opened_attendance');
+                        $isGuru = auth()->user()->hasRole('guru');
+                    @endphp
+                    
+                    {{-- Debug info, hapus setelah selesai --}}
+                    @if(auth()->user()->hasRole('admin'))
+                        <small style="color: #999; font-size: 9px;">
+                            Session: {{ $hasOpenedAttendance ? 'Ada' : 'Tidak Ada' }}
+                        </small>
+                    @endif
+                    
+                    @if($isGuru && !$hasOpenedAttendance)
+                        <a href="javascript:void(0);" class="waves-effect text-muted" onclick="showAttendanceWarning()">
                             <i class="bx bx-envelope"></i>
                             <span>Logbook</span>
                         </a>
                     @else
-                        <a href="/logbook" class="waves-effect">
+                        <a href="{{ route('logbook.index') }}" class="waves-effect">
                             <i class="bx bx-envelope"></i>
                             <span>Logbook</span>
                         </a>
                     @endif
-                </li>  
+                </li>
                 @endcan
 
                 @can('view prestasi') 
@@ -173,3 +185,18 @@
         <!-- Sidebar -->
     </div>
 </div>
+
+
+
+<script>
+    function showAttendanceWarning() {
+        Toastify({
+            text: "Anda harus membuka sesi absensi terlebih dahulu",
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "#F44336",
+        }).showToast();
+    }
+    </script>

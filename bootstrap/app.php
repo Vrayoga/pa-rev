@@ -18,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
             'role_permission' => \App\Http\Middleware\RolePermissionMiddleware::class,
-            // 'check.absensi' => \App\Http\Middleware\CheckAbsensiSession::class,
+            'check.absensi' => \App\Http\Middleware\CheckAbsensiSession::class,
         ]);
 
         // $middleware->group('web', [
@@ -28,5 +28,6 @@ return Application::configure(basePath: dirname(__DIR__))
 
     
     ->withExceptions(function (Exceptions $exceptions) {
-        //
-    })->create();
+        
+    })
+    ->create();

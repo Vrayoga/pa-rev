@@ -11,6 +11,8 @@ use Illuminate\Support\ServiceProvider;
 use App\Http\Middleware\CheckAbsensiSession;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Auth\Events\Logout;
+use Illuminate\Support\Facades\Event;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,6 +37,15 @@ class AppServiceProvider extends ServiceProvider
                     'url' => $url,
                 ]);
         });
+
+        Event::listen(
+            Logout::class,
+            function (Logout $event) {
+                if ($event->user && $event->user->hasRole('guru')) {
+                    session()->forget('has_opened_attendance');
+                }
+            }
+        );
 
 
         View::composer('*', function ($view) {
