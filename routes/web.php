@@ -19,7 +19,7 @@ use App\Http\Controllers\EkstrakurikulerController;
 use App\Http\Controllers\notifPendaftaranController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\jadwalEkstrakurikulerController;
-
+use App\Http\Controllers\SesiAbsensiController;
 
 Route::middleware(['guest'])->group(function () {
     // Welcome page
@@ -162,12 +162,12 @@ Route::post('/notifications/mark-as-read/{id}', [notifPendaftaranController::cla
 
     // Logbook Management
 
-    Route::post('/absensi/buka', [AbsensiController::class, 'bukaAbsen'])
+    Route::post('/absensi/buka', [SesiAbsensiController::class, 'bukaAbsen'])
     ->name('absensi.buka');
     Route::get('/absensi/siswa', [AbsensiController::class, 'absensiSiswa'])
     ->name('absensi.siswa');
-    Route::get('/guru', [AbsensiController::class, 'dashboardPresensi'])->name('dashboardGuru.index');
-    Route::post('/absensi/tutup', [AbsensiController::class, 'tutupAbsen'])->name('absensi.tutup');
+    Route::get('/guru', [SesiAbsensiController::class, 'dashboardPresensi'])->name('dashboardGuru.index');
+    Route::post('/absensi/tutup', [SesiAbsensiController::class, 'tutupAbsen'])->name('absensi.tutup');
 
     // Logout
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
