@@ -32,4 +32,9 @@ class Logbook extends Model
     {
         return $this->belongsTo(Ekstrakurikuler::class, 'ekstrakurikuler_id');
     }
+
+    public function sesiAbsensi()
+    {
+        return $this->belongsTo(SesiAbsensi::class, 'sesi_id');
+    }
 }

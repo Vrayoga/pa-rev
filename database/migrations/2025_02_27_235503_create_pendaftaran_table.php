@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('alasan');
             $table->string('nomer_wali');
             $table->enum('status_validasi', ['pending', 'diterima', 'ditolak'])->default('pending');
+            $table->foreignId('validator_id')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
         });
     }

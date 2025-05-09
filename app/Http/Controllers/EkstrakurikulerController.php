@@ -123,29 +123,32 @@ public function showAnggota($id)
     // Update the specified resource in storage
     public function update(Request $request, $id)
     {
-        // $request->validate([
-        //     'nama_ekstrakurikuler' => 'required|string|max:255',
-        //     'Gambar' => 'nullable|image',
-        //     'Jadwal' => 'required|string',
-        //     'Deskripsi' => 'required|string',
-        //     'id_kategori' => 'required|integer',
-        //     'Jam_mulai' => 'required',
-        //     'Jam_selesai' => 'required',
-        //     'Lokasi' => 'required|string',
-        //     'Periode' => 'required|string',
-        // ]);
-
         $ekstrakurikuler = Ekstrakurikuler::findOrFail($id);
-        $data = $request->all();
-
+        $data = $request->except('Gambar'); // Ambil semua data kecuali Gambar
+    
         if ($request->hasFile('Gambar')) {
-            $data['Gambar'] = $request->file('Gambar')->store('images', 'public');
+            $file = $request->file('Gambar');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $destinationPath = public_path('storage/images');
+    
+            // Pindahkan file
+            $file->move($destinationPath, $filename);
+    
+            // Simpan path relatif
+            $data['Gambar'] = 'images/' . $filename;
+    
+            // Optional: hapus file lama jika perlu
+            // $oldImage = public_path('storage/' . $ekstrakurikuler->Gambar);
+            // if (file_exists($oldImage)) {
+            //     unlink($oldImage);
+            // }
         }
-
+    
         $ekstrakurikuler->update($data);
-
+    
         return redirect()->route('ekstrakurikuler.index')->with('success', 'Ekstrakurikuler updated successfully.');
     }
+    
 
 
     // Remove the specified resource from storage

@@ -6,6 +6,7 @@ use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
 use App\Models\Ekstrakurikuler;
 use App\Models\notifPendaftaran;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
@@ -79,39 +80,53 @@ class PendaftaranController extends Controller
         ]);
     }
 
-    public function daftarEkstra()
-    {
-        $user = Auth::user();
+   public function daftarEkstra()
+{
+    $user = Auth::user();
     
-        // Ambil ekstrakurikuler yang pernah ditolak
-        $rejectedEkstraIds = Pendaftaran::where('users_id', $user->id)
-            ->where('status_validasi', 'ditolak')
-            ->pluck('ekstrakurikuler_id')
-            ->toArray();
+    // Ambil ekstrakurikuler yang pernah ditolak
+    $rejectedEkstraIds = Pendaftaran::where('users_id', $user->id)
+        ->where('status_validasi', 'ditolak')
+        ->pluck('ekstrakurikuler_id')
+        ->toArray();
     
-        // Ekstrakurikuler tersedia (kuota masih ada, bukan wajib, dan belum ditolak)
-        $ekstrakurikulers = Ekstrakurikuler::where(function($query) {
-                $query->where('kuota', '>', 0)
-                      ->orWhereNull('kuota');
+    // Ekstrakurikuler tersedia
+    $ekstrakurikulers = Ekstrakurikuler::where(function($query) {
+            // For non-required ekstrakurikuler, check quota
+            $query->where(function($q) {
+                $q->where('jenis', '!=', 'wajib')
+                  ->where(function($q2) {
+                      // Either has available quota or unlimited quota
+                      $q2->where('kuota', '>', function($subQuery) {
+                              // Subquery to count accepted registrations
+                              $subQuery->select(DB::raw('COUNT(*)'))
+                                  ->from('pendaftaran')
+                                  ->where('status_validasi', 'diterima')
+                                  ->whereColumn('ekstrakurikuler_id', 'ekstrakurikuler.id');
+                          })
+                          ->orWhereNull('kuota');
+                  });
             })
-            ->where('jenis', '!=', 'wajib')
-            ->whereNotIn('id', $rejectedEkstraIds)
-            ->get();
+            // Or it's required (wajib)
+            ->orWhere('jenis', 'wajib');
+        })
+        ->whereNotIn('id', $rejectedEkstraIds)
+        ->get();
     
-        // Ekstrakurikuler yang masih pending
-        $pendingRegistrations = Pendaftaran::where('users_id', $user->id)
-            ->where('status_validasi', 'pending')
-            ->with('ekstrakurikuler')
-            ->get();
+    // Ekstrakurikuler yang masih pending
+    $pendingRegistrations = Pendaftaran::where('users_id', $user->id)
+        ->where('status_validasi', 'pending')
+        ->with('ekstrakurikuler')
+        ->get();
     
-        // Ekstrakurikuler yang sudah diterima
-        $registeredEkstras = Pendaftaran::where('users_id', $user->id)
-            ->where('status_validasi', 'diterima')
-            ->pluck('ekstrakurikuler_id')
-            ->toArray();
+    // Ekstrakurikuler yang sudah diterima
+    $registeredEkstras = Pendaftaran::where('users_id', $user->id)
+        ->where('status_validasi', 'diterima')
+        ->pluck('ekstrakurikuler_id')
+        ->toArray();
     
-        return view('users.ekstraRegis', compact('ekstrakurikulers', 'registeredEkstras', 'pendingRegistrations'));
-    }
+    return view('users.ekstraRegis', compact('ekstrakurikulers', 'registeredEkstras', 'pendingRegistrations'));
+}
     
     
     public function storeRegisEkstra(Request $request)

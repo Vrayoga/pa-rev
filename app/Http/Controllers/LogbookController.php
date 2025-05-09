@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Logbook;
+use App\Models\SesiAbsensi;
 use Illuminate\Http\Request;
 use App\Models\Ekstrakurikuler;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\File;
-use App\Http\Middleware\CheckAbsensiSession;
+use App\Models\JadwalEkstrakurikuler;
 
 class LogbookController extends Controller
 {
@@ -32,9 +35,36 @@ class LogbookController extends Controller
     // Tampilkan form tambah
     public function create()
     {
-        $ekstrakurikuler = Ekstrakurikuler::select('id', 'nama_ekstrakurikuler')->get(); // Ambil id dan nama ekstrakurikuler
-        return view('halaman-admin.logbook.create', compact('ekstrakurikuler')); // Pastikan view ini ada
+        $user = auth()->user();
+        
+        // Ambil ekstrakurikuler yang dimiliki oleh guru ini
+        $ekstrakurikuler = Ekstrakurikuler::where('id_users', $user->id)->get();
+        
+        // Ambil semua sesi aktif untuk hari ini milik guru ini dengan relasi jadwal
+        $sesiAbsensiAll = SesiAbsensi::with('jadwalEkstrakurikuler')
+            ->where('guru_id', $user->id)
+            ->whereDate('waktu_buka', today())
+            ->where('is_active', true)
+            ->get();
+        
+        // Mapping sesi absensi berdasarkan ekstrakurikuler_id untuk digunakan di JavaScript
+        $sesiMapping = [];
+        foreach ($sesiAbsensiAll as $sesi) {
+            if ($sesi->jadwalEkstrakurikuler) {
+                $sesiMapping[$sesi->jadwalEkstrakurikuler->ekstrakurikuler_id] = [
+                    'waktu_buka' => \Carbon\Carbon::parse($sesi->waktu_buka)->format('H:i'),
+                    'jadwal_id' => $sesi->jadwal_id,
+                    'sesi_id' => $sesi->id
+                ];
+            }
+        }
+        
+        // Debug data yang dikirim ke view
+        Log::info('Sesi Mapping Data:', $sesiMapping);
+        
+        return view('halaman-admin.logbook.create', compact('ekstrakurikuler', 'sesiMapping'));
     }
+    
 
     // Simpan data logbook
     public function store(Request $request)

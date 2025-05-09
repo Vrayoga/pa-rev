@@ -82,6 +82,11 @@ class RolePermissionSeeder extends Seeder
             'update permissions',
 
 
+            'view sesi absensi',
+            'open sesi absensi',
+            'close sesi absensi',
+
+
             'view user',
             'create user',
             'update user',

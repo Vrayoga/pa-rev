@@ -23,37 +23,17 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([
             RolePermissionSeeder::class,
+            UsersSeeder::class,
 
             KelasSeeder::class,
             SiswaSeeder::class,
-            UsersSeeder::class,
             KategoriSeeder::class,
+            EkstrakurikulerSeeder::class,
+            JadwalEkstrakurikulerSeeder::class,
         ]);
 
 
 
 
-        User::create([
-            'name' => 'Admin',
-            'email' => 'admin@gmail.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('admin123'),
-            'nis' => '99999999',
-        ])->assignRole('admin');
-
-        User::create([
-            'name' => 'Guru',
-            'email' => 'guru@gmail.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('guru123'),
-            'nis' => '11111111',
-        ])->assignRole('guru');
-        User::create([
-            'name' => 'Siswa',
-            'email' => 'siswa@gmail.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('siswa123'),
-            'nis' => '00000000',
-        ])->assignRole('siswa');
     }
 }

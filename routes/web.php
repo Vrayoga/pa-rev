@@ -162,10 +162,8 @@ Route::post('/notifications/mark-as-read/{id}', [notifPendaftaranController::cla
 
     // Logbook Management
 
-    Route::post('/absensi/buka', [SesiAbsensiController::class, 'bukaAbsen'])
-    ->name('absensi.buka');
-    Route::get('/absensi/siswa', [AbsensiController::class, 'absensiSiswa'])
-    ->name('absensi.siswa');
+    Route::post('/absensi/buka', [SesiAbsensiController::class, 'bukaAbsen'])->name('absensi.buka');
+    Route::get('/absensi/siswa', [AbsensiController::class, 'absensiSiswa'])->name('absensi.siswa');
     Route::get('/guru', [SesiAbsensiController::class, 'dashboardPresensi'])->name('dashboardGuru.index');
     Route::post('/absensi/tutup', [SesiAbsensiController::class, 'tutupAbsen'])->name('absensi.tutup');
 

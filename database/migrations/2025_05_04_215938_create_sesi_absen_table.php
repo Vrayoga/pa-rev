@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('guru_id')->constrained('users')->onDelete('cascade');
             $table->timestamp('waktu_buka');
             $table->timestamp('waktu_tutup')->nullable();
-            $table->boolean('is-active')->default(true);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

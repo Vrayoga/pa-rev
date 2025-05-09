@@ -17,6 +17,7 @@
                     </li>
                 @endcan
 
+                @if (auth()->user()->hasRole('guru'))
                 <li>
                     <a href="/guru" class="waves-effect">
                         <i class="bx bx-home-circle"></i>
@@ -24,6 +25,7 @@
                     </a>
                 </li>
                 <li class="menu-title" key="t-apps">Apps</li>
+                @endif
 
                 @can('view kelas')
                     <li>

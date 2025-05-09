@@ -26,8 +26,10 @@ class SesiAbsensi extends Model
         return $this->belongsTo(User::class, 'guru_id');
     }
 
-    // public function logbook()
-    // {
-    //     return $this->hasOne(Logbook::class);
-    // }
+    public function jadwalEkstrakurikuler()
+    {
+        return $this->belongsTo(JadwalEkstrakurikuler::class, 'jadwal_id');
+    }
+
+
 }
