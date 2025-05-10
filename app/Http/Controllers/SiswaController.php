@@ -33,7 +33,7 @@ class SiswaController extends Controller
     public function create()
     {
         $Kelas = Kelas::all();
-        return view('Halaman-admin.siswa.create', compact('Kelas'));
+        return view('halaman-admin.siswa.create', compact('Kelas'));
     }
 
     public function store(Request $request)
