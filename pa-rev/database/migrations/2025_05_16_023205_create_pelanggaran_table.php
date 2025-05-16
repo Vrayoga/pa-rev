@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kelas_siswa', function (Blueprint $table) {
+        Schema::create('pelanggaran', function (Blueprint $table) {
             $table->id();
+            $table->text('ket_pelanggaran');
+            $table->string('bukti_pelanggaran')->nullable();
+            $table->date('tanggal');
             $table->foreignId('id_siswa')->constrained('siswa')->onDelete('cascade');
-            $table->foreignId('id_kelas')->constrained('kelas')->onDelete('cascade');
-            $table->enum('status', ['naik', 'tidak_naik', 'new', 'lulus']);
-            $table->enum('is_active', ['aktif', 'non_aktif'])->default('aktif');
-             $table->string('tahun_ajaran')->nullable(); // Contoh: "2023/2024"
+            $table->foreignId('id_users')->constrained('users')->onDelete('cascade'); // petugas
+            $table->foreignId('id_skor_pelanggaran')->constrained('skor_pelanggaran')->onDelete('cascade');
             $table->timestamps();
         });
+        
     }
 
     /**
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kelas_siswa');
+        Schema::dropIfExists('pelanggaran');
     }
 };

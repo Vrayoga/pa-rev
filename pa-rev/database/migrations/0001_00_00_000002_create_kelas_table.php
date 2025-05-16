@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->enum('tingkat',['X', 'XI', 'XII']);
             $table->foreignId('id_jurusan')->constrained('jurusan')->onDelete('cascade');
-            $table->string('kode_kelas', 100);
+            $table->string('kode_kelas');
             $table->foreignId('id_users')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
             

@@ -14,16 +14,17 @@ return new class extends Migration
     {
         Schema::create('siswa', function (Blueprint $table) {
             $table->id();
-            $table->string('nisn', 100)->unique();
-            $table->string('nama_siswa', 100);
-            $table->string('email', 100);
-            $table->string('tempat', 10);
+            $table->string('nis_nip')->unique();
+            $table->string('nama_siswa');
+            $table->string('email');
+            $table->string('tempat');
             $table->date('tanggal_lahir');
-            $table->string('kelas', 30);
             $table->enum('jenis_kelamin',['laki-laki', 'perempuan']);
-            $table->enum('agama', ['islam', 'kristen', 'katolik','hindu', 'buddha', 'konghucu']);
-            $table->string('no_telepon', 20);
-            $table->string('tahun_masuk', 20);
+            $table->enum('agama', ['islam', 'protestan', 'katolik','hindu', 'buddha', 'khonghucu']);
+            $table->string('no_telepon');
+            $table->string('tahun_masuk');
+            $table->enum('status',['aktif','tidak_aktif']);
+            $table->string('kode')->nullable();
             $table->timestamps();
         });
     }

@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('ekstrakurikuler', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_ekstrakurikuler',100);
-            $table->string('Gambar')->nullable();
-            $table->text('Deskripsi');
+            $table->string('nama_ekstrakurikuler');
+            $table->string('gambar')->nullable();
+            $table->text('deskripsi');
             $table->foreignId('id_kategori')->constrained('kategori')->onDelete('cascade');
-            $table->string('Lokasi', 100);
+            $table->string('lokasi', 100);
             $table->foreignId('id_users')->constrained('users')->onDelete('cascade');
-            $table->enum('Periode', ['Aktif', 'Tidak_aktif'])->default('aktif');
+            $table->enum('periode', ['aktif', 'tidak_aktif'])->default('aktif');
             $table->enum('jenis', ['wajib', 'pilihan'])->default('wajib');
             $table->integer('kuota')->nullable(); 
             $table->timestamps();

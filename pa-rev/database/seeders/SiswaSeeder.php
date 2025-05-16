@@ -10,21 +10,43 @@ class SiswaSeeder extends Seeder
     public function run(): void
     {
         $data = [];
-        $kelas = ['X TKJ 1', 'X TKJ 2', 'XI TKJ 1', 'XI TKJ 2', 'XII TKJ 1', 'XII TKJ 2'];
-        $agamaList = ['islam', 'kristen', 'katolik', 'hindu', 'buddha', 'konghucu'];
 
-        for ($i = 1; $i <= 20; $i++) {
+        // Daftar jurusan
+        $jurusan = [
+            'DESAIN DAN PRODUKSI BUSANA',
+            'PERHOTELAN',
+            'MANAJEMEN PERKANTORAN',
+            'BISNIS DIGITAL',
+            'REKAYASA PERANGKAT LUNAK',
+            'PRODUKSI FILM',
+            'TEKNIK KOMPUTER JARINGAN',
+        ];
+
+        // Generate kombinasi kelas (X, XI, XII) + jurusan + rombel 1 & 2
+        $kode = [];
+        foreach (['X', 'XI', 'XII'] as $tingkat) {
+            foreach ($jurusan as $jrs) {
+                for ($rombel = 1; $rombel <= 2; $rombel++) {
+                    $kode[] = "{$tingkat} {$jrs} {$rombel}";
+                }
+            }
+        }
+
+        $agamaList = ['islam', 'protestan', 'katolik', 'hindu', 'buddha', 'khonghucu'];
+
+        for ($i = 1; $i <= 50; $i++) {
             $data[] = [
                 'nama_siswa' => 'Siswa ' . $i,
-                'nisn' => 'NISN' . str_pad($i, 4, '0', STR_PAD_LEFT),
+                'nis_nip' => 'NISN' . str_pad($i, 4, '0', STR_PAD_LEFT),
                 'email' => 'siswa' . $i . '@example.com',
                 'tempat' => 'Kota ' . $i,
                 'tanggal_lahir' => now()->subYears(rand(15, 18))->subDays(rand(0, 365))->format('Y-m-d'),
-                'kelas' => $kelas[array_rand($kelas)],
+                'kode' => $kode[array_rand($kode)],
                 'jenis_kelamin' => rand(0, 1) ? 'laki-laki' : 'perempuan',
                 'agama' => $agamaList[array_rand($agamaList)],
                 'no_telepon' => '0812' . rand(10000000, 99999999),
                 'tahun_masuk' => '20' . rand(18, 23),
+                'status' => rand(0, 1) ? 'aktif' : 'tidak_aktif',
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

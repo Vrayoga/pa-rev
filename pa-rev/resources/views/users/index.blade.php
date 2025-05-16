@@ -1007,7 +1007,7 @@
                 <div class="carousel-container">
                     @foreach ($ekstrakurikulers as $ekskul)
                         <div class="ekskul-card">
-                            <img src="{{ asset('storage/' . $ekskul->Gambar) }}" class="ekskul-img"
+                            <img src="{{ asset('storage/' . $ekskul->gambar) }}" class="ekskul-img"
                                 alt="{{ $ekskul->nama_ekstrakurikuler }}">
                             <div class="card-content">
                                 <h3 class="card-title">{{ $ekskul->nama_ekstrakurikuler }}</h3>
@@ -1025,7 +1025,7 @@
                                     @endif
                                 </div>
                                 <p class="card-description">
-                                    {{ \Illuminate\Support\Str::limit($ekskul->Deskripsi, 120, '...') }}</p>
+                                    {{ \Illuminate\Support\Str::limit($ekskul->deskripsi, 120, '...') }}</p>
                                 <a href="{{ route('ekstrakurikuler.show', $ekskul->id) }}"
                                     class="card-button text-decoration-none">Selengkapnya</a>
                             </div>

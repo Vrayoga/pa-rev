@@ -33,6 +33,7 @@
     <link href="{{ asset('') }}assets/css/app.min.css" rel="stylesheet" />
     <!-- App js -->
     <script src="{{ asset('') }}assets/js/plugin.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
@@ -117,6 +118,7 @@
 
     <!-- App js -->
     <script src="{{ asset('') }}assets/js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 
 

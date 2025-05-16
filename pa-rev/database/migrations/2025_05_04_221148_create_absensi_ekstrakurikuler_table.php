@@ -11,17 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('prestasi', function (Blueprint $table) {
+        Schema::create('absensi_ekstrakurikuler', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('sesi_absen_ekstrakurikuler_id')->constrained('sesi_absen_ekstrakurikuler')->onDelete('cascade');
             $table->foreignId('pendaftaran_id')->constrained('pendaftaran')->onDelete('cascade');
-            $table->string('nama_kegiatan', 100);
-            $table->string('peringkat', 50);
-            $table->date('tanggal_kejuaraan');
-            $table->string('tingkat_kejuaraan', 50);
-            $table->text('deskripsi')->nullable();
-            $table->string('foto_prestasi', 50);
+            $table->enum('status', ['hadir', 'izin', 'sakit', 'alpa']);
+            $table->text('catatan')->nullable();
             $table->timestamps();
-
         });
     }
 
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('prestasi');
+        Schema::dropIfExists('absensi_ekstrakurikuler');
     }
 };

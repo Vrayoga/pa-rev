@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('logbook', function (Blueprint $table) {
             $table->id();
-            $table->text('Kegiatan');
-            $table->date('Tanggal');
+            $table->text('kegiatan');
+            $table->date('tanggal');
             $table->foreignId('ekstrakurikuler_id')->constrained('ekstrakurikuler')->onDelete('cascade');
             $table->foreignId('users_id')->constrained('users')->onDelete('cascade');
-            $table->time('Jam_mulai');
-            $table->time('Jam_selesai');
-            $table->string('Foto_kegiatan');
+            $table->time('jam_mulai');
+            $table->time('jam_selesai');
+            $table->string('foto_kegiatan')->nullable();
             $table->boolean('is_locked')->default(false);
             $table->timestamps();
         });

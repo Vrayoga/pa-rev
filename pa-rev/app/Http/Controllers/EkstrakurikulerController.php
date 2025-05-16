@@ -84,18 +84,18 @@ public function showAnggota($id)
     public function store(Request $request)
     {
 
-        $data = $request->except('Gambar'); // Ambil semua data kecuali Gambar
+        $data = $request->except('gambar'); // Ambil semua data kecuali gambar
 
         // Proses upload file manual dengan move()
-        if ($request->hasFile('Gambar')) {
-            $file = $request->file('Gambar');
+        if ($request->hasFile('gambar')) {
+            $file = $request->file('gambar');
             $filename = time() . '_' . $file->getClientOriginalName(); // Contoh: 1713456_namafile.jpg
             $destinationPath = public_path('storage/images'); // Pastikan folder ini sudah ada dan writable
 
             $file->move($destinationPath, $filename);
 
             // Simpan path relatif ke DB (misalnya 'images/nama_file.jpg')
-            $data['Gambar'] = 'images/' . $filename;
+            $data['gambar'] = 'images/' . $filename;
         }
 
         Ekstrakurikuler::create($data);
@@ -136,7 +136,7 @@ public function showAnggota($id)
     {
         $ekstrakurikuler = Ekstrakurikuler::findOrFail($id);
         $kategori = Kategori::all(); // Ambil semua kategori untuk dropdown
-        $gurus = \App\Models\User::role('guru')->get(); // Ambil semua user dengan role guru
+        $gurus = User::role('guru')->get(); // Ambil semua user dengan role guru
         return view('halaman-admin.ekstrakurikuler.edit', compact('ekstrakurikuler', 'kategori', 'gurus'));
     }
 
@@ -144,10 +144,10 @@ public function showAnggota($id)
     public function update(Request $request, $id)
     {
         $ekstrakurikuler = Ekstrakurikuler::findOrFail($id);
-        $data = $request->except('Gambar'); // Ambil semua data kecuali Gambar
+        $data = $request->except('gambar'); // Ambil semua data kecuali gambar
     
-        if ($request->hasFile('Gambar')) {
-            $file = $request->file('Gambar');
+        if ($request->hasFile('gambar')) {
+            $file = $request->file('gambar');
             $filename = time() . '_' . $file->getClientOriginalName();
             $destinationPath = public_path('storage/images');
     
@@ -155,7 +155,7 @@ public function showAnggota($id)
             $file->move($destinationPath, $filename);
     
             // Simpan path relatif
-            $data['Gambar'] = 'images/' . $filename;
+            $data['gambar'] = 'images/' . $filename;
     
             // Optional: hapus file lama jika perlu
             // $oldImage = public_path('storage/' . $ekstrakurikuler->Gambar);
@@ -164,8 +164,7 @@ public function showAnggota($id)
             // }
         }
     
-        $ekstrakurikuler->update($data);
-    
+        $ekstrakurikuler->update($data);    
         return redirect()->route('ekstrakurikuler.index')->with('success', 'Ekstrakurikuler updated successfully.');
     }
     

@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notifikasi', function (Blueprint $table) {
+        Schema::create('skor_pelanggaran', function (Blueprint $table) {
             $table->id();
+            $table->string('nama_pelanggaran');
+            $table->integer('skor');
+            $table->enum('jenis_pelanggaran', ['ringan', 'sedang', 'berat']);
             $table->timestamps();
-        });
+        });        
     }
 
     /**
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('notifikasi');
+        Schema::dropIfExists('skor_pelanggaran');
     }
 };

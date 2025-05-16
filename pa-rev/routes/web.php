@@ -38,10 +38,9 @@ Route::middleware(['guest'])->group(function () {
 
 
     Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register');
-Route::post('/register_action', [RegisterController::class, 'register'])->name('register.action');
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login_action', [LoginController::class, 'login'])->name('login.action');
-
+    Route::post('/register_action', [RegisterController::class, 'register'])->name('register.action');
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login_action', [LoginController::class, 'login'])->name('login.action');
 });
 
 
@@ -54,20 +53,20 @@ Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 
-Route::get('/change-password', [LoginController::class, 'showChangePasswordForm'])->name('change.password');
-Route::post('/change-password', [LoginController::class, 'changePasswordAndRegister'])->name('change.password.post');
-  
+    Route::get('/change-password', [LoginController::class, 'showChangePasswordForm'])->name('change.password');
+    Route::post('/change-password', [LoginController::class, 'changePasswordAndRegister'])->name('change.password.post');
 
 
-// Jurusan Management
-Route::prefix('jurusan')->group(function () {
-    Route::get('/', [JurusanController::class, 'index'])->name('jurusan.index');
-    Route::get('/create', [JurusanController::class, 'create'])->name('jurusan.create');
-    Route::post('/store', [JurusanController::class, 'store'])->name('jurusan.store');
-    Route::get('/edit/{id}', [JurusanController::class, 'edit'])->name('jurusan.edit');
-    Route::put('/update/{id}', [JurusanController::class, 'update'])->name('jurusan.update');
-    Route::delete('/delete/{id}', [JurusanController::class, 'destroy'])->name('jurusan.destroy');
-});
+
+    // Jurusan Management
+    Route::prefix('jurusan')->group(function () {
+        Route::get('/', [JurusanController::class, 'index'])->name('jurusan.index');
+        Route::get('/create', [JurusanController::class, 'create'])->name('jurusan.create');
+        Route::post('/store', [JurusanController::class, 'store'])->name('jurusan.store');
+        Route::get('/edit/{id}', [JurusanController::class, 'edit'])->name('jurusan.edit');
+        Route::put('/update/{id}', [JurusanController::class, 'update'])->name('jurusan.update');
+        Route::delete('/delete/{id}', [JurusanController::class, 'destroy'])->name('jurusan.destroy');
+    });
 
     // Users Management
     Route::prefix('users')->group(function () {
@@ -102,15 +101,26 @@ Route::prefix('jurusan')->group(function () {
     });
 
     // Kelas Management
-    Route::prefix('kelas')->group(function () {
-        Route::get('/', [KelasController::class, 'index'])->name('kelas.index')->middleware('permission:view kelas');
-        Route::get('/create', [KelasController::class, 'create'])->name('kelas.create')->middleware('permission:create kelas');
-        Route::post('/store', [KelasController::class, 'store'])->name('kelas.store');
-        Route::get('/edit/{id}', [KelasController::class, 'edit'])->name('kelas.edit')->middleware('permission:edit kelas');
-        Route::put('/update/{id}', [KelasController::class, 'update'])->name('kelas.update')->middleware('permission:update kelas');
-        Route::delete('/delete/{id}', [KelasController::class, 'destroy'])->name('kelas.destroy')->middleware('permission:delete kelas');
-    });
+   Route::prefix('kelas')->group(function () {
+    Route::get('/', [KelasController::class, 'index'])->name('kelas.index')->middleware('permission:view kelas');
+    Route::get('/create', [KelasController::class, 'create'])->name('kelas.create')->middleware('permission:create kelas');
+    Route::post('/store', [KelasController::class, 'store'])->name('kelas.store');
+    Route::get('/edit/{id}', [KelasController::class, 'edit'])->name('kelas.edit')->middleware('permission:edit kelas');
+    Route::put('/update/{id}', [KelasController::class, 'update'])->name('kelas.update')->middleware('permission:update kelas');
+    Route::delete('/delete/{id}', [KelasController::class, 'destroy'])->name('kelas.destroy')->middleware('permission:delete kelas');
 
+    // detail
+    Route::get('/{id}/siswa', [KelasController::class, 'showSiswa'])->name('kelas.siswa');
+     Route::get('/{id}/detail-siswa', [KelasController::class, 'showSiswaByKelas'])
+        ->name('kelas.detailSiswa');
+    // menampikan siswa yang belum masuk ke kelas
+    Route::post('/{kelas}/siswa', [KelasController::class, 'storeSiswa'])->name('kelas.siswa.store'); // Changed to POST
+    Route::post('/{kelas}/siswa/bulk-update', [KelasController::class, 'bulkUpdate'])->name('kelas.siswa.bulkUpdate');
+    Route::delete('/{kelas}/siswa/{siswa}', [KelasController::class, 'removeSiswa'])->name('kelas.siswa.remove');
+});
+
+    // Route::post('/kelas/{kelas}/siswa', [KelasController::class, 'tambahSiswa'])->name('kelas.tambah-siswa');
+    
     // Jadwal Management
     Route::prefix('jadwal')->group(function () {
         Route::get('/', [jadwalEkstrakurikulerController::class, 'index'])->name('jadwal.index');
@@ -139,10 +149,10 @@ Route::prefix('jurusan')->group(function () {
         Route::post('/store', [EkstrakurikulerController::class, 'store'])->name('ekstrakurikuler.store');
 
         //ngeshow ekstra dibagian role 'guru' sesuai dengan ekstra yang diampu
-        Route::get('/{id}/anggota', [EkstrakurikulerController::class, 'showAnggota'])->name('anggota.ekstra'); 
+        Route::get('/{id}/anggota', [EkstrakurikulerController::class, 'showAnggota'])->name('anggota.ekstra');
         // routes/web.php
         Route::get('/{id}/edit', [EkstrakurikulerController::class, 'edit'])->name('ekstrakurikuler.edit')->middleware('permission:edit ekstrakurikuler');
-        Route::put('/{id}', [EkstrakurikulerController::class, 'update'])->name('ekstrakurikuler.update')->middleware('permission:update ekstrakurikuler');
+        Route::post('/{id}', [EkstrakurikulerController::class, 'update'])->name('ekstrakurikuler.update')->middleware('permission:update ekstrakurikuler');
         Route::delete('/{id}', [EkstrakurikulerController::class, 'destroy'])->name('ekstrakurikuler.destroy')->middleware('permission:delete ekstrakurikuler');
     });
 
@@ -154,32 +164,30 @@ Route::prefix('jurusan')->group(function () {
         Route::post('/ekstra-store', [PendaftaranController::class, 'storeRegisEkstra'])->name('ekstraDaftar.store');
         Route::get('/by-ekstra/{ekstraId}', [PendaftaranController::class, 'getPendaftaranByEkstra'])->name('pendaftaran.by-ekstra');
         Route::put('/{id}/validasi', [PendaftaranController::class, 'validasi'])->name('pendaftaran.validasi');
-
     });
 
-//notif memberitahu Guru
-Route::post('/notifications/mark-as-read/{id}', [notifPendaftaranController::class, 'markAsRead'])->name('notifications.markAsRead');
+    //notif memberitahu Guru
+    Route::post('/notifications/mark-as-read/{id}', [notifPendaftaranController::class, 'markAsRead'])->name('notifications.markAsRead');
 
 
     // Ekstrakurikuler Siswa
-    
+
 
     // Logbook Management
 
     Route::post('/absensi/buka', [SesiAbsensiController::class, 'bukaAbsen'])->name('absensi.buka');
     Route::get('/guru', [SesiAbsensiController::class, 'dashboardPresensi'])->name('dashboardGuru.index');
     Route::post('/absensi/tutup', [SesiAbsensiController::class, 'tutupAbsen'])->name('absensi.tutup');
-    
+
     Route::get('/absensi', [AbsensiController::class, 'absensiSiswa'])->name('absensi.siswa');
     Route::post('/absensi/simpan', [AbsensiController::class, 'simpanAbsensi'])->name('absensi.simpan');
     Route::post('/absensi/selesai/{id}', [AbsensiController::class, 'selesaiSesi'])->name('absensi.selesai');
     // Logout
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-    
 });
 
 Route::prefix('logbook')->middleware(['auth', 'verified', 'role_permission', 'check.absensi'])->group(function () {
-    Route::get('/', [LogbookController::class, 'index'])->name('logbook.index')->middleware('permission:view logbook');  
+    Route::get('/', [LogbookController::class, 'index'])->name('logbook.index')->middleware('permission:view logbook');
     Route::get('/create', [LogbookController::class, 'create'])->name('logbook.create')->middleware('permission:create logbook');
     Route::post('/store', [LogbookController::class, 'store'])->name('logbook.store');
     Route::get('/{logbook}', [LogbookController::class, 'show'])->name('logbook.show');
@@ -188,7 +196,7 @@ Route::prefix('logbook')->middleware(['auth', 'verified', 'role_permission', 'ch
     Route::delete('/{logbook}', [LogbookController::class, 'destroy'])->name('logbook.destroy')->middleware('permission:delete logbook');
 });
 
-Route::get('/test-session', function() {
+Route::get('/test-session', function () {
     return [
         'has_opened_attendance' => session('has_opened_attendance'),
         'all_keys' => array_keys(session()->all())

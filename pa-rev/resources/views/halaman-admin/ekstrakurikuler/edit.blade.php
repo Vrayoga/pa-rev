@@ -29,7 +29,6 @@
 
                         <form action="{{ route('ekstrakurikuler.update', $ekstrakurikuler->id) }}" class="needs-validation" method="POST" enctype="multipart/form-data">
                             @csrf
-                            @method('PUT')
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="mb-3">
@@ -40,17 +39,17 @@
                                     </div>
                                     
                                     <div class="mb-3">
-                                        <label for="Gambar">Gambar</label>
-                                        <input id="Gambar" name="Gambar" type="file" class="form-control" accept="image/*">
-                                        @if($ekstrakurikuler->Gambar)
-                                            <img src="{{ asset('storage/' . $ekstrakurikuler->Gambar) }}" width="100" class="mt-2">
+                                        <label for="gambar">Gambar</label>
+                                        <input id="gambar" name="gambar" type="file" class="form-control" accept="image/*">
+                                        @if($ekstrakurikuler->gambar)
+                                            <img src="{{ asset('storage/' . $ekstrakurikuler->gambar) }}" width="100" class="mt-2">
                                             <small class="text-muted">Gambar saat ini</small>
                                         @endif
                                     </div>                    
                                     <div class="mb-3">
-                                        <label for="Deskripsi">Deskripsi</label>
-                                        <textarea id="Deskripsi" name="Deskripsi" class="form-control" 
-                                                  placeholder="Masukkan Deskripsi ekstrakurikuler">{{ old('Deskripsi', $ekstrakurikuler->Deskripsi) }}</textarea>
+                                        <label for="deskripsi">Deskripsi</label>
+                                        <textarea id="deskripsi" name="deskripsi" class="form-control" 
+                                                  placeholder="Masukkan deskripsi ekstrakurikuler">{{ old('deskripsi', $ekstrakurikuler->deskripsi) }}</textarea>
                                     </div>
                                   
                                     <div class="mb-3">
@@ -86,13 +85,13 @@
 
                                     <div class="mb-3">
                                         <label for="Lokasi">Lokasi</label>
-                                        <input id="Lokasi" name="Lokasi" type="text" class="form-control" 
-                                               value="{{ old('Lokasi', $ekstrakurikuler->Lokasi) }}" 
+                                        <input id="lokasi" name="lokasi" type="text" class="form-control" 
+                                               value="{{ old('lokasi', $ekstrakurikuler->lokasi) }}" 
                                                placeholder="Masukkan lokasi ekstrakurikuler">
                                     </div>
                                     
                                     <div class="mb-3">
-                                        <label for="periode">Jenis Ekstrakurikuler</label>
+                                        <label for="jenis">Jenis Ekstrakurikuler</label>
                                         <select id="jenis" name="jenis" class="form-control">
                                             <option value="" disabled>Pilih Jenis Ekstrakurikuler</option>
                                             <option value="wajib" {{ $ekstrakurikuler->periode == 'wajib' ? 'selected' : '' }}>Wajib</option>
@@ -112,7 +111,7 @@
                                         <select id="periode" name="periode" class="form-control">
                                             <option value="" disabled selected>Pilih Status</option>
                                             <option value="aktif">Aktif</option>
-                                            <option value="talkative">Tidak Aktif</option>
+                                            <option value="tidak_aktif">Tidak Aktif</option>
                                         </select>
                                     </div>
 

@@ -67,16 +67,16 @@
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>{{ $ekstrakurikuler->nama_ekstrakurikuler }}</td>
                                                 <td>
-                                                    @if ($ekstrakurikuler->Gambar)
-                                                        <img src="{{ asset('storage/' . $ekstrakurikuler->Gambar) }}"
+                                                    @if ($ekstrakurikuler->gambar)
+                                                        <img src="{{ asset('storage/' . $ekstrakurikuler->gambar) }}"
                                                             alt="Gambar" width="50">
                                                     @else
                                                         Tidak ada gambar
                                                     @endif
                                                 </td>
-                                                <td>{{ $ekstrakurikuler->Deskripsi }}</td>
+                                                <td>{{ $ekstrakurikuler->deskripsi }}</td>
                                                 <td>{{ $ekstrakurikuler->kategori->nama_kategori }}</td>
-                                                <td>{{ $ekstrakurikuler->Lokasi }}</td>
+                                                <td>{{ $ekstrakurikuler->lokasi }}</td>
 
                                                 @php $jadwals = $ekstrakurikuler->jadwals; @endphp
                                                 <td>
@@ -107,7 +107,7 @@
                                                     @endif
                                                 </td>
 
-                                                <td>{{ $ekstrakurikuler->Periode }}</td>
+                                                <td>{{ $ekstrakurikuler->periode }}</td>
                                                 <td>{{ $ekstrakurikuler->jenis }}</td>
                                                 <td>{{ $ekstrakurikuler->kuota }}</td>
                                                 <td>{{ $ekstrakurikuler->user->name }}</td>

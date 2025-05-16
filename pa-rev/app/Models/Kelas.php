@@ -24,8 +24,10 @@ class Kelas extends Model
     }
 
 
-    public function siswa()
-    {
-        return $this->belongsToMany(Siswa::class, 'kelas_siswa', 'id_kelas', 'id_siswa');
-    }
+  // Di Model Kelas.php
+public function siswa()
+{
+    return $this->belongsToMany(Siswa::class, 'kelas_siswa', 'id_kelas', 'id_siswa')
+                ->withPivot('status'); // Wajib tambahkan ini!
+}
 }
