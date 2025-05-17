@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: laravel-app
+    container_name: smk-app
     ports:
       - "8000:80"
     volumes:
