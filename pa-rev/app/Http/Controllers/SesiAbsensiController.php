@@ -16,7 +16,7 @@ class SesiAbsensiController extends Controller
     {
         $user = Auth::user();
 
-        if (!$user->hasRole('guru')) {
+        if (!$user->hasRole('guru_pembina')) {
             return redirect()->back()->with('error', 'Akses hanya untuk guru');
         }
 
@@ -60,7 +60,7 @@ class SesiAbsensiController extends Controller
      {
          $user = Auth::user();
      
-         if (!$user->hasRole('guru')) {
+         if (!$user->hasRole('guru_pembina')) {
              return redirect()->back()->with('error', 'Anda tidak memiliki akses');
          }
      
@@ -133,7 +133,7 @@ class SesiAbsensiController extends Controller
     {
         $user = Auth::user();
     
-        if (!$user->hasRole('guru')) {
+        if (!$user->hasRole('guru_pembina')) {
             return redirect()->back()->with('error', 'Hanya guru yang dapat menutup absensi');
         }
     

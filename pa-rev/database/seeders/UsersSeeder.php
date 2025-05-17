@@ -27,7 +27,7 @@ class UsersSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('guru123'),
             'nis_nip' => '11111111',
-        ])->assignRole('guru');
+        ])->assignRole('guru_pembina');
 
         User::create([
             'name' => 'voli',
@@ -35,7 +35,7 @@ class UsersSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('guru123'),
             'nis_nip' => '22222222',
-        ])->assignRole('guru');
+        ])->assignRole('guru_pembina');
 
         User::create([
             'name' => 'basket',
@@ -43,7 +43,7 @@ class UsersSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('guru123'),
             'nis_nip' => '33333333',
-        ])->assignRole('guru');
+        ])->assignRole('guru_pembina');
 
         User::create([
             'name' => 'pramuka',
@@ -51,7 +51,7 @@ class UsersSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('guru123'),
             'nis_nip' => '44444444',
-        ])->assignRole('guru');
+        ])->assignRole('guru_pembina');
 
         User::create([
             'name' => 'futsal',
@@ -59,6 +59,6 @@ class UsersSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('siswa123'),
             'nis_nip' => '00000000',
-        ])->assignRole('guru');
+        ])->assignRole('guru_pembina');
     }
 }

@@ -21,7 +21,7 @@ class EkstrakurikulerController extends Controller
         $user = auth()->user();
     
         // Cek role jika perlu (opsional, jika multi-role)
-        if ($user->hasRole('guru')) {
+        if ($user->hasRole('guru_pembina')) {
             // Jika guru, ambil hanya ekstrakurikuler yang dia ampu
             $ekstrakurikulers = Ekstrakurikuler::with(['jadwals', 'kategori', 'user'])
                 ->where('id_users', $user->id)
@@ -34,14 +34,14 @@ class EkstrakurikulerController extends Controller
         return view('halaman-admin.ekstrakurikuler.index', compact('ekstrakurikulers'));
     }
 
-// menampilkan anggota ekstrakurikuler saat sudah keterima di ekstrakurikuler
+// menampilkan anggota ekstrakurikuler saat sudah keterima di ekstrakurikuler (pembina)
 public function showAnggota($id)
 {
     $ekstrakurikuler = Ekstrakurikuler::findOrFail($id);
     $user = Auth::user();
     
     // Jika user adalah guru, pastikan dia pembimbing ekstra ini
-    if ($user->hasRole('guru')) {
+    if ($user->hasRole('guru_pembina')) {
         $ekstraGuru = $user->ekstrakurikuler->pluck('id')->toArray();
         
         if (!in_array($ekstrakurikuler->id, $ekstraGuru)) {
@@ -76,7 +76,7 @@ public function showAnggota($id)
     public function create()
     {
         $kategori = Kategori::all();
-        $gurus = User::role('guru')->get(); // Ambil semua user dengan role guru    
+        $gurus = User::role('guru_pembina')->get(); // Ambil semua user dengan role guru    
         return view('halaman-admin.ekstrakurikuler.create', compact('kategori', 'gurus'));
     }
 
@@ -136,7 +136,7 @@ public function showAnggota($id)
     {
         $ekstrakurikuler = Ekstrakurikuler::findOrFail($id);
         $kategori = Kategori::all(); // Ambil semua kategori untuk dropdown
-        $gurus = User::role('guru')->get(); // Ambil semua user dengan role guru
+        $gurus = User::role('guru_pembina')->get(); // Ambil semua user dengan role guru
         return view('halaman-admin.ekstrakurikuler.edit', compact('ekstrakurikuler', 'kategori', 'gurus'));
     }
 

@@ -28,7 +28,7 @@
                 </li>
                 @endif  
 
-                @if (auth()->user()->hasRole('guru'))
+                @if (auth()->user()->hasRole('guru_pembina'))
                 <li>
                     <a href="/guru" class="waves-effect">
                         <i class="bx bx-home-circle"></i>

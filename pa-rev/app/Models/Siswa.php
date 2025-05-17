@@ -10,7 +10,7 @@ class Siswa extends Model
 
     // app/Models/Siswa.php
     protected $fillable = [
-        'nisn',
+        'nis_nip',
         'nama_siswa',
         'email',
         'tempat',
@@ -24,7 +24,7 @@ class Siswa extends Model
 
     public function user()
 {
-    return $this->hasOne(User::class, 'nis', 'nis');
+    return $this->hasOne(User::class, 'nis_nip', 'nis_nip');
 }
 public function kelas()
 {

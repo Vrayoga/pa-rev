@@ -2,17 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Absensi extends Model
+class AbsensiEkstrakurikuler extends Model
 {
     use HasFactory;
 
-    protected $table = 'absensi';
+    protected $table = 'absensi_ekstrakurikuler';
 
     protected $fillable = [
-        'sesi_absen_id',
+        'sesi_absen_ekstrakurikuler_id',
         'pendaftaran_id',
         'siswa_id',
         'status',
@@ -21,7 +21,7 @@ class Absensi extends Model
 
     public function sesiAbsen()
     {
-        return $this->belongsTo(SesiAbsensi::class, 'sesi_absen_id');
+        return $this->belongsTo(SesiAbsensiEkstrakurikuler::class, 'sesi_absen_ekstrakurikuler_id');
     }
 
     public function siswa()

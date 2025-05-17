@@ -383,14 +383,14 @@
                             
                             <!-- NIS Field -->
                             <div class="mb-3">
-                                <label for="nis" class="form-label">Nomor Induk Siswa (NIS)</label>
+                                <label for="nis_nip" class="form-label">Nomor Induk Siswa (NIS)</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fas fa-id-card"></i></span>
-                                    <input type="text" class="form-control @error('nis') is-invalid @enderror" 
-                                           name="nis" id="nis" placeholder="Masukkan NIS Anda" 
-                                           value="{{ old('nis') }}" required>
+                                    <input type="text" class="form-control @error('nis_nip') is-invalid @enderror" 
+                                           name="nis_nip" id="nis_nip" placeholder="Masukkan NIS Anda" 
+                                           value="{{ old('nis_nip') }}" required>
                                 </div>
-                                @error('nis')
+                                @error('nis_nip')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                             </div>

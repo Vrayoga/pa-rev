@@ -36,8 +36,8 @@ class LoginController extends Controller
 
             if ($user->hasRole('admin')) {
                 return redirect()->intended('/dashboard');
-            } elseif ($user->hasRole('guru')) {
-                return redirect()->intended('/guru'); // Route untuk guru
+            } elseif ($user->hasRole('guru_pembina')) {
+                return redirect()->intended('/guru-pembina'); // Route untuk guru
             } elseif ($user->hasRole('siswa')) {
                 return redirect()->intended('/ekstraSiswa'); // Route untuk siswa
             } else {
@@ -50,22 +50,7 @@ class LoginController extends Controller
             'email' => 'Email atau password salah.',
         ])->onlyInput('email');
     }
-    // public function login(Request $request)
-    // {
-    //     $credentials = $request->validate([
-    //         'email' => 'required|email',
-    //         'password' => 'required'
-    //     ]);
 
-    //     if (Auth::attempt($credentials)) {
-    //         $request->session()->regenerate();
-    //         return redirect()->intended('/dashboard');
-    //     }
-
-    //     return back()->withErrors([
-    //         'email' => 'Email atau password salah.',
-    //     ])->onlyInput('email');
-    // }
 
     // Logout
     public function logout(Request $request)
@@ -85,7 +70,7 @@ class LoginController extends Controller
             return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        $siswa = Siswa::where('nis', $user->nis)->first();
+        $siswa = Siswa::where('nis_nip', $user->nis_nip)->first();
 
         if (!$siswa) {
             return redirect()->route('login')->with('error', 'Data siswa tidak ditemukan.');
@@ -125,7 +110,7 @@ class LoginController extends Controller
         $user->save();
 
         // Dapatkan data siswa
-        $siswa = Siswa::where('nis', $user->nis)->first();
+        $siswa = Siswa::where('nis_nip', $user->nis)->first();
 
         // ====== EKSTRA WAJIB ======
         $ekstraWajib = Ekstrakurikuler::where('jenis', 'wajib')->first();

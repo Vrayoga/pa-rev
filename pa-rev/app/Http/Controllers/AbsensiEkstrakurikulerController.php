@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Absensi;
+use App\Models\AbsensiEkstrakurikuler;
 use Carbon\Carbon;
 use App\Models\Pendaftaran;
 use App\Models\SesiAbsensi;
@@ -11,8 +12,9 @@ use App\Models\Ekstrakurikuler;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Models\JadwalEkstrakurikuler;
+use App\Models\SesiAbsensiEkstrakurikuler;
 
-class AbsensiController extends Controller
+class AbsensiEkstrakurikulerController extends Controller
 {
 
     // Menampilkan halaman absensi siswa
@@ -20,12 +22,12 @@ class AbsensiController extends Controller
     {
         $user = Auth::user();
 
-        if (!$user->hasRole('guru')) {
+        if (!$user->hasRole('guru_pembina')) {
             return redirect()->back()->with('error', 'Anda tidak memiliki akses');
         }
 
         // Ambil sesi absensi aktif milik guru ini
-        $sesiAktif = SesiAbsensi::where('guru_id', $user->id)
+        $sesiAktif = SesiAbsensiEkstrakurikuler::where('guru_pembina_id', $user->id)
             ->where('is_active', true)
             ->with(['jadwals.ekstrakurikuler'])
             ->first();
@@ -41,7 +43,7 @@ class AbsensiController extends Controller
         $anggota = Pendaftaran::where('ekstrakurikuler_id', $ekstrakurikulerId)
             ->where('status_validasi', 'diterima')
             ->with(['user', 'absensi' => function ($query) use ($sesiAktif) {
-                $query->where('sesi_absen_id', $sesiAktif->id);
+                $query->where('sesi_absen_ekstrakurikuler_id', $sesiAktif->id);
             }])
             ->get();
 
@@ -55,7 +57,7 @@ class AbsensiController extends Controller
     public function simpanAbsensi(Request $request)
     {
         $request->validate([
-            'sesi_absen_id' => 'required|exists:sesi_absen,id',
+            'sesi_absen_ekstrakurikuler_id' => 'required|exists:sesi_absen_ekstrakurikuler,id',
             'status' => 'required|array',
             'status.*' => 'in:hadir,izin,sakit,alfa',
             'catatan' => 'nullable|array',
@@ -63,9 +65,9 @@ class AbsensiController extends Controller
         ]);
     
         foreach ($request->status as $pendaftaranId => $status) {
-            Absensi::updateOrCreate(
+            AbsensiEkstrakurikuler::updateOrCreate(
                 [
-                    'sesi_absen_id' => $request->sesi_absen_id,
+                    'sesi_absen_ekstrakurikuler_id' => $request->sesi_absen_ekstrakurikuler_id,
                     'pendaftaran_id' => $pendaftaranId // This was missing
                 ],
                 [
@@ -81,7 +83,7 @@ class AbsensiController extends Controller
 
     public function selesaiSesi($id)
     {
-        $sesi = SesiAbsensi::findOrFail($id);
+        $sesi = SesiAbsensiEkstrakurikuler::findOrFail($id);
         $sesi->update(['is_active' => false]);
 
         return redirect()->route('dashboardGuru.index')->with('success', 'Sesi absensi telah diselesaikan');

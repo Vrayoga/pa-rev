@@ -176,7 +176,7 @@ Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
     // Logbook Management
 
     Route::post('/absensi/buka', [SesiAbsensiController::class, 'bukaAbsen'])->name('absensi.buka');
-    Route::get('/guru', [SesiAbsensiController::class, 'dashboardPresensi'])->name('dashboardGuru.index');
+    Route::get('/guru-pembina', [SesiAbsensiController::class, 'dashboardPresensi'])->name('dashboardGuru.index');
     Route::post('/absensi/tutup', [SesiAbsensiController::class, 'tutupAbsen'])->name('absensi.tutup');
 
     Route::get('/absensi', [AbsensiController::class, 'absensiSiswa'])->name('absensi.siswa');

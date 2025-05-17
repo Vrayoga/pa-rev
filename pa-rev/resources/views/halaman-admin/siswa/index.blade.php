@@ -37,7 +37,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama siswa</th>
-                                    <th>Kelas</th>
+                                    <th>Kode</th>
                                     <th>Email</th>
                                     <th>NIS</th>
                                     <th>Agama</th>
@@ -54,9 +54,9 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $siswa->nama_siswa }}</td>
-                                        <td>{{ $siswa->kelas }}</td>
+                                        <td>{{ $siswa->kode }}</td>
                                         <td>{{ $siswa->email }}</td>
-                                        <td>{{ $siswa->nisn }}</td>
+                                        <td>{{ $siswa->nis_nip }}</td>
                                         <td>{{ $siswa->agama }}</td>
                                         <td>{{ $siswa->tempat }}, {{ $siswa->tanggal_lahir }}</td>
                                         <td>{{ $siswa->jenis_kelamin }}</td>

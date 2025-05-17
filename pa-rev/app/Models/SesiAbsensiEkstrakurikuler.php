@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SesiAbsensi extends Model
+class SesiAbsensiEkstrakurikuler extends Model
 {
-    protected $table = 'sesi_absen';
+    protected $table = 'sesi_absen_ekstrakurikuler';
 
     protected $fillable = [
         'jadwal_id',
-        'guru_id',
+        'guru_pembina_id',
         'waktu_buka',
         'waktu_tutup',
         'is_active',
@@ -21,9 +21,9 @@ class SesiAbsensi extends Model
         return $this->belongsTo(JadwalEkstrakurikuler::class, 'jadwal_id');
     }
     
-    public function guru()
+    public function guruPembina()
     {
-        return $this->belongsTo(User::class, 'guru_id');
+        return $this->belongsTo(User::class, 'guru_pembina_id');
     }
 
     public function jadwalEkstrakurikuler()

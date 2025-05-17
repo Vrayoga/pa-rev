@@ -13,7 +13,7 @@ class jadwalEkstrakurikulerController extends Controller
     {
         $user = auth()->user();
     
-        if ($user->hasRole('guru')) {
+        if ($user->hasRole('guru_pembina')) {
             // Guru hanya melihat jadwal dari ekstrakurikuler yang dia ampu
             $jadwal = JadwalEkstrakurikuler::join('ekstrakurikuler', 'jadwal_ekstrakurikuler.ekstrakurikuler_id', '=', 'ekstrakurikuler.id')
                 ->where('ekstrakurikuler.id_users', $user->id)
@@ -39,7 +39,7 @@ class jadwalEkstrakurikulerController extends Controller
     {
         $user = auth()->user();
     
-        if ($user->hasRole('guru')) {
+        if ($user->hasRole('guru_pembina')) {
             // Guru hanya boleh memilih ekstrakurikuler yang dia ampu
             $ekstrakurikuler = Ekstrakurikuler::where('id_users', $user->id)->get();
 
@@ -69,7 +69,7 @@ class jadwalEkstrakurikulerController extends Controller
         $user = auth()->user();
     
         // Validasi agar guru hanya bisa menambahkan jadwal ke ekstra yang dia ampu
-        if ($user->hasRole('guru')) {
+        if ($user->hasRole('guru_pembina')) {
             $ekstra = Ekstrakurikuler::where('id', $request->ekstrakurikuler_id)
                         ->where('id_users', $user->id)
                         ->first();

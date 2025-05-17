@@ -23,16 +23,16 @@ class RegisterController extends Controller
 public function register(Request $request)
 {
     $request->validate([
-        'nis' => 'required|string|max:20',
+        'nis_nip' => 'required|string|max:20',
         'email' => 'required|email|unique:users,email',
         'nama_siswa' => 'required|string|max:100',
     ]);
 
     // Cari siswa berdasarkan NIS
-    $siswa = Siswa::where('nis', $request->nis)->first();
+    $siswa = Siswa::where('nis_nip', $request->nis_nip)->first();
 
     if (!$siswa) {
-        return redirect()->back()->withErrors(['nis' => 'NIS tidak ditemukan.'])->withInput();
+        return redirect()->back()->withErrors(['nis_nip' => 'NIS tidak ditemukan.'])->withInput();
     }
 
     // Verifikasi nama siswa yang diinput sesuai dengan data di database
@@ -41,10 +41,10 @@ public function register(Request $request)
     }
 
     // Cek apakah NIS sudah pernah digunakan di tabel users
-    $userExists = User::where('nis', $request->nis)->exists();
+    $userExists = User::where('nis_nip', $request->nis_nip)->exists();
 
     if ($userExists) {
-        return redirect()->back()->withErrors(['nis' => 'NIS sudah terdaftar. Silakan login.'])->withInput();
+        return redirect()->back()->withErrors(['nis_nip' => 'NIS sudah terdaftar. Silakan login.'])->withInput();
     }
 
     // Generate temporary password
@@ -54,7 +54,7 @@ public function register(Request $request)
     $user = User::create([
         'name' => $siswa->nama_siswa,
         'email' => $request->email,
-        'nis' => $request->nis,
+        'nis_nip' => $request->nis_nip,
         'password' => bcrypt($tempPassword),
         'email_verified_at' => now(), // Langsung set verified
     ]);

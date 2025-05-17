@@ -117,7 +117,7 @@ class RolePermissionSeeder extends Seeder
         }
 
         $admin = Role::firstOrCreate(['name' => 'admin']);
-        $guru = Role::firstOrCreate(['name' => 'guru']);
+        $guru_pembina = Role::firstOrCreate(['name' => 'guru_pembina']);
         $siswa = Role::firstOrCreate(['name' => 'siswa']);
 
 
@@ -185,7 +185,7 @@ class RolePermissionSeeder extends Seeder
             'update user',
             'delete user',
         ]);
-        $guru->givePermissionTo([
+        $guru_pembina->givePermissionTo([
             'view dashboard',
 
             'view logbook',

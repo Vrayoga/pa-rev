@@ -20,13 +20,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'nis',
+        'nis_nip',
         'email_verified_at', 
     ];
     
     public function siswa()
 {
-    return $this->belongsTo(Siswa::class, 'nis', 'nis');
+    return $this->belongsTo(Siswa::class, 'nis_nip', 'nis_nip');
 }
 
 public function ekstrakurikuler()
