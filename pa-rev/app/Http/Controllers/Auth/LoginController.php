@@ -64,6 +64,7 @@ class LoginController extends Controller
 
     public function showChangePasswordForm()
     {
+
         $user = Auth::user();
 
         if (!$user) {
@@ -76,8 +77,10 @@ class LoginController extends Controller
             return redirect()->route('login')->with('error', 'Data siswa tidak ditemukan.');
         }
 
-        // Ambil data untuk form wizard
-        $kelas = $siswa->kelas; // Asumsi relasi kelas sudah dibuat
+        // Ambil kelas aktif dari relasi pivot kelas_siswa
+        $kelas = $siswa->kelasAktif?->kelas?->load('jurusan');
+
+
         $mandatoryEkstra = Ekstrakurikuler::where('jenis', 'wajib')->first();
         $ekstrakurikulerPilihan = Ekstrakurikuler::where('jenis', 'pilihan')->get();
 
@@ -87,8 +90,10 @@ class LoginController extends Controller
         return view('auth.change-password', compact('siswa', 'kelas', 'mandatoryEkstra', 'ekstrakurikulerPilihan'));
     }
 
+
     public function changePasswordAndRegister(Request $request)
     {
+        Log::debug('Request Data', $request->all());
         $request->validate([
             'password' => 'required|min:6|confirmed',
             'nomer_wali' => 'required|string|max:15',
@@ -110,27 +115,31 @@ class LoginController extends Controller
         $user->save();
 
         // Dapatkan data siswa
-        $siswa = Siswa::where('nis_nip', $user->nis)->first();
+        $siswa = Siswa::where('nis_nip', $user->nis_nip)->first();
+        Log::debug('Siswa?', ['siswa' => $siswa]);
 
         // ====== EKSTRA WAJIB ======
         $ekstraWajib = Ekstrakurikuler::where('jenis', 'wajib')->first();
+        Log::debug('Ekstra Wajib?', ['ekstraWajib' => $ekstraWajib]);
 
         if ($ekstraWajib && $siswa) {
             $sudahDaftar = Pendaftaran::where('users_id', $user->id)
                 ->where('ekstrakurikuler_id', $ekstraWajib->id)
                 ->exists();
+                Log::debug('Sudah daftar wajib?', ['sudahDaftar' => $sudahDaftar]);
 
             if (!$sudahDaftar) {
                 Pendaftaran::create([
                     'users_id' => $user->id,
                     'ekstrakurikuler_id' => $ekstraWajib->id,
-                    'kelas_id' => $siswa->id_kelas,
+                     'kelas_siswa_id' => $siswa->kelasAktif?->id,
                     'nama_lengkap' => $user->name,
                     'no_telepon' => $siswa->no_telepon,
                     'alasan' => 'Pendaftaran otomatis ekstrakurikuler wajib',
                     'nomer_wali' => $request->nomer_wali,
                     'status_validasi' => 'diterima'
                 ]);
+                
 
                 // Kirim notifikasi untuk ekstrakurikuler wajib
                 $guruWajib = User::find($ekstraWajib->id_users);
@@ -189,7 +198,7 @@ class LoginController extends Controller
                     Pendaftaran::create([
                         'users_id' => $user->id,
                         'ekstrakurikuler_id' => $ekstraId,
-                        'kelas_id' => $siswa->id_kelas,
+                        'kelas_siswa_id' => $siswa->kelasSiswaAktif->id ?? null,
                         'nama_lengkap' => $user->name,
                         'no_telepon' => $siswa->no_telepon,
                         'alasan' => $request->alasan_pilihan[$ekstraId] ?? 'Tidak ada alasan khusus',
@@ -209,7 +218,7 @@ class LoginController extends Controller
                         // Pastikan receiver ada dan punya role guru
                         $guru = User::with('roles')->find($ekstra->id_users);
 
-                        if ($guru && $guru->hasRole('guru')) {
+                        if ($guru && $guru->hasRole('guru_pembina')) {
                             NotifPendaftaran::create([
                                 'user_id' => $user->id,
                                 'receiver_id' => $ekstra->id_users,
@@ -237,7 +246,7 @@ class LoginController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Password berhasil diubah dan pendaftaran ekstrakurikuler diproses.',
-            'redirect' => url('/ekstraSiswa'),
+            'redirect' => url('/siswa'),
         ]);
     }
 }

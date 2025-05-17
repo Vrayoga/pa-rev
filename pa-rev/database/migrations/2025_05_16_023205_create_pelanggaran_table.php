@@ -16,7 +16,7 @@ return new class extends Migration
             $table->text('ket_pelanggaran');
             $table->string('bukti_pelanggaran')->nullable();
             $table->date('tanggal');
-            $table->foreignId('id_siswa')->constrained('siswa')->onDelete('cascade');
+            $table->foreignId('kelas_siswa_id')->constrained('kelas_siswa')->onDelete('cascade');
             $table->foreignId('id_users')->constrained('users')->onDelete('cascade'); // petugas
             $table->foreignId('id_skor_pelanggaran')->constrained('skor_pelanggaran')->onDelete('cascade');
             $table->timestamps();

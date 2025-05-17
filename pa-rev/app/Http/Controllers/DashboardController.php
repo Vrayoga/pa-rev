@@ -21,4 +21,8 @@ class DashboardController extends Controller
     //     return view('halaman-admin.Guru', compact('total_siswa', 'total_kelas'));
     // }
 
+    public function siswaIndex (){
+          return view('users.siswaDashboard');
+    }
+
 }

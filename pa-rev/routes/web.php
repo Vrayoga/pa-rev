@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\AbsensiEkstrakurikulerController;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\LogbookController;
 use App\Http\Controllers\KategoriController;
@@ -51,6 +52,12 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+// dashboard Guru
+    Route::get('/guru-pembina', [SesiAbsensiController::class, 'dashboardPresensi'])->name('dashboardGuru.index');
+
+//
+  Route::get('/siswa-dashboard', [DashboardController::class, 'siswaIndex'])->name('siswa.dashboard');
+
 
 
     Route::get('/change-password', [LoginController::class, 'showChangePasswordForm'])->name('change.password');
@@ -176,12 +183,11 @@ Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
     // Logbook Management
 
     Route::post('/absensi/buka', [SesiAbsensiController::class, 'bukaAbsen'])->name('absensi.buka');
-    Route::get('/guru-pembina', [SesiAbsensiController::class, 'dashboardPresensi'])->name('dashboardGuru.index');
     Route::post('/absensi/tutup', [SesiAbsensiController::class, 'tutupAbsen'])->name('absensi.tutup');
 
-    Route::get('/absensi', [AbsensiController::class, 'absensiSiswa'])->name('absensi.siswa');
-    Route::post('/absensi/simpan', [AbsensiController::class, 'simpanAbsensi'])->name('absensi.simpan');
-    Route::post('/absensi/selesai/{id}', [AbsensiController::class, 'selesaiSesi'])->name('absensi.selesai');
+    Route::get('/absensi', [AbsensiEkstrakurikulerController::class, 'absensiSiswa'])->name('absensi.siswa');
+    Route::post('/absensi/simpan', [AbsensiEkstrakurikulerController::class, 'simpanAbsensi'])->name('absensi.simpan');
+    Route::post('/absensi/selesai/{id}', [AbsensiEkstrakurikulerController::class, 'selesaiSesi'])->name('absensi.selesai');
     // Logout
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 });

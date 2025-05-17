@@ -15,7 +15,7 @@ class Siswa extends Model
         'email',
         'tempat',
         'tanggal_lahir',
-        'kelas',
+        'kode',
         'jenis_kelamin',
         'agama',
         'no_telepon',
@@ -30,6 +30,14 @@ public function kelas()
 {
     return $this->belongsToMany(Kelas::class, 'kelas_siswa', 'id_siswa', 'id_kelas')
                 ->withPivot('status', 'is_active', 'tahun_ajaran');
+}
+
+
+public function kelasAktif()
+{
+    return $this->hasOne(KelasSiswa::class, 'id_siswa')
+                ->where('is_active', 'aktif')
+                ->with('kelas');
 }
 
 }

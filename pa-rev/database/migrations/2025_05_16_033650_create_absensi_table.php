@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('hari_tanggal');
             $table->enum('status_surat', ['terundur', 'diterima', 'ditolak']);
             $table->string('catatan')->nullable();
-            $table->foreignId('id_siswa')->constrained('siswa')->onDelete('cascade');
+            $table->foreignId('kelas_siswa_id')->constrained('kelas_siswa')->onDelete('cascade');
             $table->foreignId('id_users')->constrained('users')->onDelete('cascade'); // petugas
             $table->timestamps();
         });        

@@ -79,7 +79,7 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $pendaftaran->nama_lengkap }}</td>
-                                    <td>{{ $pendaftaran->kelas->kelas }} {{$pendaftaran->kelas->jurusan}} </td>
+                                    <td>{{ $pendaftaran->kelas->kelas }} {{$pendaftaran->kelas->nama_jurusan}} </td>
                                     <td>{{ $pendaftaran->no_telepon }}</td>
                                     <td>{{ $pendaftaran->nomer_wali }}</td>
                                     <td>{{ $pendaftaran->alasan }}</td>

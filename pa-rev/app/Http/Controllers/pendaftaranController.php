@@ -133,6 +133,165 @@ class PendaftaranController extends Controller
     }
 
 
+    public function storeRegisEkstra(Request $request)
+    {
+        // Validasi input dengan aturan untuk dua ekstrakurikuler
+        $request->validate([
+            'ekstrakurikuler_id_1' => 'required|exists:ekstrakurikuler,id',
+            'alasan_1' => 'nullable|string|max:255',
+            'ekstrakurikuler_id_2' => 'nullable|different:ekstrakurikuler_id_1|exists:ekstrakurikuler,id',
+            'alasan_2' => 'nullable|string|max:255',
+            'nomer_wali' => 'required|string|max:15'
+        ]);
+
+        $user = Auth::user();
+        $siswa = $user->siswa;
+
+        // Cek apakah user sudah memiliki pendaftaran yang masih pending
+        $pendingRegistration = Pendaftaran::where('users_id', $user->id)
+            ->where('status_validasi', 'pending')
+            ->first();
+
+        if ($pendingRegistration) {
+            return back()->with('error', 'Anda memiliki pendaftaran yang sedang menunggu validasi. Harap tunggu hingga pendaftaran sebelumnya divalidasi.');
+        }
+
+        // Variabel untuk melacak keberhasilan
+        $successCount = 0;
+        $errorMessages = [];
+
+        // Proses pendaftaran untuk ekstrakurikuler pertama (wajib)
+        $registrationSuccess = $this->processRegistration(
+            $user,
+            $siswa,
+            $request->ekstrakurikuler_id_1,
+            $request->alasan_1 ?: 'Tidak ada alasan yang diberikan',
+            $request->nomer_wali,
+            $errorMessages
+        );
+
+        if ($registrationSuccess) {
+            $successCount++;
+        }
+
+        // Proses pendaftaran untuk ekstrakurikuler kedua (opsional)
+        if ($request->has('ekstrakurikuler_id_2') && $request->ekstrakurikuler_id_2) {
+            $registrationSuccess = $this->processRegistration(
+                $user,
+                $siswa,
+                $request->ekstrakurikuler_id_2,
+                $request->alasan_2 ?: 'Tidak ada alasan yang diberikan',
+                $request->nomer_wali,
+                $errorMessages
+            );
+
+            if ($registrationSuccess) {
+                $successCount++;
+            }
+        }
+
+        // Jika setidaknya satu berhasil
+        if ($successCount > 0) {
+            $message = "Pendaftaran ekstrakurikuler berhasil diajukan untuk $successCount pilihan. Harap tunggu validasi dari pembimbing.";
+
+            // Jika ada error untuk salah satu ekstra, tampilkan warning
+            if (!empty($errorMessages)) {
+                $errorMsg = implode(' ', $errorMessages);
+                return redirect()->route('userSiswa.index')->with('success', $message)->with('warning', $errorMsg);
+            }
+
+            return redirect()->route('userSiswa.index')->with('success', $message);
+        } else {
+            // Jika semua gagal
+            $errorMsg = implode(' ', $errorMessages);
+            return back()->with('error', 'Pendaftaran gagal: ' . $errorMsg);
+        }
+    }
+
+    /**
+     * Proses pendaftaran untuk satu ekstrakurikuler
+     * 
+     * @param User $user
+     * @param Siswa $siswa
+     * @param int $ekstrakurikulerId
+     * @param string $alasan
+     * @param string $nomerWali
+     * @param array &$errorMessages
+     * @return bool
+     */
+    private function processRegistration($user, $siswa, $ekstrakurikulerId, $alasan, $nomerWali, &$errorMessages)
+    {
+        // Check if already registered for this extracurricular
+        $existingRegistration = Pendaftaran::where('users_id', $user->id)
+            ->where('ekstrakurikuler_id', $ekstrakurikulerId)
+            ->exists();
+
+        if ($existingRegistration) {
+            $ekstra = Ekstrakurikuler::find($ekstrakurikulerId);
+            $errorMessages[] = "Anda sudah terdaftar di ekstrakurikuler {$ekstra->nama_ekstrakurikuler}.";
+            return false;
+        }
+
+        // Check if extracurricular still has available slots
+        $ekstrakurikuler = Ekstrakurikuler::find($ekstrakurikulerId);
+
+        if ($ekstrakurikuler->jenis != 'wajib' && $ekstrakurikuler->kuota !== null) {
+            $pendaftarDiterima = Pendaftaran::where('ekstrakurikuler_id', $ekstrakurikuler->id)
+                ->where('status_validasi', 'diterima')
+                ->count();
+
+            if ($pendaftarDiterima >= $ekstrakurikuler->kuota) {
+                $errorMessages[] = "Kuota ekstrakurikuler {$ekstrakurikuler->nama_ekstrakurikuler} sudah penuh.";
+                return false;
+            }
+        }
+
+        // Create new registration
+        Pendaftaran::create([
+            'users_id' => $user->id,
+            'ekstrakurikuler_id' => $ekstrakurikulerId,
+             'kelas_siswa_id' => $siswa->kelasAktif?->id,
+            'nama_lengkap' => $user->name,
+            'no_telepon' => $siswa->no_telepon,
+            'alasan' => $alasan,
+            'nomer_wali' => $nomerWali,
+            'status_validasi' => 'pending' // Default status
+        ]);
+
+        // Create notification
+        try {
+            // Pastikan receiver ada dan punya role guru
+            $guru = User::with('roles')->find($ekstrakurikuler->id_users);
+
+            if (!$guru) {
+                Log::error('Guru not found for ekstra', ['id_users' => $ekstrakurikuler->id_users]);
+                $errorMessages[] = "Pembimbing tidak ditemukan untuk {$ekstrakurikuler->nama_ekstrakurikuler}.";
+                // Tetap return true karena pendaftaran tetap berhasil dibuat
+            } else if (!$guru->hasRole('guru_pembina')) {
+                Log::error('Receiver is not a guru', ['user' => $guru->toArray()]);
+                $errorMessages[] = "Pembimbing tidak valid untuk {$ekstrakurikuler->nama_ekstrakurikuler}.";
+                // Tetap return true karena pendaftaran tetap berhasil dibuat
+            } else {
+                NotifPendaftaran::create([
+                    'user_id' => $user->id,
+                    'receiver_id' => $ekstrakurikuler->id_users,
+                    'title' => 'Pendaftaran Baru',
+                    'message' => 'Siswa ' . $user->name . ' mendaftar ke ekstrakurikuler ' . $ekstrakurikuler->nama_ekstrakurikuler,
+                    'is_read' => false,
+                ]);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error creating notification', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            // Tetap return true karena pendaftaran tetap berhasil dibuat
+        }
+
+        return true;
+    }
+
+
     public function validasi(Request $request, $id)
     {
         $request->validate([
@@ -143,7 +302,7 @@ class PendaftaranController extends Controller
         $user = Auth::user();
 
         // Pastikan hanya guru pembimbing yang bisa validasi
-        if ($user->hasRole('guru')) {
+        if ($user->hasRole('guru_pembina')) {
             $ekstraGuru = $user->ekstrakurikuler->pluck('id')->toArray();
 
             if (!in_array($pendaftaran->ekstrakurikuler_id, $ekstraGuru)) {

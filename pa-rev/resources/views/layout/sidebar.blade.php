@@ -21,7 +21,7 @@
 
                 @if (auth()->user()->hasRole('siswa'))
                 <li>
-                    <a href="/siswa" class="waves-effect">
+                    <a href="/siswa-dashboard" class="waves-effect">
                         <i class="bx bx-home-circle"></i>
                         <span key="t-dashboards">Dashboards</span>
                     </a>
@@ -38,12 +38,14 @@
                 @endif
                 <li class="menu-title" key="t-apps">Apps</li>
 
+                @can('view jurusan')
                 <li>
                         <a href="/jurusan" class="waves-effect">
                             <i class="bx bx-file"></i>
                             <span key="t-file-manager">Jurusan</span>
                         </a>
                     </li>
+                    @endcan
 
                 @can('view kelas')
                     <li>
@@ -102,7 +104,12 @@
                         </a>
                     </li>
                 @endcan
-
+                    <li>
+                        <a href="{{route ('daftar.create')}}" class="waves-effect">
+                            <i class="bx bx-bitcoin"></i>
+                            <span key="t-crypto">Daftar Ekstrakurikuler</span>
+                        </a>
+                    </li>
 
                 @if (auth()->user()->hasRole('guru'))
                 <li>

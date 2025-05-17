@@ -8,6 +8,7 @@ use App\Models\Ekstrakurikuler;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Models\JadwalEkstrakurikuler;
+use App\Models\SesiAbsensiEkstrakurikuler;
 
 class SesiAbsensiController extends Controller
 {
@@ -81,12 +82,12 @@ class SesiAbsensiController extends Controller
              }
      
              // Cek apakah sudah ada sesi yang masih aktif
-             $sesiAktif = SesiAbsensi::where('jadwal_id', $jadwalId)
+             $sesiAktif = SesiAbsensiEkstrakurikuler::where('jadwal_id', $jadwalId)
                  ->where('is_active', true)
                  ->first();
      
              // Cek apakah guru sudah membuka sesi hari ini
-             $sesiHariIni = SesiAbsensi::where('jadwal_id', $jadwalId)
+             $sesiHariIni = SesiAbsensiEkstrakurikuler::where('jadwal_id', $jadwalId)
                  ->whereDate('waktu_buka', now()->toDateString())
                  ->where('guru_id', $user->id)
                  ->first();
@@ -96,7 +97,7 @@ class SesiAbsensiController extends Controller
              }
      
              // Buat sesi absensi baru
-             $sesi = SesiAbsensi::create([
+             $sesi = SesiAbsensiEkstrakurikuler::create([
                  'jadwal_id' => $jadwalId,
                  'guru_id' => $user->id,
                  'waktu_buka' => now(),
@@ -140,7 +141,7 @@ class SesiAbsensiController extends Controller
         $jadwalId = $request->input('jadwal_id');
     
         // Cari sesi absen aktif berdasarkan jadwal_id
-        $sesiAktif = SesiAbsensi::where('jadwal_id', $jadwalId)
+        $sesiAktif = SesiAbsensiEkstrakurikuler::where('jadwal_id', $jadwalId)
             ->where('is_active', true)
             ->first();
     

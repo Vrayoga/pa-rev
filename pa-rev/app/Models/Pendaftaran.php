@@ -12,7 +12,7 @@ class Pendaftaran extends Model
     protected $fillable = [
         'users_id',
         'ekstrakurikuler_id',
-        'kelas_id',
+        'kelas_siswa_id',
         'nama_lengkap',
         'no_telepon',
         'alasan',
@@ -32,24 +32,43 @@ class Pendaftaran extends Model
         return $this->belongsTo(Ekstrakurikuler::class, 'ekstrakurikuler_id', 'id');
     }
 
-    public function kelas()
-    {
-        return $this->belongsTo(Kelas::class, 'kelas_id', 'id');
-    }
-
     public function validator()
 {
     return $this->belongsTo(User::class, 'validator_id');
 }
 
-public function absensi()
+public function absensiEkstrakurikuler()
 {
-    return $this->hasMany(Absensi::class, 'pendaftaran_id');
+    return $this->hasMany(AbsensiEkstrakurikuler::class, 'pendaftaran_id');
 }
 
-// Contoh jika foreign key bernama id_siswa
+public function kelasSiswa()
+{
+    return $this->belongsTo(KelasSiswa::class, 'kelas_siswa_id');
+}
+
+public function kelas()
+{
+    return $this->hasOneThrough(
+        Kelas::class,
+        KelasSiswa::class,
+        'id',             // kelas_siswa.id
+        'id',             // kelas.id
+        'kelas_siswa_id', // pendaftaran.kelas_siswa_id
+        'id_kelas'        // kelas_siswa.id_kelas
+    );
+}
+
 public function siswa()
 {
-    return $this->belongsTo(Siswa::class, 'id_siswa');
+    return $this->hasOneThrough(
+        Siswa::class,
+        KelasSiswa::class,
+        'id',               // kelas_siswa.id
+        'id',               // siswa.id
+        'kelas_siswa_id',   // pendaftaran.kelas_siswa_id
+        'id_siswa'          // kelas_siswa.id_siswa
+    );
 }
+
 }
