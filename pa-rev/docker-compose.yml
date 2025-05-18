@@ -5,18 +5,19 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: smk-app
+    container_name: smk-ekstrakurikuler
     ports:
       - "8000:80"
     volumes:
-      - ./:/var/www/html
+      - ./:/var/www/html:cached   # gunakan opsi :cached (khusus Docker Desktop Mac/Windows)
+      - /var/www/html/vendor     # hindari mount vendor agar composer install dari container tidak overwrite
     environment:
       - APACHE_DOCUMENT_ROOT=/var/www/html/public
     command: >
       bash -c "
-      composer install --no-interaction --prefer-dist --optimize-autoloader &&
-      chown -R www-data:www-data storage bootstrap/cache storage/framework &&
-      chmod -R 775 storage bootstrap/cache storage/framework &&
+      composer install --no-interaction --prefer-dist &&
+      chown -R www-data:www-data storage bootstrap/cache &&
+      chmod -R 775 storage bootstrap/cache &&
       php artisan migrate --force &&
       php artisan config:cache &&
       php artisan route:cache &&
