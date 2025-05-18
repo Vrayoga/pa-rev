@@ -9,25 +9,15 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ./:/var/www/html
+      - ./:/var/www/html           # Volume mount supaya kode host langsung terlihat di container
     environment:
       - APACHE_DOCUMENT_ROOT=/var/www/html/public
+    command: apache2-foreground    # Jalankan Apache, tanpa script lain supaya mudah develop
     restart: unless-stopped
-    networks:
-      - shared
-
-  composer:
-    image: composer:latest
-    container_name: composer
-    volumes:
-      - ./:/app
-    working_dir: /app
-    command: composer install
-    depends_on:
-      - app
     networks:
       - shared
 
 networks:
   shared:
     external: true
+
