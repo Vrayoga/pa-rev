@@ -45,6 +45,7 @@
                                     <th>Jenis kelamin</th>
                                     <th>No telepon</th>
                                     <th>tahun masuk</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -62,6 +63,7 @@
                                         <td>{{ $siswa->jenis_kelamin }}</td>
                                         <td>{{ $siswa->no_telepon }}</td>
                                         <td>{{ $siswa->tahun_masuk }}</td>
+                                        <td>{{ $siswa->status}}</td>
                                         <td>
                                             <a href="{{ route('siswa.edit', $siswa->id) }}" class="btn btn-warning btn-sm">Edit</a>
                                             <form action="{{ route('siswa.destroy', $siswa->id) }}" method="POST" style="display:inline;">

@@ -55,27 +55,21 @@
                                     <div class="mb-3">
                                         <label for="tempat_lahir">Tempat Lahir</label>
                                         <input id="tempat_lahir" name="tempat_lahir" type="text" class="form-control" 
-                                               value="{{ old('tempat_lahir', $siswa->tempat_lahir) }}" placeholder="Masukkan Tempat Lahir">
+                                               value="{{ old('tempat', $siswa->tempat) }}" placeholder="Masukkan Tempat Lahir">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="id_kelas">Pilih kelas</label>
-                                        <select id="id_kelas" name="id_kelas" class="form-control" required>
-                                            <option value="" disabled>Pilih Kelas</option>
-                                            @foreach($Kelas as $item)
-                                                <option value="{{ $item->id }}" 
-                                                    {{ $siswa->id_kelas == $item->id ? 'selected' : '' }}>
-                                                    {{ $item->kelas }} - {{ $item->jurusan }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        <label for="tempat_lahir">Kode</label>
+                                        <input id="kode" name="kode" type="text" class="form-control" 
+                                               value="{{ old('kode', $siswa->kode) }}" placeholder="Masukkan Tempat Lahir">
                                     </div>
+                                   
                                 </div>
 
                                 <div class="col-sm-6">
                                     <div class="mb-3">
                                         <label for="nis">NIS</label>
-                                        <input id="nis" name="nis" type="text" class="form-control" 
-                                               value="{{ old('nis', $siswa->nis) }}" placeholder="Masukkan NIS" required>
+                                        <input id="nis_nip" name="nis_nip" type="text" class="form-control" 
+                                               value="{{ old('nis_nip', $siswa->nis_nip) }}" placeholder="Masukkan NIS" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="jenis_kelamin">Jenis Kelamin</label>
