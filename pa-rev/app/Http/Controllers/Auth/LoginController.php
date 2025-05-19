@@ -198,7 +198,7 @@ class LoginController extends Controller
                     Pendaftaran::create([
                         'users_id' => $user->id,
                         'ekstrakurikuler_id' => $ekstraId,
-                        'kelas_siswa_id' => $siswa->kelasSiswaAktif->id ?? null,
+                        'kelas_siswa_id' => $siswa->kelasAktif->id ?? null,
                         'nama_lengkap' => $user->name,
                         'no_telepon' => $siswa->no_telepon,
                         'alasan' => $request->alasan_pilihan[$ekstraId] ?? 'Tidak ada alasan khusus',

@@ -51,7 +51,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'nis' => 'required|string|unique:users',
+            'nis_nip' => 'required|string|unique:users',
             'role' => 'required|exists:roles,id', // Validasi role ID harus ada di tabel roles
         ]);
     
@@ -60,7 +60,7 @@ class UserController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => bcrypt($validated['password']),
-            'nis' => $validated['nis'],
+            'nis_nip' => $validated['nis_nip'],
             'email_verified_at' => now(),
         ]);
     
@@ -91,7 +91,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
             'password' => 'nullable|string|min:8|confirmed', // Gunakan confirmed untuk validasi password konfirmasi
-            'nis' => 'required|string|unique:users,nis,'.$user->id,
+            'nis_nip' => 'required|string|unique:users,nis_nip,'.$user->id,
             'role' => 'required|exists:roles,id',
         ]);
 
@@ -104,7 +104,7 @@ class UserController extends Controller
         $updateData = [
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'nis' => $validated['nis'],
+            'nis_nip' => $validated['nis_nip'],
         ];
 
         // Jika password diisi, update password

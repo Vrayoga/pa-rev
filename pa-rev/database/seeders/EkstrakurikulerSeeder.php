@@ -15,7 +15,7 @@ class EkstrakurikulerSeeder extends Seeder
         DB::table('ekstrakurikuler')->insert([
             [
             'nama_ekstrakurikuler' => 'Basket',
-            'gambar' => 'dummy_ekstra\basket.jpg',
+            'gambar' => 'dummy_ekstra/basket.jpg',
             'deskripsi' => 'Kegiatan ekstrakurikuler basket untuk siswa.',
             'id_kategori' => 1, 
             'lokasi' => 'Lapangan Basket',
@@ -28,7 +28,7 @@ class EkstrakurikulerSeeder extends Seeder
             ],
             [
             'nama_ekstrakurikuler' => 'Voli',
-            'gambar' => 'dummy_ekstra\voli.jpg',
+            'gambar' => 'dummy_ekstra/voli.jpg',
             'deskripsi' => 'Kegiatan ekstrakurikuler voli untuk siswa.',
             'id_kategori' => 1, 
             'lokasi' => 'Lapangan Voli',
@@ -41,7 +41,7 @@ class EkstrakurikulerSeeder extends Seeder
             ],
             [
             'nama_ekstrakurikuler' => 'Pramuka',
-            'gambar' => 'dummy_ekstra\pramuka.jpeg',
+            'gambar' => 'dummy_ekstra/pramuka.jpg',
             'deskripsi' => 'Kegiatan ekstrakurikuler pramuka untuk siswa.',
             'id_kategori' => 3, 
             'lokasi' => 'Halaman Sekolah',
@@ -54,7 +54,7 @@ class EkstrakurikulerSeeder extends Seeder
             ],
             [
             'nama_ekstrakurikuler' => 'Futsal',
-            'gambar' => 'dummy_ekstra\futsal.png',
+            'gambar' => 'dummy_ekstra/futsal.jpg',
             'deskripsi' => 'Kegiatan ekstrakurikuler futsal untuk siswa.',
             'id_kategori' => 1, 
             'lokasi' => 'Lapangan Futsal',
@@ -67,7 +67,7 @@ class EkstrakurikulerSeeder extends Seeder
             ],
             [
             'nama_ekstrakurikuler' => 'Sepak Bola',
-            'gambar' => 'dummy_ekstra\sepak-bola.png',
+            'gambar' => 'dummy_ekstra/sepak_bola.jpg',
             'deskripsi' => 'Kegiatan ekstrakurikuler sepak bola untuk siswa.',
             'id_kategori' => 1, 
             'lokasi' => 'Lapangan Sepak Bola',

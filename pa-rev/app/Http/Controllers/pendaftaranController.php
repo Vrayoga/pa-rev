@@ -22,7 +22,7 @@ class PendaftaranController extends Controller
         // Ambil parameter filter dari request
         $filter = $request->input('filter', 'all');
 
-        if ($user->hasRole('guru')) {
+        if ($user->hasRole('guru_pembina')) {
             $ekstrakurikulers = Ekstrakurikuler::where('id_users', $user->id)->get();
 
             if ($ekstrakurikulers->isNotEmpty()) {

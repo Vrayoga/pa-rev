@@ -8,7 +8,7 @@
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                     <h4 class="mb-sm-0 font-size-18">
                         Daftar Anggota 
-                        @if(auth()->user()->hasRole('guru'))
+                        @if(auth()->user()->hasRole('guru_pembina'))
                             Ekstrakurikuler {{ $pendaftarans->first()->ekstrakurikuler->nama_ekstrakurikuler ?? 'Ekstrakurikuler' }}
                         @else
                             Ekstrakurikuler
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        @if(auth()->user()->hasRole('guru'))
+                        @if(auth()->user()->hasRole('guru_pembina'))
                             @if($pendaftarans->count() > 0)
                                 <p>Menampilkan pendaftaran untuk ekstrakurikuler yang Anda bimbing</p>
                             @else
@@ -67,9 +67,9 @@
                                     <th>No. Telepon</th>
                                     <th>No. Wali</th>
                                     <th>Alasan</th>
-                                    @if(auth()->user()->hasRole('admin'))
+                                    {{-- @if(auth()->user()->hasRole('admin')) --}}
                                     <th>Ekstrakurikuler</th>
-                                    @endif
+                                    {{-- @endif --}}
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -83,9 +83,9 @@
                                     <td>{{ $pendaftaran->no_telepon }}</td>
                                     <td>{{ $pendaftaran->nomer_wali }}</td>
                                     <td>{{ $pendaftaran->alasan }}</td>
-                                    @if(auth()->user()->hasRole('admin'))
+                                    {{-- @if(auth()->user()->hasRole('admin')) --}}
                                     <td>{{ $pendaftaran->ekstrakurikuler->nama_ekstrakurikuler }}</td>
-                                    @endif
+                                    {{-- @endif --}}
                                     <td>
                                         @if($pendaftaran->status_validasi == 'pending')
                                             <span class="badge badge-warning" style="background-color: #ffc107; color: #000;">Pending</span>

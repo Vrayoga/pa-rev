@@ -78,11 +78,11 @@
                         
                                 <div class="col-sm-6">
                                     <div class="mb-3">
-                                        <label for="nis">NIS</label>
-                                        <input id="nis" name="nis" type="text"
-                                            class="form-control @error('nis') is-invalid @enderror"
-                                            placeholder="Masukkan NIS" value="{{ old('nis', $user->nis) }}">
-                                        @error('nis')
+                                        <label for="nis_nip">NIS/NIP</label>
+                                        <input id="nis_nip" name="nis_nip" type="text"
+                                            class="form-control @error('nis_nip') is-invalid @enderror"
+                                            placeholder="Masukkan NIS_nip" value="{{ old('nis_nip', $user->nis_nip) }}">
+                                        @error('nis_nip')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>

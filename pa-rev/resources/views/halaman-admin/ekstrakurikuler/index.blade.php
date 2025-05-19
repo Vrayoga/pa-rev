@@ -71,7 +71,8 @@
                                                         <img src="{{ asset('storage/' . $ekstrakurikuler->gambar) }}"
                                                             alt="Gambar" width="50">
                                                     @else
-                                                        Tidak ada gambar
+                                                       {{ $ekstrakurikuler->gambar }}
+                                                        <span class="text-danger">N/A</span>
                                                     @endif
                                                 </td>
                                                 <td>{{ $ekstrakurikuler->deskripsi }}</td>

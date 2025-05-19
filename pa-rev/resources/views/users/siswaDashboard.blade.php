@@ -3,7 +3,7 @@
 @section('content')
 <div class="page-content">
     <div class="container-fluid">
-        <!-- Premium Dashboard Header -->
+        <!-- Header -->
         <div class="row mb-5">
             <div class="col-12">
                 <div class="dashboard-header">
@@ -13,7 +13,6 @@
                     </div>
                     <div class="user-profile">
                         <div class="avatar-group">
-                            
                             <div class="ms-3">
                                 <h4 class="mb-0">{{ Auth::user()->name }}</h4>
                                 <p class="text-muted mb-1">{{ Auth::user()->kelas ?? 'Siswa' }}</p>
@@ -25,7 +24,7 @@
             </div>
         </div>
 
-        <!-- Premium Stats Cards -->
+        <!-- Stats Cards -->
         <div class="row mb-5 g-4">
             <div class="col-md-4">
                 <div class="card stat-card stat-card-primary">
@@ -37,11 +36,11 @@
                             <div class="ms-3 flex-grow-1">
                                 <h6 class="stat-title">Kehadiran</h6>
                                 <div class="d-flex align-items-center">
-                                    <h2 class="stat-value mb-0">12</h2>
-                                    <span class="badge bg-success ms-2">+85%</span>
+                                    <h2 class="stat-value mb-0">{{ $jumlahHadir ?? 0 }}</h2>
+                                    <span class="badge bg-success ms-2">{{ $persenHadir ?? '0%' }}</span>
                                 </div>
                                 <div class="progress mt-2">
-                                    <div class="progress-bar" role="progressbar" style="width: 85%"></div>
+                                    <div class="progress-bar" role="progressbar" style="width: {{ $persenHadir ?? '0%' }}"></div>
                                 </div>
                             </div>
                         </div>
@@ -58,8 +57,8 @@
                             <div class="ms-3 flex-grow-1">
                                 <h6 class="stat-title">Prestasi</h6>
                                 <div class="d-flex align-items-center">
-                                    <h2 class="stat-value mb-0">3</h2>
-                                    <span class="badge bg-warning ms-2">2 Baru</span>
+                                    <h2 class="stat-value mb-0">{{ $jumlahPrestasi ?? 0 }}</h2>
+                                    <span class="badge bg-warning ms-2">{{ $jumlahPrestasiBaru ?? '0 Baru' }}</span>
                                 </div>
                                 <div class="achievement-preview mt-2">
                                     <img src="{{ asset('assets/images/medal-gold.png') }}" width="24" alt="">
@@ -81,11 +80,11 @@
                             <div class="ms-3 flex-grow-1">
                                 <h6 class="stat-title">Logbook</h6>
                                 <div class="d-flex align-items-center">
-                                    <h2 class="stat-value mb-0">8</h2>
-                                    <span class="badge bg-info ms-2">3 Terbaru</span>
+                                    <h2 class="stat-value mb-0">{{ $jumlahLogbook ?? 0 }}</h2>
+                                    <span class="badge bg-info ms-2">{{ $jumlahLogbookBaru ?? '0 Terbaru' }}</span>
                                 </div>
                                 <div class="progress mt-2">
-                                    <div class="progress-bar" role="progressbar" style="width: 65%"></div>
+                                    <div class="progress-bar" role="progressbar" style="width: {{ $persenLogbook ?? '0%' }}"></div>
                                 </div>
                             </div>
                         </div>
@@ -94,16 +93,13 @@
             </div>
         </div>
 
-        <!-- Main Content Area -->
+        <!-- Main Content -->
         <div class="row g-4">
-            <!-- Left Column -->
+            <!-- Jadwal & Presensi -->
             <div class="col-lg-8">
-                <!-- Schedule Section -->
                 <div class="card premium-card">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                        <h3 class="card-title mb-0">
-                            <i class="mdi mdi-calendar-text me-2"></i> Jadwal Ekstrakurikuler
-                        </h3>
+                    <div class="card-header d-flex justify-content-between">
+                        <h3 class="card-title mb-0"><i class="mdi mdi-calendar-text me-2"></i> Jadwal Ekstrakurikuler</h3>
                         <div class="dropdown">
                             <button class="btn btn-soft-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                 <i class="mdi mdi-filter"></i> Filter
@@ -112,7 +108,6 @@
                                 <li><a class="dropdown-item active" href="#">Semua</a></li>
                                 <li><a class="dropdown-item" href="#">Basket</a></li>
                                 <li><a class="dropdown-item" href="#">Robotik</a></li>
-                                <li><a class="dropdown-item" href="#">Paduan Suara</a></li>
                             </ul>
                         </div>
                     </div>
@@ -160,12 +155,10 @@
                     </div>
                 </div>
 
-                <!-- Attendance History -->
+                <!-- Riwayat Presensi -->
                 <div class="card premium-card mt-4">
                     <div class="card-header">
-                        <h3 class="card-title mb-0">
-                            <i class="mdi mdi-account-check me-2"></i> Riwayat Presensi
-                        </h3>
+                        <h3 class="card-title mb-0"><i class="mdi mdi-account-check me-2"></i> Riwayat Presensi</h3>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -180,42 +173,22 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @forelse($riwayatPresensi ?? [] as $riwayat)
                                     <tr>
-                                        <td>12 Mei 2023</td>
+                                        <td>{{ \Carbon\Carbon::parse($riwayat->tanggal)->translatedFormat('d F Y') }}</td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <img src="{{ asset('assets/images/ekstra/basket.jpg') }}" class="rounded-circle avatar-xs me-2" alt="">
-                                                <span>Basket</span>
+                                                <img src="{{ asset('assets/images/ekstra/' . strtolower($riwayat->ekstrakurikuler->nama) . '.jpg') }}" class="rounded-circle avatar-xs me-2" alt="">
+                                                <span>{{ $riwayat->ekstrakurikuler->nama }}</span>
                                             </div>
                                         </td>
-                                        <td><span class="badge bg-success">Hadir</span></td>
-                                        <td>15:02 WIB</td>
-                                        <td>Pak Andi</td>
+                                        <td><span class="badge bg-{{ $riwayat->status == 'Hadir' ? 'success' : 'warning' }}">{{ $riwayat->status }}</span></td>
+                                        <td>{{ $riwayat->jam ?? '-' }}</td>
+                                        <td>{{ $riwayat->pembimbing->name ?? '-' }}</td>
                                     </tr>
-                                    <tr>
-                                        <td>5 Mei 2023</td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="{{ asset('assets/images/ekstra/robotik.jpg') }}" class="rounded-circle avatar-xs me-2" alt="">
-                                                <span>Robotik</span>
-                                            </div>
-                                        </td>
-                                        <td><span class="badge bg-success">Hadir</span></td>
-                                        <td>13:05 WIB</td>
-                                        <td>Bu Rina</td>
-                                    </tr>
-                                    <tr>
-                                        <td>28 April 2023</td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="{{ asset('assets/images/ekstra/paduan-suara.jpg') }}" class="rounded-circle avatar-xs me-2" alt="">
-                                                <span>Paduan Suara</span>
-                                            </div>
-                                        </td>
-                                        <td><span class="badge bg-warning">Izin</span></td>
-                                        <td>-</td>
-                                        <td>Bu Dewi</td>
-                                    </tr>
+                                    @empty
+                                    <tr><td colspan="5" class="text-center text-muted">Belum ada data presensi.</td></tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -223,66 +196,48 @@
                 </div>
             </div>
 
-            <!-- Right Column -->
+            <!-- Sidebar -->
             <div class="col-lg-4">
-                <!-- My Extracurricular -->
+                <!-- Ekstrakurikuler Saya -->
                 <div class="card premium-card">
                     <div class="card-header">
-                        <h3 class="card-title mb-0">
-                            <i class="mdi mdi-account-group me-2"></i> Ekstrakurikuler Saya
-                        </h3>
+                        <h3 class="card-title mb-0"><i class="mdi mdi-account-group me-2"></i> Ekstrakurikuler Saya</h3>
                     </div>
                     <div class="card-body">
                         <div class="extracurricular-list">
+                            @forelse($ekstrakurikulerSaya ?? [] as $ekstra)
                             <div class="extracurricular-item active">
                                 <div class="item-icon">
-                                    <img src="{{ asset('assets/images/ekstra/basket.jpg') }}" alt="">
+                                    <img src="{{ asset('assets/images/ekstra/' . strtolower($ekstra->nama) . '.jpg') }}" alt="">
                                 </div>
                                 <div class="item-details">
-                                    <h5>Basket</h5>
-                                    <p class="text-muted">Pelatih: Pak Andi</p>
+                                    <h5>{{ $ekstra->nama }}</h5>
+                                    <p class="text-muted">Pelatih: {{ $ekstra->pembimbing->name ?? '-' }}</p>
                                     <div class="progress">
-                                        <div class="progress-bar" style="width: 75%"></div>
+                                        <div class="progress-bar" style="width: {{ $ekstra->kehadiran_persen ?? '0%' }}"></div>
                                     </div>
                                     <div class="d-flex justify-content-between mt-2">
-                                        <small>12 Kehadiran</small>
-                                        <small>75%</small>
+                                        <small>{{ $ekstra->jumlah_hadir ?? 0 }} Kehadiran</small>
+                                        <small>{{ $ekstra->kehadiran_persen ?? '0%' }}</small>
                                     </div>
                                 </div>
                             </div>
-                            <div class="extracurricular-item">
-                                <div class="item-icon">
-                                    <img src="{{ asset('assets/images/ekstra/robotik.jpg') }}" alt="">
-                                </div>
-                                <div class="item-details">
-                                    <h5>Robotik</h5>
-                                    <p class="text-muted">Pelatih: Bu Rina</p>
-                                    <div class="progress">
-                                        <div class="progress-bar" style="width: 60%"></div>
-                                    </div>
-                                    <div class="d-flex justify-content-between mt-2">
-                                        <small>8 Kehadiran</small>
-                                        <small>60%</small>
-                                    </div>
-                                </div>
-                            </div>
+                            @empty
+                            <p class="text-muted">Belum tergabung dalam ekstrakurikuler.</p>
+                            @endforelse
                         </div>
                     </div>
                 </div>
 
-                <!-- Recent Activities -->
+                <!-- Aktivitas Terbaru -->
                 <div class="card premium-card mt-4">
                     <div class="card-header">
-                        <h3 class="card-title mb-0">
-                            <i class="mdi mdi-bell-ring-outline me-2"></i> Aktivitas Terbaru
-                        </h3>
+                        <h3 class="card-title mb-0"><i class="mdi mdi-bell-ring-outline me-2"></i> Aktivitas Terbaru</h3>
                     </div>
                     <div class="card-body">
                         <div class="activity-timeline">
                             <div class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="mdi mdi-calendar-check"></i>
-                                </div>
+                                <div class="activity-icon"><i class="mdi mdi-calendar-check"></i></div>
                                 <div class="activity-content">
                                     <h6>Presensi Tercatat</h6>
                                     <p class="text-muted">Anda hadir dalam sesi Basket hari ini</p>
@@ -290,9 +245,7 @@
                                 </div>
                             </div>
                             <div class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="mdi mdi-trophy-variant"></i>
-                                </div>
+                                <div class="activity-icon"><i class="mdi mdi-trophy-variant"></i></div>
                                 <div class="activity-content">
                                     <h6>Prestasi Baru</h6>
                                     <p class="text-muted">Juara 1 Lomba Robotik Regional</p>
@@ -300,9 +253,7 @@
                                 </div>
                             </div>
                             <div class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="mdi mdi-notebook-edit"></i>
-                                </div>
+                                <div class="activity-icon"><i class="mdi mdi-notebook-edit"></i></div>
                                 <div class="activity-content">
                                     <h6>Logbook Diperbarui</h6>
                                     <p class="text-muted">Pembuatan robot line follower</p>
@@ -313,37 +264,27 @@
                     </div>
                 </div>
 
-                <!-- Quick Links -->
+                <!-- Akses Cepat -->
                 <div class="card premium-card mt-4">
                     <div class="card-header">
-                        <h3 class="card-title mb-0">
-                            <i class="mdi mdi-link-variant me-2"></i> Akses Cepat
-                        </h3>
+                        <h3 class="card-title mb-0"><i class="mdi mdi-link-variant me-2"></i> Akses Cepat</h3>
                     </div>
                     <div class="card-body">
                         <div class="quick-links">
                             <a href="#" class="quick-link">
-                                <div class="link-icon bg-primary bg-opacity-10 text-primary">
-                                    <i class="mdi mdi-trophy-award"></i>
-                                </div>
+                                <div class="link-icon bg-primary bg-opacity-10 text-primary"><i class="mdi mdi-trophy-award"></i></div>
                                 <span>Prestasi Saya</span>
                             </a>
                             <a href="#" class="quick-link">
-                                <div class="link-icon bg-success bg-opacity-10 text-success">
-                                    <i class="mdi mdi-notebook-multiple"></i>
-                                </div>
+                                <div class="link-icon bg-success bg-opacity-10 text-success"><i class="mdi mdi-notebook-multiple"></i></div>
                                 <span>Logbook</span>
                             </a>
                             <a href="#" class="quick-link">
-                                <div class="link-icon bg-info bg-opacity-10 text-info">
-                                    <i class="mdi mdi-calendar-account"></i>
-                                </div>
+                                <div class="link-icon bg-info bg-opacity-10 text-info"><i class="mdi mdi-calendar-account"></i></div>
                                 <span>Kalender</span>
                             </a>
                             <a href="#" class="quick-link">
-                                <div class="link-icon bg-warning bg-opacity-10 text-warning">
-                                    <i class="mdi mdi-chart-bar"></i>
-                                </div>
+                                <div class="link-icon bg-warning bg-opacity-10 text-warning"><i class="mdi mdi-chart-bar"></i></div>
                                 <span>Statistik</span>
                             </a>
                         </div>
@@ -351,9 +292,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> <!-- .container-fluid -->
 </div>
-
 <style>
     /* Premium Dashboard Styles */
     .dashboard-header {
