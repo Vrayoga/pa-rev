@@ -38,7 +38,7 @@
                                 <div class="col-sm-6">
                                     <div class="mb-3">
                                         <label for="ekstrakurikuler_id">Ekstrakurikuler</label>
-                                        @if($user->hasRole('guru'))
+                                        @if($user->hasRole('guru_pembina'))
                                             {{-- Guru hanya bisa pilih dari ekstrakurikuler yang dia ampu --}}
                                             <select id="ekstrakurikuler_id" name="ekstrakurikuler_id" class="form-control">
                                                 <option value="" disabled selected>Pilih Ekstrakurikuler</option>

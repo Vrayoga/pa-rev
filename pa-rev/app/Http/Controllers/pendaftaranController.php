@@ -223,10 +223,10 @@ class PendaftaranController extends Controller
 
         if (!empty($errorMessages)) {
             $errorMsg = implode(' ', $errorMessages);
-            return redirect()->route('userSiswa.index')->with('success', $message)->with('warning', $errorMsg);
+            return redirect()->route('siswa.dashboard')->with('success', $message)->with('warning', $errorMsg);
         }
 
-        return redirect()->route('userSiswa.index')->with('success', $message);
+        return redirect()->route('siswa.dashboard')->with('success', $message);
     } else {
         $errorMsg = implode(' ', $errorMessages) ?: 'Tidak ada ekstrakurikuler pilihan yang dipilih untuk didaftarkan.';
         return back()->with('error', 'Pendaftaran gagal: ' . $errorMsg);

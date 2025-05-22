@@ -68,7 +68,7 @@
                                                 <td>{{ $ekstrakurikuler->nama_ekstrakurikuler }}</td>
                                                 <td>
                                                     @if ($ekstrakurikuler->gambar)
-                                                        <img src="{{ asset('storage/' . $ekstrakurikuler->gambar) }}"
+                                                         <img src="{{ Storage::url($ekstrakurikuler->gambar) }}" 
                                                             alt="Gambar" width="50">
                                                     @else
                                                        {{ $ekstrakurikuler->gambar }}

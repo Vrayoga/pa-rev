@@ -124,13 +124,13 @@ Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
     
     // Jadwal Management
     Route::prefix('jadwal')->group(function () {
-        Route::get('/', [jadwalEkstrakurikulerController::class, 'index'])->name('jadwal.index');
-        Route::get('/create', [JadwalEkstrakurikulerController::class, 'create'])->name('jadwal.create');
+        Route::get('/', [jadwalEkstrakurikulerController::class, 'index'])->name('jadwal.index')->middleware('permission:view jadwal');
+        Route::get('/create', [JadwalEkstrakurikulerController::class, 'create'])->name('jadwal.create')->middleware('permission:create jadwal');
         Route::post('/store', [JadwalEkstrakurikulerController::class, 'store'])->name('jadwal.store');
         Route::get('/show/{id}', [JadwalEkstrakurikulerController::class, 'show'])->name('jadwal.show');
-        Route::get('/edit/{id}', [JadwalEkstrakurikulerController::class, 'edit'])->name('jadwal.edit');
-        Route::put('/{id}', [JadwalEkstrakurikulerController::class, 'update'])->name('jadwal.update');
-        Route::delete('/{id}', [JadwalEkstrakurikulerController::class, 'destroy'])->name('jadwal.destroy');
+        Route::get('/edit/{id}', [JadwalEkstrakurikulerController::class, 'edit'])->name('jadwal.edit')->middleware('permission:edit jadwal');
+        Route::put('/{id}', [JadwalEkstrakurikulerController::class, 'update'])->name('jadwal.update')->middleware('permission:update jadwal');
+        Route::delete('/{id}', [JadwalEkstrakurikulerController::class, 'destroy'])->name('jadwal.destroy')->middleware('permission:delete jadwal');
     });
 
     // Kategori Management
@@ -176,11 +176,11 @@ Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
 
     // Logbook Management
 
-    Route::post('/absensi/buka', [SesiAbsensiController::class, 'bukaAbsen'])->name('absensi.buka');
-    Route::post('/absensi/tutup', [SesiAbsensiController::class, 'tutupAbsen'])->name('absensi.tutup');
+    Route::post('/absensi/buka', [SesiAbsensiController::class, 'bukaAbsen'])->name('absensi.buka')->middleware('permission:open sesi absensi');
+    Route::post('/absensi/tutup', [SesiAbsensiController::class, 'tutupAbsen'])->name('absensi.tutup')->middleware('permission:close sesi absensi');
 
-    Route::get('/absensi', [AbsensiEkstrakurikulerController::class, 'absensiSiswa'])->name('absensi.siswa');
-    Route::post('/absensi/simpan', [AbsensiEkstrakurikulerController::class, 'simpanAbsensi'])->name('absensi.simpan');
+    Route::get('/absensi', [AbsensiEkstrakurikulerController::class, 'absensiSiswa'])->name('absensi.siswa')->middleware('permission:view absensi');
+    Route::post('/absensi/simpan', [AbsensiEkstrakurikulerController::class, 'simpanAbsensi'])->name('absensi.simpan')->middleware('permission:create absensi');
     Route::post('/absensi/selesai/{id}', [AbsensiEkstrakurikulerController::class, 'selesaiSesi'])->name('absensi.selesai');
     // Logout
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');

@@ -128,15 +128,18 @@ class RolePermissionSeeder extends Seeder
             'view siswa',
             'create siswa',
             'update siswa',
+            'edit siswa',
             'delete siswa',
 
             'view kelas',
             'create kelas',
+            'edit kelas',
             'update kelas',
             'delete kelas',
             
             'view kategori',
             'create kategori',
+            'edit kategori',
             'update kategori',
             'delete kategori',
 
@@ -146,11 +149,11 @@ class RolePermissionSeeder extends Seeder
             'edit ekstrakurikuler',
             'delete ekstrakurikuler',
 
-            'view jadwal ekstrakurikuler',
-            'create jadwal ekstrakurikuler',
-            'update jadwal ekstrakurikuler',
-            'edit jadwal ekstrakurikuler',
-            'delete jadwal ekstrakurikuler',
+            'view jadwal',
+            'create jadwal',
+            'update jadwal',
+            'edit jadwal',
+            'delete jadwal',
 
 
             'view logbook',
@@ -201,11 +204,20 @@ class RolePermissionSeeder extends Seeder
             'edit logbook',
             'delete logbook',
 
+            'view jadwal',
+            'create jadwal',
+            'update jadwal',
+            'edit jadwal',
+            'delete jadwal',
+
             'view prestasi',
             'create prestasi',
             'update prestasi',
             'edit prestasi',
             'delete prestasi',
+
+            'view pendaftaran',
+            'validasi pendaftaran',
 
             'view absensi',
             'create absensi',
@@ -213,11 +225,18 @@ class RolePermissionSeeder extends Seeder
             'update absensi',
             'delete absensi',
 
+            'view sesi absensi',
+            'open sesi absensi',
+            'close sesi absensi',
+
         ]);
         $siswa->givePermissionTo([
             'view dashboard',
             'create pendaftaran',
             'show ekstrakurikuler',
+            'view logbook',
+            'view absensi',
+            'view jadwal',
 
         ]);
     }
