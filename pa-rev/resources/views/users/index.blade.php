@@ -33,12 +33,17 @@
             padding: 0;
         }
 
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: var(--cream);
-            overflow-x: hidden;
             scroll-behavior: smooth;
             color: #333;
+            position: relative;
         }
 
         h1,
@@ -172,6 +177,7 @@
             overflow: hidden;
             display: flex;
             align-items: center;
+            width: 100%;
         }
 
         .hero-section::before {
@@ -198,6 +204,7 @@
         .hero-content {
             position: relative;
             z-index: 2;
+            width: 100%;
         }
 
         .section-title {
@@ -237,6 +244,8 @@
             position: relative;
             margin: 60px 0;
             padding: 30px 0;
+            width: 100%;
+            overflow: hidden;
         }
 
         .carousel-container {
@@ -244,9 +253,10 @@
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             gap: 30px;
-            padding: 30px 0;
+            padding: 30px 15px;
             scrollbar-width: none;
             -ms-overflow-style: none;
+            width: 100%;
         }
 
         .carousel-container::-webkit-scrollbar {
@@ -355,13 +365,13 @@
             transform: translateY(-50%);
             display: flex;
             justify-content: space-between;
-            padding: 0 40px;
+            padding: 0 15px;
             pointer-events: none;
         }
 
         .carousel-control {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background-color: rgba(255, 255, 255, 0.95);
             display: flex;
@@ -388,6 +398,7 @@
             background-color: white;
             position: relative;
             overflow: hidden;
+            width: 100%;
         }
 
         .statistics-section::before {
@@ -484,6 +495,7 @@
             padding: 120px 0;
             background-color: var(--cream);
             position: relative;
+            width: 100%;
         }
 
         .features-section::before {
@@ -559,6 +571,7 @@
             padding: 120px 0;
             background-color: white;
             position: relative;
+            width: 100%;
         }
 
         .faq-section::before {
@@ -616,6 +629,7 @@
             padding: 80px 0 40px;
             color: white;
             position: relative;
+            width: 100%;
         }
 
         footer::before {
@@ -824,140 +838,249 @@
         }
 
         /* Media Queries for Responsiveness */
-        @media (max-width: 576px) {
-    /* Hero Section */
-    .hero-section {
-        padding: 120px 0 40px !important;
-        min-height: auto;
-    }
-    
-    .section-title {
-        font-size: 1.8rem !important;
-        line-height: 1.3;
-    }
-    
-    .section-subtitle {
-        font-size: 1rem !important;
-        margin-bottom: 25px;
-    }
-    
-    /* Navbar */
-    .navbar-brand {
-        font-size: 1.4rem;
-    }
-    
-    .navbar-toggler {
-        padding: 0.25rem 0.5rem;
-        font-size: 1rem;
-    }
-    
-    /* Ekskul Cards */
-    .ekskul-card {
-        flex: 0 0 85vw !important;
-        height: 380px;
-        margin-right: 15px;
-    }
-    
-    .ekskul-img {
-        height: 150px !important;
-    }
-    
-    .card-content {
-        padding: 20px;
-    }
-    
-    .card-title {
-        font-size: 1.2rem;
-    }
-    
-    .card-schedule {
-        font-size: 12px;
-    }
-    
-    .card-description {
-        font-size: 12px;
-        -webkit-line-clamp: 2;
-    }
-    
-    /* Statistics */
-    .stat-card {
-        padding: 25px 15px;
-    }
-    
-    .stat-number {
-        font-size: 2rem;
-    }
-    
-    .stat-title {
-        font-size: 0.9rem;
-    }
-    
-    /* Footer */
-    .footer-logo {
-        font-size: 1.6rem;
-    }
-    
-    .footer-title {
-        font-size: 1.2rem;
-        margin-bottom: 15px;
-    }
-    
-    .footer-links a {
-        font-size: 0.9rem;
-    }
-    
-    .contact-info p {
-        font-size: 0.9rem;
-    }
-    
-    /* Button adjustments */
-    .btn-login, .btn-outline-gold {
-        padding: 8px 20px;
-        font-size: 14px;
-    }
-}
+        @media (max-width: 1199.98px) {
+            .carousel-controls {
+                padding: 0 15px;
+            }
+            
+            .carousel-control {
+                width: 45px;
+                height: 45px;
+                font-size: 1rem;
+            }
+        }
 
-/* Perbaikan khusus untuk layar sangat kecil (di bawah 400px) */
-@media (max-width: 400px) {
-    .section-title {
-        font-size: 1.6rem !important;
-    }
-    
-    .section-subtitle {
-        font-size: 0.9rem !important;
-    }
-    
-    .ekskul-card {
-        height: 350px !important;
-    }
-    
-    .card-button {
-        padding: 8px 20px;
-        font-size: 12px;
-    }
-    
-    /* Navbar items spacing */
-    .nav-item {
-        margin: 5px 0;
-    }
-    
-    .nav-item.ms-3 {
-        margin-left: 0 !important;
-        margin-top: 10px;
-    }
-}
+        @media (max-width: 991.98px) {
+            .hero-section {
+                padding: 140px 0 80px;
+            }
+            
+            .section-title {
+                font-size: 2.8rem;
+            }
+            
+            .section-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .carousel-controls {
+                display: none;
+            }
+            
+            .stat-card {
+                padding: 30px 20px;
+            }
+            
+            .feature-card {
+                padding: 30px 20px;
+            }
+            
+            .accordion-button,
+            .accordion-body {
+                padding: 20px;
+            }
+        }
 
-/* Perbaikan orientasi landscape */
-@media (max-width: 992px) and (orientation: landscape) {
-    .hero-section {
-        padding: 100px 0 40px !important;
-        min-height: auto;
-    }
-    
-    .ekskul-carousel {
-        margin: 30px 0;
-    }
-}
+        @media (max-width: 767.98px) {
+            .hero-section {
+                padding: 120px 0 60px;
+                min-height: auto;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .section-subtitle {
+                font-size: 1rem;
+                margin-bottom: 30px;
+            }
+            
+            .ekskul-card {
+                flex: 0 0 85%;
+                height: 380px;
+            }
+            
+            .ekskul-img {
+                height: 180px;
+            }
+            
+            .card-content {
+                padding: 20px;
+            }
+            
+            .card-title {
+                font-size: 1.2rem;
+            }
+            
+            .card-description {
+                font-size: 13px;
+                -webkit-line-clamp: 2;
+            }
+            
+            .statistics-section,
+            .features-section,
+            .faq-section {
+                padding: 80px 0;
+            }
+            
+            .stat-card {
+                padding: 25px 15px;
+            }
+            
+            .stat-number {
+                font-size: 2.2rem;
+            }
+            
+            .footer-logo {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .hero-section {
+                padding: 100px 0 40px;
+            }
+            
+            .navbar-brand {
+                font-size: 1.4rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .section-subtitle {
+                font-size: 0.95rem;
+            }
+            
+            .ekskul-card {
+                flex: 0 0 90%;
+                height: 350px;
+            }
+            
+            .ekskul-img {
+                height: 150px;
+            }
+            
+            .card-button {
+                padding: 8px 20px;
+                font-size: 13px;
+            }
+            
+            .stat-card {
+                padding: 20px 15px;
+            }
+            
+            .stat-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 2.2rem;
+            }
+            
+            .stat-number {
+                font-size: 1.8rem;
+            }
+            
+            .stat-title {
+                font-size: 0.95rem;
+            }
+            
+            .feature-card {
+                padding: 25px 20px;
+            }
+            
+            .feature-icon {
+                font-size: 2rem;
+                margin-bottom: 15px;
+            }
+            
+            .feature-title {
+                font-size: 1.2rem;
+                margin-bottom: 15px;
+            }
+            
+            .feature-desc {
+                font-size: 0.9rem;
+            }
+            
+            .accordion-button,
+            .accordion-body {
+                padding: 15px;
+            }
+            
+            .accordion-button {
+                font-size: 1rem;
+            }
+            
+            .footer-logo {
+                font-size: 1.6rem;
+            }
+            
+            .footer-title {
+                font-size: 1.2rem;
+                margin-bottom: 20px;
+            }
+            
+            .footer-links a {
+                font-size: 0.9rem;
+            }
+            
+            .contact-info p {
+                font-size: 0.9rem;
+            }
+            
+            .social-link {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            
+            .btn-login, .btn-outline-gold {
+                padding: 8px 20px;
+                font-size: 14px;
+            }
+            
+            .nav-item {
+                margin: 5px 0;
+            }
+            
+            .nav-item.ms-3 {
+                margin-left: 0 !important;
+                margin-top: 10px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .ekskul-card {
+                height: 320px;
+            }
+            
+            .card-button {
+                padding: 6px 15px;
+                font-size: 12px;
+            }
+            
+            .stat-number {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* Perbaikan khusus untuk orientasi landscape */
+        @media (max-width: 992px) and (orientation: landscape) {
+            .hero-section {
+                padding: 100px 0 40px;
+                min-height: auto;
+            }
+            
+            .ekskul-carousel {
+                margin: 30px 0;
+            }
+        }
     </style>
 </head>
 
@@ -974,7 +1097,7 @@
                 SMKN 1 Sumenep
             </a>
             <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarNav">
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -991,14 +1114,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#faq">FAQ</a>
                     </li>
-                    <li class="nav-item ms-3">
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
                         <a href="/register" class="btn btn-outline-gold">
                             Daftar
                         </a>
                     </li>
-                        <li class="nav-item ms-3">
-                            <a class="btn btn-login" href="/login">Masuk <i class="bi bi-arrow-right ms-2"></i></a>
-                        </li>
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <a class="btn btn-login" href="/login">Masuk <i class="bi bi-arrow-right ms-2"></i></a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -1475,49 +1598,25 @@
             });
         }
 
-        // Perbaikan untuk navbar toggler di mobile
-document.addEventListener('DOMContentLoaded', function() {
-    const navbarToggler = document.querySelector('.navbar-toggler');
-    const navbarCollapse = document.querySelector('.navbar-collapse');
-    
-    if (navbarToggler && navbarCollapse) {
-        navbarToggler.addEventListener('click', function() {
-            // Tutup navbar jika sudah terbuka
-            if (navbarCollapse.classList.contains('show')) {
-                navbarCollapse.classList.remove('show');
-            } else {
-                navbarCollapse.classList.add('show');
-            }
-        });
-        
-        // Tutup navbar ketika item diklik (untuk mobile)
+        // Close mobile menu when clicking on a link
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
-                if (window.innerWidth < 992) {
+                const navbarCollapse = document.querySelector('.navbar-collapse');
+                if (navbarCollapse.classList.contains('show')) {
                     navbarCollapse.classList.remove('show');
                 }
             });
         });
-    }
-    
-    // Perbaikan scroll untuk mobile
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    if (isMobile) {
-        // Smooth scroll dengan offset yang lebih kecil untuk mobile
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 70, // Offset lebih kecil untuk mobile
-                        behavior: 'smooth'
-                    });
+
+        // Prevent horizontal scrolling on mobile
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length === 1) {
+                const touch = e.touches[0];
+                if (touch.clientX <= 10 || touch.clientX >= window.innerWidth - 10) {
+                    e.preventDefault();
                 }
-            });
-        });
-    }
-});
+            }
+        }, { passive: false });
     </script>
 </body>
 
