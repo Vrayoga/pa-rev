@@ -33,7 +33,8 @@
             padding: 0;
         }
 
-        html, body {
+        html,
+        body {
             width: 100%;
             overflow-x: hidden;
         }
@@ -64,7 +65,7 @@
             transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
             box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }   
+        }
 
         .navbar-brand {
             font-family: 'Playfair Display', serif;
@@ -187,8 +188,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('/dummy_ekstra/background.png') center/cover;
+            background: url('/assets/images/background.png') center/cover no-repeat;
             opacity: 0.08;
+            z-index: 1;
         }
 
         .hero-section::after {
@@ -199,6 +201,7 @@
             width: 100%;
             height: 150px;
             background: linear-gradient(transparent, rgba(10, 26, 58, 0.7));
+            z-index: 1;
         }
 
         .hero-content {
@@ -842,7 +845,7 @@
             .carousel-controls {
                 padding: 0 15px;
             }
-            
+
             .carousel-control {
                 width: 45px;
                 height: 45px;
@@ -854,27 +857,27 @@
             .hero-section {
                 padding: 140px 0 80px;
             }
-            
+
             .section-title {
                 font-size: 2.8rem;
             }
-            
+
             .section-subtitle {
                 font-size: 1.1rem;
             }
-            
+
             .carousel-controls {
                 display: none;
             }
-            
+
             .stat-card {
                 padding: 30px 20px;
             }
-            
+
             .feature-card {
                 padding: 30px 20px;
             }
-            
+
             .accordion-button,
             .accordion-body {
                 padding: 20px;
@@ -886,52 +889,52 @@
                 padding: 120px 0 60px;
                 min-height: auto;
             }
-            
+
             .section-title {
                 font-size: 2.2rem;
             }
-            
+
             .section-subtitle {
                 font-size: 1rem;
                 margin-bottom: 30px;
             }
-            
+
             .ekskul-card {
                 flex: 0 0 85%;
                 height: 380px;
             }
-            
+
             .ekskul-img {
                 height: 180px;
             }
-            
+
             .card-content {
                 padding: 20px;
             }
-            
+
             .card-title {
                 font-size: 1.2rem;
             }
-            
+
             .card-description {
                 font-size: 13px;
                 -webkit-line-clamp: 2;
             }
-            
+
             .statistics-section,
             .features-section,
             .faq-section {
                 padding: 80px 0;
             }
-            
+
             .stat-card {
                 padding: 25px 15px;
             }
-            
+
             .stat-number {
                 font-size: 2.2rem;
             }
-            
+
             .footer-logo {
                 font-size: 1.8rem;
             }
@@ -941,110 +944,111 @@
             .hero-section {
                 padding: 100px 0 40px;
             }
-            
+
             .navbar-brand {
                 font-size: 1.4rem;
             }
-            
+
             .section-title {
                 font-size: 1.8rem;
             }
-            
+
             .section-subtitle {
                 font-size: 0.95rem;
             }
-            
+
             .ekskul-card {
                 flex: 0 0 90%;
                 height: 350px;
             }
-            
+
             .ekskul-img {
                 height: 150px;
             }
-            
+
             .card-button {
                 padding: 8px 20px;
                 font-size: 13px;
             }
-            
+
             .stat-card {
                 padding: 20px 15px;
             }
-            
+
             .stat-icon {
                 width: 70px;
                 height: 70px;
                 font-size: 2.2rem;
             }
-            
+
             .stat-number {
                 font-size: 1.8rem;
             }
-            
+
             .stat-title {
                 font-size: 0.95rem;
             }
-            
+
             .feature-card {
                 padding: 25px 20px;
             }
-            
+
             .feature-icon {
                 font-size: 2rem;
                 margin-bottom: 15px;
             }
-            
+
             .feature-title {
                 font-size: 1.2rem;
                 margin-bottom: 15px;
             }
-            
+
             .feature-desc {
                 font-size: 0.9rem;
             }
-            
+
             .accordion-button,
             .accordion-body {
                 padding: 15px;
             }
-            
+
             .accordion-button {
                 font-size: 1rem;
             }
-            
+
             .footer-logo {
                 font-size: 1.6rem;
             }
-            
+
             .footer-title {
                 font-size: 1.2rem;
                 margin-bottom: 20px;
             }
-            
+
             .footer-links a {
                 font-size: 0.9rem;
             }
-            
+
             .contact-info p {
                 font-size: 0.9rem;
             }
-            
+
             .social-link {
                 width: 40px;
                 height: 40px;
                 font-size: 1rem;
             }
-            
-            .btn-login, .btn-outline-gold {
+
+            .btn-login,
+            .btn-outline-gold {
                 padding: 8px 20px;
                 font-size: 14px;
             }
-            
+
             .nav-item {
                 margin: 5px 0;
             }
-            
+
             .nav-item.ms-3 {
                 margin-left: 0 !important;
                 margin-top: 10px;
@@ -1055,16 +1059,16 @@
             .section-title {
                 font-size: 1.6rem;
             }
-            
+
             .ekskul-card {
                 height: 320px;
             }
-            
+
             .card-button {
                 padding: 6px 15px;
                 font-size: 12px;
             }
-            
+
             .stat-number {
                 font-size: 1.6rem;
             }
@@ -1076,7 +1080,7 @@
                 padding: 100px 0 40px;
                 min-height: auto;
             }
-            
+
             .ekskul-carousel {
                 margin: 30px 0;
             }
@@ -1096,8 +1100,8 @@
                 <img src="{{ asset('') }}assets/images/smk1.png" width="40" class="me-2" alt="logo">
                 SMKN 1 Sumenep
             </a>
-            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -1616,7 +1620,9 @@
                     e.preventDefault();
                 }
             }
-        }, { passive: false });
+        }, {
+            passive: false
+        });
     </script>
 </body>
 
