@@ -59,7 +59,7 @@
             transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
             box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
+        }   
 
         .navbar-brand {
             font-family: 'Playfair Display', serif;
@@ -824,120 +824,140 @@
         }
 
         /* Media Queries for Responsiveness */
-        @media (max-width: 1199px) {
-            .section-title {
-                font-size: 3rem;
-            }
-
-            .ekskul-card {
-                flex: 0 0 320px;
-            }
-        }
-
-        @media (max-width: 991px) {
-            .section-title {
-                font-size: 2.5rem;
-            }
-
-            .ekskul-card {
-                flex: 0 0 280px;
-                height: 400px;
-            }
-
-            .ekskul-img {
-                height: 200px;
-            }
-
-            .navbar-collapse {
-                background-color: var(--navy);
-                padding: 20px;
-                border-radius: 12px;
-                margin-top: 20px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            }
-
-            .nav-link {
-                padding: 12px 0;
-            }
-
-            .carousel-controls {
-                display: none;
-            }
-
-            .stat-card,
-            .feature-card {
-                padding: 30px 20px;
-            }
-        }
-
-        @media (max-width: 767px) {
-            .hero-section {
-                padding: 140px 0 80px;
-            }
-
-            .section-title {
-                font-size: 2.2rem;
-            }
-
-            .section-subtitle {
-                font-size: 1.1rem;
-            }
-
-            .stat-card,
-            .feature-card {
-                margin-bottom: 30px;
-            }
-
-            .ekskul-card {
-                flex: 0 0 260px;
-                height: 380px;
-            }
-
-            .ekskul-img {
-                height: 180px;
-            }
-
-            .footer-logo {
-                font-size: 1.8rem;
-            }
-        }
-
         @media (max-width: 576px) {
-            .section-title {
-                font-size: 2rem;
-            }
+    /* Hero Section */
+    .hero-section {
+        padding: 120px 0 40px !important;
+        min-height: auto;
+    }
+    
+    .section-title {
+        font-size: 1.8rem !important;
+        line-height: 1.3;
+    }
+    
+    .section-subtitle {
+        font-size: 1rem !important;
+        margin-bottom: 25px;
+    }
+    
+    /* Navbar */
+    .navbar-brand {
+        font-size: 1.4rem;
+    }
+    
+    .navbar-toggler {
+        padding: 0.25rem 0.5rem;
+        font-size: 1rem;
+    }
+    
+    /* Ekskul Cards */
+    .ekskul-card {
+        flex: 0 0 85vw !important;
+        height: 380px;
+        margin-right: 15px;
+    }
+    
+    .ekskul-img {
+        height: 150px !important;
+    }
+    
+    .card-content {
+        padding: 20px;
+    }
+    
+    .card-title {
+        font-size: 1.2rem;
+    }
+    
+    .card-schedule {
+        font-size: 12px;
+    }
+    
+    .card-description {
+        font-size: 12px;
+        -webkit-line-clamp: 2;
+    }
+    
+    /* Statistics */
+    .stat-card {
+        padding: 25px 15px;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .stat-title {
+        font-size: 0.9rem;
+    }
+    
+    /* Footer */
+    .footer-logo {
+        font-size: 1.6rem;
+    }
+    
+    .footer-title {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+    
+    .footer-links a {
+        font-size: 0.9rem;
+    }
+    
+    .contact-info p {
+        font-size: 0.9rem;
+    }
+    
+    /* Button adjustments */
+    .btn-login, .btn-outline-gold {
+        padding: 8px 20px;
+        font-size: 14px;
+    }
+}
 
-            .hero-section {
-                padding: 120px 0 60px;
-            }
+/* Perbaikan khusus untuk layar sangat kecil (di bawah 400px) */
+@media (max-width: 400px) {
+    .section-title {
+        font-size: 1.6rem !important;
+    }
+    
+    .section-subtitle {
+        font-size: 0.9rem !important;
+    }
+    
+    .ekskul-card {
+        height: 350px !important;
+    }
+    
+    .card-button {
+        padding: 8px 20px;
+        font-size: 12px;
+    }
+    
+    /* Navbar items spacing */
+    .nav-item {
+        margin: 5px 0;
+    }
+    
+    .nav-item.ms-3 {
+        margin-left: 0 !important;
+        margin-top: 10px;
+    }
+}
 
-            .ekskul-card {
-                flex: 0 0 240px;
-                height: 360px;
-            }
-
-            .ekskul-img {
-                height: 160px;
-            }
-
-            .card-title {
-                font-size: 1.2rem;
-            }
-
-            .card-description {
-                font-size: 13px;
-                -webkit-line-clamp: 2;
-            }
-
-            .card-button {
-                padding: 8px 25px;
-                font-size: 13px;
-            }
-
-            .footer-title {
-                font-size: 1.2rem;
-            }
-        }
+/* Perbaikan orientasi landscape */
+@media (max-width: 992px) and (orientation: landscape) {
+    .hero-section {
+        padding: 100px 0 40px !important;
+        min-height: auto;
+    }
+    
+    .ekskul-carousel {
+        margin: 30px 0;
+    }
+}
     </style>
 </head>
 
@@ -1454,6 +1474,50 @@
                 }
             });
         }
+
+        // Perbaikan untuk navbar toggler di mobile
+document.addEventListener('DOMContentLoaded', function() {
+    const navbarToggler = document.querySelector('.navbar-toggler');
+    const navbarCollapse = document.querySelector('.navbar-collapse');
+    
+    if (navbarToggler && navbarCollapse) {
+        navbarToggler.addEventListener('click', function() {
+            // Tutup navbar jika sudah terbuka
+            if (navbarCollapse.classList.contains('show')) {
+                navbarCollapse.classList.remove('show');
+            } else {
+                navbarCollapse.classList.add('show');
+            }
+        });
+        
+        // Tutup navbar ketika item diklik (untuk mobile)
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 992) {
+                    navbarCollapse.classList.remove('show');
+                }
+            });
+        });
+    }
+    
+    // Perbaikan scroll untuk mobile
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile) {
+        // Smooth scroll dengan offset yang lebih kecil untuk mobile
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 70, // Offset lebih kecil untuk mobile
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    }
+});
     </script>
 </body>
 
