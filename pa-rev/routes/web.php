@@ -22,6 +22,7 @@ use App\Http\Controllers\EkstrakurikulerController;
 use App\Http\Controllers\notifPendaftaranController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\jadwalEkstrakurikulerController;
+use App\Services\WhatsAppService;
 
 
 Route::middleware(['guest'])->group(function () {
@@ -30,16 +31,9 @@ Route::middleware(['guest'])->group(function () {
     Route::get('ekstrakurikuler/show/{id}', [EkstrakurikulerController::class, 'show'])->name('ekstrakurikuler.show');
 
 
-    // Authentication routes
-    // Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register');
-    // Route::post('/register_action', [RegisterController::class, 'register'])->name('register.action');
-    // Route::get('/change-password', [LoginController::class, 'showChangePasswordForm'])->name('change.password');
-    // Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-    // Route::post('/login_action', [LoginController::class, 'login']);
-
-
     Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register');
     Route::post('/register_action', [RegisterController::class, 'register'])->name('register.action');
+    Route::get('/get-nama-siswa', [RegisterController::class, 'getNamaSiswa'])->name('get.nama.siswa');
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login_action', [LoginController::class, 'login'])->name('login.action');
 });
@@ -207,4 +201,10 @@ Route::get('/test-session', function () {
         'has_opened_attendance' => session('has_opened_attendance'),
         'all_keys' => array_keys(session()->all())
     ];
+});
+
+
+Route::get('/test-wa', function(WhatsAppService $wa) {
+    $response = $wa->sendMessage('6285236947256', 'Pesan tes dari Laravel');
+    return $response->json();
 });

@@ -39,7 +39,7 @@ class LoginController extends Controller
             } elseif ($user->hasRole('guru_pembina')) {
                 return redirect()->intended('/guru-pembina'); // Route untuk guru
             } elseif ($user->hasRole('siswa')) {
-                return redirect()->intended('/ekstraSiswa'); // Route untuk siswa
+                return redirect()->intended('/siswa-dashboard'); // Route untuk siswa
             } else {
                 Auth::logout(); // kalau tidak punya role
                 return redirect('/login')->withErrors(['email' => 'Role tidak dikenali.']);
@@ -91,12 +91,31 @@ class LoginController extends Controller
     }
 
 
+private function formatPhoneNumber($phone)
+{
+    $phone = preg_replace('/[^0-9]/', '', $phone);
+    
+    if (substr($phone, 0, 1) == '0') {
+        $phone = '62' . substr($phone, 1);
+    } elseif (substr($phone, 0, 1) == '8') {
+        $phone = '62' . $phone;
+    }
+    
+    return $phone;
+}
+
     public function changePasswordAndRegister(Request $request)
     {
+
+        $request->merge([
+        'nomer_wali' => $this->formatPhoneNumber($request->nomer_wali)
+    ]);
+
+
         Log::debug('Request Data', $request->all());
         $request->validate([
             'password' => 'required|min:6|confirmed',
-            'nomer_wali' => 'required|string|max:15',
+            'nomer_wali' => ['required', 'regex:/^62[0-9]{9,13}$/'],
             'ekstrakurikuler_pilihan_id' => 'nullable|array', // opsional, bisa kosong
             'ekstrakurikuler_pilihan_id.*' => 'exists:ekstrakurikuler,id', // pastikan ID valid
         ]);

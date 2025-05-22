@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <title>Student Registration - SMKN 1 Sumenep</title>
@@ -9,12 +10,13 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Custom CSS -->
     <style>
@@ -233,31 +235,31 @@
                 padding: 3rem;
                 min-height: auto;
             }
-            
+
             .auth-form {
                 padding: 3rem;
             }
-            
+
             .school-logo img {
                 width: 50px;
             }
-            
+
             .school-logo-text {
                 font-size: 1.5rem;
             }
-            
+
             .auth-title {
                 font-size: 2rem;
             }
-            
+
             .auth-subtitle {
                 font-size: 1rem;
             }
-            
+
             .form-logo {
                 font-size: 1.8rem;
             }
-            
+
             .form-title {
                 font-size: 1.5rem;
             }
@@ -267,11 +269,11 @@
             .auth-container {
                 display: flex;
             }
-            
+
             .auth-side {
                 width: 40%;
             }
-            
+
             .auth-form {
                 width: 60%;
             }
@@ -281,33 +283,35 @@
             body {
                 padding: 10px 0;
             }
-            
+
             .auth-container {
                 border-radius: 10px;
             }
-            
-            .auth-side, .auth-form {
+
+            .auth-side,
+            .auth-form {
                 padding: 1.5rem;
             }
-            
+
             .school-logo {
                 margin-bottom: 1rem;
             }
-            
+
             .auth-title {
                 font-size: 1.3rem;
             }
-            
+
             .form-logo {
                 font-size: 1.3rem;
                 margin-bottom: 0.5rem;
             }
-            
+
             .form-title {
                 font-size: 1.1rem;
             }
-            
-            .btn-primary, .btn-outline-secondary {
+
+            .btn-primary,
+            .btn-outline-secondary {
                 width: 100%;
                 margin-bottom: 10px;
             }
@@ -328,8 +332,9 @@
                                 <div class="school-logo-text">SMKN 1 SUMENEP</div>
                             </div>
                             <h1 class="auth-title">Bergabunglah Dengan Komunitas Siswa Berprestasi</h1>
-                            <p class="auth-subtitle">Daftarkan akun Anda untuk mengakses semua fitur ekstrakurikuler dan kegiatan sekolah.</p>
-                            
+                            <p class="auth-subtitle">Daftarkan akun Anda untuk mengakses semua fitur ekstrakurikuler dan
+                                kegiatan sekolah.</p>
+
                             <div class="auth-features">
                                 <div class="feature-item">
                                     <div class="feature-icon">
@@ -352,7 +357,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Right Side - Registration Form -->
                     <div class="auth-form">
                         <div class="form-header">
@@ -360,73 +365,76 @@
                             <h2 class="form-title">Pendaftaran Akun Siswa</h2>
                             <p class="form-subtitle">Silakan isi formulir berikut untuk membuat akun baru</p>
                         </div>
-                        
+
                         <!-- Alert Messages -->
-                        @if(session('success'))
+                        @if (session('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <i class="fas fa-check-circle me-2"></i>
                                 {{ session('success') }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
                             </div>
                         @endif
-                        
-                        @if(session('error'))
+
+                        @if (session('error'))
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <i class="fas fa-exclamation-circle me-2"></i>
                                 {{ session('error') }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
                             </div>
                         @endif
-                        
+
                         <form action="{{ route('register.action') }}" method="POST">
                             @csrf
-                            
+
                             <!-- NIS Field -->
                             <div class="mb-3">
                                 <label for="nis_nip" class="form-label">Nomor Induk Siswa (NIS)</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fas fa-id-card"></i></span>
-                                    <input type="text" class="form-control @error('nis_nip') is-invalid @enderror" 
-                                           name="nis_nip" id="nis_nip" placeholder="Masukkan NIS Anda" 
-                                           value="{{ old('nis_nip') }}" required>
+                                    <input type="text" class="form-control @error('nis_nip') is-invalid @enderror"
+                                        name="nis_nip" id="nis_nip" placeholder="Masukkan NIS Anda"
+                                        value="{{ old('nis_nip') }}" required>
                                 </div>
                                 @error('nis_nip')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                             </div>
-                            
+
                             <!-- Full Name Field -->
                             <div class="mb-3">
                                 <label for="nama_siswa" class="form-label">Nama Lengkap</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    <input type="text" class="form-control @error('nama_siswa') is-invalid @enderror" 
-                                           name="nama_siswa" id="nama_siswa" placeholder="Nama Lengkap Sesuai Data Sekolah" 
-                                           value="{{ old('nama_siswa') }}" required>
+                                    <input type="text" class="form-control @error('nama_siswa') is-invalid @enderror"
+                                        name="nama_siswa" id="nama_siswa" placeholder="Nama Lengkap Sesuai Data Sekolah"
+                                        value="{{ old('nama_siswa') }}" required readonly>
                                 </div>
                                 @error('nama_siswa')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                                 <div class="form-text">Harap masukkan nama lengkap sesuai dengan data di sekolah</div>
                             </div>
-                            
+
                             <!-- Email Field -->
                             <div class="mb-4">
                                 <label for="email" class="form-label">Alamat Email</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                    <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                                           name="email" id="email" placeholder="contoh@email.com" 
-                                           value="{{ old('email') }}" required>
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                        name="email" id="email" placeholder="contoh@email.com"
+                                        value="{{ old('email') }}" required readonly>
                                 </div>
                                 @error('email')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                                 <div class="form-text">Pastikan email aktif dan dapat diakses</div>
                             </div>
-                            
+
                             <!-- Submit Button -->
-                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mt-4 gap-2">
+                            <div
+                                class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mt-4 gap-2">
                                 <button type="submit" class="btn btn-primary order-md-1">
                                     <i class="fas fa-user-plus me-2"></i> Daftar Akun
                                 </button>
@@ -435,7 +443,7 @@
                                 </a>
                             </div>
                         </form>
-                        
+
                         <div class="text-center mt-4 pt-3 border-top">
                             <p class="small text-muted mb-0">© 2023 SMKN 1 Sumenep. All rights reserved.</p>
                         </div>
@@ -447,7 +455,7 @@
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- Custom Script -->
     <script>
         // Auto focus on first input field
@@ -457,6 +465,40 @@
                 firstInput.focus();
             }
         });
+
+
+          $(document).ready(function () {
+        $('#nis_nip').on('input', function () {
+            var nis_nip = $(this).val();
+
+            if (nis_nip.length >= 4) { // bisa disesuaikan agar tidak terlalu cepat
+                $.ajax({
+                    url: '{{ route("get.nama.siswa") }}',
+                    type: 'GET',
+                    data: { nis_nip: nis_nip },
+                    success: function (response) {
+                        if (response.nama) {
+                            $('#nama_siswa').val(response.nama);
+                        } else {
+                            $('#nama_siswa').val('');
+                        }
+
+                        if (response.email) {
+                            $('#email').val(response.email);
+                        } else {
+                            $('#email').val('');
+                        }
+                    },
+                    error: function () {
+                        console.log('Gagal mengambil data siswa');
+                        $('#nama_siswa').val('');
+                        $('#email').val('');
+                    }
+                });
+            }
+        });
+    });
     </script>
 </body>
+
 </html>

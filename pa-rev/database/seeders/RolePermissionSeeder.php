@@ -146,6 +146,13 @@ class RolePermissionSeeder extends Seeder
             'edit ekstrakurikuler',
             'delete ekstrakurikuler',
 
+            'view jadwal ekstrakurikuler',
+            'create jadwal ekstrakurikuler',
+            'update jadwal ekstrakurikuler',
+            'edit jadwal ekstrakurikuler',
+            'delete jadwal ekstrakurikuler',
+
+
             'view logbook',
             'delete logbook',
             
@@ -209,7 +216,6 @@ class RolePermissionSeeder extends Seeder
         ]);
         $siswa->givePermissionTo([
             'view dashboard',
-            'view pendaftaran',
             'create pendaftaran',
             'show ekstrakurikuler',
 

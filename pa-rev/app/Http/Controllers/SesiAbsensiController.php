@@ -38,7 +38,7 @@ class SesiAbsensiController extends Controller
         $ekstraGuru = Ekstrakurikuler::where('id_users', $user->id)
             ->with(['jadwals' => function ($q) use ($hariIni) {
                 $q->where('hari', $hariIni)
-                    ->with(['sesiAbsen' => function ($s) {
+                    ->with(['sesiAbsenEkstrakurikuler' => function ($s) {
                         $s->whereDate('waktu_buka', now()->toDateString())
                             ->latest();
                     }]);
@@ -89,7 +89,7 @@ class SesiAbsensiController extends Controller
              // Cek apakah guru sudah membuka sesi hari ini
              $sesiHariIni = SesiAbsensiEkstrakurikuler::where('jadwal_id', $jadwalId)
                  ->whereDate('waktu_buka', now()->toDateString())
-                 ->where('guru_id', $user->id)
+                 ->where('guru_pembina_id', $user->id)
                  ->first();
      
              if ($sesiHariIni) {
@@ -99,7 +99,7 @@ class SesiAbsensiController extends Controller
              // Buat sesi absensi baru
              $sesi = SesiAbsensiEkstrakurikuler::create([
                  'jadwal_id' => $jadwalId,
-                 'guru_id' => $user->id,
+                 'guru_pembina_id' => $user->id,
                  'waktu_buka' => now(),
                  'is_active' => true
              ]);

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
 use App\Models\SesiAbsensi;
 use App\Models\JadwalEkstrakurikuler;
+use App\Models\SesiAbsensiEkstrakurikuler;
 use Carbon\Carbon;
 
 class Kernel extends ConsoleKernel
@@ -14,7 +15,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function () {
-            $sesiAktif = SesiAbsensi::where('is_active', true)->get();
+            $sesiAktif = SesiAbsensiEkstrakurikuler::where('is_active', true)->get();
 
             foreach ($sesiAktif as $sesi) {
                 $jadwal = JadwalEkstrakurikuler::find($sesi->jadwal_id);

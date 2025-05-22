@@ -19,6 +19,25 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
+   public function getNamaSiswa(Request $request)
+{
+    $siswa = Siswa::where('nis_nip', $request->nis_nip)->first();
+
+    if ($siswa) {
+        return response()->json([
+            'nama' => $siswa->nama_siswa,
+            'email' => $siswa->email, // pastikan ada kolom email
+        ]);
+    }
+
+    return response()->json([
+        'nama' => null,
+        'email' => null,
+    ]);
+}
+
+
+
     // Proses registrasi
 public function register(Request $request)
 {

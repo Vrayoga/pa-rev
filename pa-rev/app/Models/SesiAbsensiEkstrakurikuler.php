@@ -16,7 +16,7 @@ class SesiAbsensiEkstrakurikuler extends Model
         'is_active',
     ];
 
-    public function jadwals()
+    public function jadwal()
     {
         return $this->belongsTo(JadwalEkstrakurikuler::class, 'jadwal_id');
     }
@@ -25,11 +25,5 @@ class SesiAbsensiEkstrakurikuler extends Model
     {
         return $this->belongsTo(User::class, 'guru_pembina_id');
     }
-
-    public function jadwalEkstrakurikuler()
-    {
-        return $this->belongsTo(JadwalEkstrakurikuler::class, 'jadwal_id');
-    }
-
 
 }

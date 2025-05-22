@@ -19,7 +19,7 @@ class AbsensiEkstrakurikuler extends Model
         'catatan',
     ];
 
-    public function sesiAbsen()
+    public function sesiAbsenEkstrakurikuler()
     {
         return $this->belongsTo(SesiAbsensiEkstrakurikuler::class, 'sesi_absen_ekstrakurikuler_id');
     }
@@ -27,5 +27,10 @@ class AbsensiEkstrakurikuler extends Model
     public function siswa()
     {
         return $this->belongsTo(User::class, 'siswa_id');
+    }
+
+    public function pendaftaran()
+    {
+        return $this->belongsTo(Pendaftaran::class, 'pendaftaran_id');
     }
 }

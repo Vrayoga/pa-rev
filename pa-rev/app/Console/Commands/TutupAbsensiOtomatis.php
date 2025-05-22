@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\SesiAbsensi;
 use App\Models\JadwalEkstrakurikuler;
+use App\Models\SesiAbsensiEkstrakurikuler;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
@@ -15,7 +16,7 @@ class TutupAbsensiOtomatis extends Command
 
     public function handle()
     {
-        $sesiAktif = SesiAbsensi::where('is_active', true)->get();
+        $sesiAktif = SesiAbsensiEkstrakurikuler::where('is_active', true)->get();
 
         foreach ($sesiAktif as $sesi) {
             $jadwal = JadwalEkstrakurikuler::find($sesi->jadwal_id);
@@ -32,7 +33,7 @@ class TutupAbsensiOtomatis extends Command
                     ]);
 
 
-                    $user = $sesi->guru; // Ambil user yang membuka absensi
+                    $user = $sesi->guru_pembina; // Ambil user yang membuka absensi
                     if ($user) {
                         session()->forget(['has_opened_attendance', 'absensi_data']);
                     }

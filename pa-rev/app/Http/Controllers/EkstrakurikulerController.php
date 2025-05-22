@@ -19,7 +19,7 @@ class EkstrakurikulerController extends Controller
     {
         // Ambil user login
         $user = auth()->user();
-    
+
         // Cek role jika perlu (opsional, jika multi-role)
         if ($user->hasRole('guru_pembina')) {
             // Jika guru, ambil hanya ekstrakurikuler yang dia ampu
@@ -30,37 +30,39 @@ class EkstrakurikulerController extends Controller
             // Jika admin atau role lain, ambil semua data
             $ekstrakurikulers = Ekstrakurikuler::with(['jadwals', 'kategori', 'user'])->get();
         }
-    
+
         return view('halaman-admin.ekstrakurikuler.index', compact('ekstrakurikulers'));
     }
 
-// menampilkan anggota ekstrakurikuler saat sudah keterima di ekstrakurikuler (pembina)
-public function showAnggota($id)
-{
-    $ekstrakurikuler = Ekstrakurikuler::findOrFail($id);
-    $user = Auth::user();
-    
-    // Jika user adalah guru, pastikan dia pembimbing ekstra ini
-    if ($user->hasRole('guru_pembina')) {
-        $ekstraGuru = $user->ekstrakurikuler->pluck('id')->toArray();
-        
-        if (!in_array($ekstrakurikuler->id, $ekstraGuru)) {
-            return back()->with('error', 'Anda tidak berhak melihat anggota ekstrakurikuler ini');
+    // menampilkan anggota ekstrakurikuler saat sudah keterima di ekstrakurikuler (pembina)
+    public function showAnggota($id)
+    {
+        $ekstrakurikuler = Ekstrakurikuler::findOrFail($id);
+        $user = Auth::user();
+
+        // Jika user adalah guru, pastikan dia pembimbing ekstra ini
+        if ($user->hasRole('guru_pembina')) {
+            $ekstraGuru = $user->ekstrakurikuler->pluck('id')->toArray();
+
+            if (!in_array($ekstrakurikuler->id, $ekstraGuru)) {
+                return back()->with('error', 'Anda tidak berhak melihat anggota ekstrakurikuler ini');
+            }
         }
+        // Jika admin, langsung lanjut tanpa pengecekan
+
+        // Ambil pendaftaran yang sudah diterima untuk ekstra ini
+        $anggota = Pendaftaran::where('ekstrakurikuler_id', $id)
+            ->where('status_validasi', 'diterima')
+            ->with(['kelas', 'user', 'siswa'])
+            ->get();
+
+
+        return view('halaman-admin.ekstrakurikuler.anggotaEkstra', [
+            'anggota' => $anggota,
+            'ekstrakurikuler' => $ekstrakurikuler
+        ]);
     }
-    
-    // Ambil pendaftaran yang sudah diterima untuk ekstra ini
-    $anggota = Pendaftaran::where('ekstrakurikuler_id', $id)
-                ->where('status_validasi', 'diterima')
-                ->with(['kelas', 'user'])
-                ->get();
-    
-    return view('halaman-admin.ekstrakurikuler.anggotaEkstra', [
-        'anggota' => $anggota,
-        'ekstrakurikuler' => $ekstrakurikuler
-    ]);
-}
- 
+
 
 
     // index siswa(tampilan untuk users)
@@ -69,7 +71,7 @@ public function showAnggota($id)
         $ekstrakurikulers = Ekstrakurikuler::with(['jadwals', 'kategori'])->get();
         return view('users.index', compact('ekstrakurikulers'));
     }
-    
+
 
 
     // Show the form for creating a new resource
@@ -103,33 +105,33 @@ public function showAnggota($id)
         return redirect('/ekstrakurikuler')->with('success', 'Ekstrakurikuler created successfully.');
     }
 
-    
+
     // Display the specified resource
     public function show($id)
     {
-        $ekstrakurikuler = Ekstrakurikuler::with(['user','jadwals', 'kategori'])
+        $ekstrakurikuler = Ekstrakurikuler::with(['user', 'jadwals', 'kategori'])
             ->withCount([
-                'pendaftaran as jumlah_anggota' => function($query) {
+                'pendaftaran as jumlah_anggota' => function ($query) {
                     $query->where('status_validasi', 'diterima');
                 }
             ])
             ->findOrFail($id);
-    
+
         // Hitung persentase kuota hanya jika bukan wajib
         if ($ekstrakurikuler->jenis === 'wajib') {
             $ekstrakurikuler->persentase_kuota = null;
             $ekstrakurikuler->sisa_kuota = 'Tak Terbatas';
         } else {
-            $ekstrakurikuler->persentase_kuota = $ekstrakurikuler->kuota > 0 
+            $ekstrakurikuler->persentase_kuota = $ekstrakurikuler->kuota > 0
                 ? min(100, round(($ekstrakurikuler->jumlah_anggota / $ekstrakurikuler->kuota) * 100))
                 : 0;
             $ekstrakurikuler->sisa_kuota = max(0, $ekstrakurikuler->kuota - $ekstrakurikuler->jumlah_anggota);
         }
 
-    
+
         return view('users.detailEkstra', compact('ekstrakurikuler'));
     }
-    
+
 
     // Show the form for editing the specified resource
     public function edit($id)
@@ -145,29 +147,29 @@ public function showAnggota($id)
     {
         $ekstrakurikuler = Ekstrakurikuler::findOrFail($id);
         $data = $request->except('gambar'); // Ambil semua data kecuali gambar
-    
+
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
             $filename = time() . '_' . $file->getClientOriginalName();
             $destinationPath = public_path('storage/images');
-    
+
             // Pindahkan file
             $file->move($destinationPath, $filename);
-    
+
             // Simpan path relatif
             $data['gambar'] = 'images/' . $filename;
-    
+
             // Optional: hapus file lama jika perlu
             // $oldImage = public_path('storage/' . $ekstrakurikuler->Gambar);
             // if (file_exists($oldImage)) {
             //     unlink($oldImage);
             // }
         }
-    
-        $ekstrakurikuler->update($data);    
+
+        $ekstrakurikuler->update($data);
         return redirect()->route('ekstrakurikuler.index')->with('success', 'Ekstrakurikuler updated successfully.');
     }
-    
+
 
 
     // Remove the specified resource from storage

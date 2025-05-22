@@ -31,7 +31,7 @@
                     <div class="card-body">
                         <form action="{{ route('absensi.simpan') }}" method="POST">
                             @csrf
-                            <input type="hidden" name="sesi_absen_id" value="{{ $sesiAktif->id }}">
+                            <input type="hidden" name="sesi_absen_ekstrakurikuler_id" value="{{ $sesiAktif->id }}">
                             
                             <div class="table-responsive">
                                 <table id="datatable" class="table table-bordered dt-responsive nowrap w-100">
@@ -50,31 +50,31 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $siswa->user->name }}</td>
-                                        <td>{{ $siswa->kelas->kelas }} {{ $siswa->kelas->jurusan }}</td>
+                                       <td>{{ $siswa->user->siswa->kelasAktif?->kelas?->tingkat ?? '-' }} {{ $siswa->user->siswa->kelasAktif?->kelas->jurusan->nama_jurusan ?? '-' }}  {{ $siswa->user->siswa->kelasAktif?->kelas->kode_kelas ?? '-' }}</td>
                                         <td>
                                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                <label class="btn btn-outline-success {{ optional($siswa->absensi->first())->status == 'hadir' ? 'active' : '' }}">
+                                                <label class="btn btn-outline-success {{ optional($siswa->absensiEkstrakurikuler->first())->status == 'hadir' ? 'active' : '' }}">
                                                     <input type="radio" name="status[{{ $siswa->id }}]" value="hadir" autocomplete="off" 
-                                                           {{ optional($siswa->absensi->first())->status == 'hadir' ? 'checked' : '' }} required> Hadir
+                                                           {{ optional($siswa->absensiEkstrakurikuler->first())->status == 'hadir' ? 'checked' : '' }} required> Hadir
                                                 </label>
-                                                <label class="btn btn-outline-primary {{ optional($siswa->absensi->first())->status == 'izin' ? 'active' : '' }}">
+                                                <label class="btn btn-outline-primary {{ optional($siswa->absensiEkstrakurikuler->first())->status == 'izin' ? 'active' : '' }}">
                                                     <input type="radio" name="status[{{ $siswa->id }}]" value="izin" autocomplete="off"
-                                                           {{ optional($siswa->absensi->first())->status == 'izin' ? 'checked' : '' }}> Izin
+                                                           {{ optional($siswa->absensiEkstrakurikuler->first())->status == 'izin' ? 'checked' : '' }}> Izin
                                                 </label>
-                                                <label class="btn btn-outline-warning {{ optional($siswa->absensi->first())->status == 'sakit' ? 'active' : '' }}">
+                                                <label class="btn btn-outline-warning {{ optional($siswa->absensiEkstrakurikuler->first())->status == 'sakit' ? 'active' : '' }}">
                                                     <input type="radio" name="status[{{ $siswa->id }}]" value="sakit" autocomplete="off"
-                                                           {{ optional($siswa->absensi->first())->status == 'sakit' ? 'checked' : '' }}> Sakit
+                                                           {{ optional($siswa->absensiEkstrakurikuler->first())->status == 'sakit' ? 'checked' : '' }}> Sakit
                                                 </label>
-                                                <label class="btn btn-outline-danger {{ optional($siswa->absensi->first())->status == 'alfa' ? 'active' : '' }}">
+                                                <label class="btn btn-outline-danger {{ optional($siswa->absensiEkstrakurikuler->first())->status == 'alfa' ? 'active' : '' }}">
                                                     <input type="radio" name="status[{{ $siswa->id }}]" value="alfa" autocomplete="off"
-                                                           {{ optional($siswa->absensi->first())->status == 'alfa' ? 'checked' : '' }}> Alfa
+                                                           {{ optional($siswa->absensiEkstrakurikuler->first())->status == 'alfa' ? 'checked' : '' }}> Alfa
                                                 </label>
                                             </div>
                                         </td>
                                         <td>
                                             <input type="text" name="catatan[{{ $siswa->id }}]" 
                                                    class="form-control" 
-                                                   value="{{ optional($siswa->absensi->first())->catatan }}" 
+                                                   value="{{ optional($siswa->absensiEkstrakurikuler->first())->catatan }}" 
                                                    placeholder="Keterangan">
                                         </td>
                                     </tr>

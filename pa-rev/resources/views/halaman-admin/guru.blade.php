@@ -62,13 +62,13 @@
                                                                     ->first();
                                                                 $sesiAktif = $jadwalHariIni
                                                                     ? $jadwalHariIni
-                                                                        ->sesiAbsen()
+                                                                        ->sesiAbsenEkstrakurikuler()
                                                                         ->where('is_active', true)
                                                                         ->exists()
                                                                     : false;
                                                                 $sesiHariIni = $jadwalHariIni
                                                                     ? $jadwalHariIni
-                                                                        ->sesiAbsen()
+                                                                        ->sesiAbsenEkstrakurikuler()
                                                                         ->whereDate('waktu_buka', now()->toDateString())
                                                                         ->exists()
                                                                     : false;
@@ -138,7 +138,7 @@
                                                                         {{ date('H:i', strtotime($jadwal->jam_selesai)) }}
                                                                     </td>
                                                                     @php
-                                                                        $sesi = $jadwal->sesiAbsen->first();
+                                                                        $sesi = $jadwal->sesiAbsenEkstrakurikuler->first();
                                                                     @endphp
                                                                     <td>
                                                                         {{ $sesi ? \Carbon\Carbon::parse($sesi->waktu_buka)->format('H:i') : '-' }}

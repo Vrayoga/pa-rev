@@ -19,9 +19,9 @@ class JadwalEkstrakurikuler extends Model
     ];
 
 
-    public function sesiAbsen()
+    public function sesiAbsenEkstrakurikuler()
     {
-        return $this->hasMany(SesiAbsensi::class, 'jadwal_id');
+        return $this->hasMany(SesiAbsensiEkstrakurikuler::class, 'jadwal_id');
     }
 
     public function ekstrakurikuler()

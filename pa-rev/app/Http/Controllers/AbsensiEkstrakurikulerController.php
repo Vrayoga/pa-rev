@@ -17,6 +17,7 @@ use App\Models\SesiAbsensiEkstrakurikuler;
 class AbsensiEkstrakurikulerController extends Controller
 {
 
+    
     // Menampilkan halaman absensi siswa
     public function absensiSiswa()
     {
@@ -42,7 +43,7 @@ class AbsensiEkstrakurikulerController extends Controller
         // Ambil siswa yang terdaftar di ekstrakurikuler ini (dari tabel pendaftaran)
         $anggota = Pendaftaran::where('ekstrakurikuler_id', $ekstrakurikulerId)
             ->where('status_validasi', 'diterima')
-            ->with(['user', 'absensi' => function ($query) use ($sesiAktif) {
+            ->with(['user', 'AbsensiEkstrakurikuler' => function ($query) use ($sesiAktif) {
                 $query->where('sesi_absen_ekstrakurikuler_id', $sesiAktif->id);
             }])
             ->get();
@@ -56,6 +57,7 @@ class AbsensiEkstrakurikulerController extends Controller
 
     public function simpanAbsensi(Request $request)
     {
+
         $request->validate([
             'sesi_absen_ekstrakurikuler_id' => 'required|exists:sesi_absen_ekstrakurikuler,id',
             'status' => 'required|array',

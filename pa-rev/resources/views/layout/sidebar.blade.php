@@ -9,43 +9,43 @@
                 <li class="menu-title" key="t-menu">Menu</li>
 
                 @if (auth()->user()->hasRole('admin'))
-                @can('view dashboard')
-                <li>
-                    <a href="/dashboard" class="waves-effect">
-                        <i class="bx bx-home-circle"></i>
-                        <span key="t-dashboards">Dashboards</span>
-                    </a>
-                </li>
-                @endcan
+                    @can('view dashboard')
+                        <li>
+                            <a href="/dashboard" class="waves-effect">
+                                <i class="bx bx-home-circle"></i>
+                                <span key="t-dashboards">Dashboards</span>
+                            </a>
+                        </li>
+                    @endcan
                 @endif
 
                 @if (auth()->user()->hasRole('siswa'))
-                <li>
-                    <a href="/siswa-dashboard" class="waves-effect">
-                        <i class="bx bx-home-circle"></i>
-                        <span key="t-dashboards">Dashboards</span>
-                    </a>
-                </li>
-                @endif  
+                    <li>
+                        <a href="/siswa-dashboard" class="waves-effect">
+                            <i class="bx bx-home-circle"></i>
+                            <span key="t-dashboards">Dashboards</span>
+                        </a>
+                    </li>
+                @endif
 
                 @if (auth()->user()->hasRole('guru_pembina'))
-                <li>
-                    <a href="/guru" class="waves-effect">
-                        <i class="bx bx-home-circle"></i>
-                        <span key="t-dashboards">Dashboards</span>
-                    </a>
-                </li>
+                    <li>
+                        <a href="/guru-pembina" class="waves-effect">
+                            <i class="bx bx-home-circle"></i>
+                            <span key="t-dashboards">Dashboards</span>
+                        </a>
+                    </li>
                 @endif
-                <li class="menu-title" key="t-apps">Apps</li>
+                <li class="menu-title" key="t-apps">Data Master</li>
 
                 @can('view jurusan')
-                <li>
+                    <li>
                         <a href="/jurusan" class="waves-effect">
                             <i class="bx bx-file"></i>
                             <span key="t-file-manager">Jurusan</span>
                         </a>
                     </li>
-                    @endcan
+                @endcan
 
                 @can('view kelas')
                     <li>
@@ -63,7 +63,11 @@
                             <span key="t-chat">Siswa</span>
                         </a>
                     </li>
+                    <li class="menu-title" key="t-apps">PAGES</li>
                 @endcan
+
+
+
 
 
                 <li>
@@ -104,20 +108,22 @@
                         </a>
                     </li>
                 @endcan
+                @if (auth()->user()->hasRole('siswa'))
                     <li>
-                        <a href="{{route ('daftar.create')}}" class="waves-effect">
+                        <a href="{{ route('daftar.create') }}" class="waves-effect">
                             <i class="bx bx-bitcoin"></i>
                             <span key="t-crypto">Daftar Ekstrakurikuler</span>
                         </a>
                     </li>
+                @endif
 
                 @if (auth()->user()->hasRole('guru'))
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="bx bx-group"></i>
-                        <span key="t-crypto">Anggota</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="bx bx-group"></i>
+                            <span key="t-crypto">Anggota</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
                             <!-- Untuk guru - hanya tampilkan ekstra yang dibimbing -->
                             @foreach (auth()->user()->ekstrakurikuler as $ekstra)
                                 <li><a
@@ -126,7 +132,22 @@
                             @endforeach
                         </ul>
                     </li>
-                    @endif
+                @elseif(auth()->user()->hasRole('admin'))
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="bx bx-group"></i>
+                            <span key="t-crypto">Anggota Ekstra</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <!-- Untuk admin - tampilkan semua ekstra -->
+                            @foreach (App\Models\Ekstrakurikuler::all() as $ekstra)
+                                <li><a
+                                        href="{{ route('anggota.ekstra', $ekstra->id) }}">{{ $ekstra->nama_ekstrakurikuler }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                @endif
                 @can('view absensi')
                     <li>
                         <a href="/absensi" class="waves-effect">
@@ -169,9 +190,6 @@
                         }).showToast();
                     }
                 </script>
-                
-                
-
 
                 @can('view prestasi')
                     <li>
@@ -183,9 +201,8 @@
                 @endcan
 
                 @can('view absensi')
-                <li class="menu-title" key="t-apps">PAGES</li>
                     <li>
-                        <a href="route {{'absensi.siswa'}}" class=" waves-effect">
+                        <a href="route {{ 'absensi.siswa' }}" class=" waves-effect">
                             <i class="bx bx-task"></i>
                             <span key="t-tasks">Absensi</span>
                         </a>
@@ -217,4 +234,3 @@
         <!-- Sidebar -->
     </div>
 </div>
-

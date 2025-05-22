@@ -58,7 +58,7 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $item->siswa->nama_lengkap ?? $item->nama_lengkap }}</td>
-                                        <td>{{ $item->kelas->kelas }} {{ $item->kelas->jurusan ?? '' }}</td>
+                                        <td>{{ $item->kelas_siswa->tingkat ?? ''}} {{ $item->kelas->jurusan ?? '' }}</td>
                                         <td>{{ $item->no_telepon }}</td>
                                         <td>{{ $item->nomer_wali }}</td>
                                         <td>{{ $item->updated_at->format('d/m/Y') }}</td>
