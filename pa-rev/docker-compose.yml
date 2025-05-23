@@ -9,9 +9,9 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ./:/var/www/html:cached              # volume utama, dengan :cached untuk Windows/macOS
-      - /var/www/html/vendor                 # hindari override vendor dari host (biar cepat)
-      - /var/www/html/storage                # hindari override storage dari host agar permission bisa diatur dalam container
+      - ./:/var/www/html:cached              
+      - /var/www/html/vendor               
+      - /var/www/html/storage                
     environment:
       - APACHE_DOCUMENT_ROOT=/var/www/html/public
     command: >

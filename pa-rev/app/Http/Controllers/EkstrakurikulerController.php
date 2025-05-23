@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\User;
+use App\Models\Siswa;
 use App\Models\Kategori;
 use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
@@ -69,7 +70,9 @@ class EkstrakurikulerController extends Controller
     public function indexSiswa()
     {
         $ekstrakurikulers = Ekstrakurikuler::with(['jadwals', 'kategori'])->get();
-        return view('users.index', compact('ekstrakurikulers'));
+        $totalEkstrakurikuler = $ekstrakurikulers->count();
+        $totalSiswa = Siswa::count();
+        return view('users.index', compact('ekstrakurikulers', 'totalEkstrakurikuler', 'totalSiswa'));
     }
 
 

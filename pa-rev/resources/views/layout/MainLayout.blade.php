@@ -40,7 +40,9 @@
     <!-- Toastify JS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-    @stack('css')
+
+    <!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 
     <style>
@@ -76,6 +78,12 @@
     <script src="{{ asset('') }}assets/libs/metismenu/metisMenu.min.js"></script>
     <script src="{{ asset('') }}assets/libs/simplebar/simplebar.min.js"></script>
     <script src="{{ asset('') }}assets/libs/node-waves/waves.min.js"></script>
+
+    <!-- jQuery (Select2 butuh ini) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 
     <!-- bootstrap-datepicker js -->

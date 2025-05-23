@@ -15,7 +15,7 @@
                 <div class="col-lg-7 mb-5" data-aos="fade-right" data-aos-duration="1000">
                     <h3 class="section-title">Ekstrakurikuler SMK 1 SUMENEP</h3>
                     <p class="section-subtitle">Temukan dan kembangkan bakat Anda melalui kegiatan ekstrakurikuler
-                        premium di SMKN 1 Sumenep. Program eksklusif kami dirancang untuk membentuk karakter dan
+                         di SMKN 1 Sumenep. Program kami dirancang untuk membentuk karakter dan
                         keahlian siswa.</p>
                     <a href="#statistik" class="btn btn-outline-gold mt-3">Jelajahi Lebih Lanjut</a>
                 </div>
@@ -66,7 +66,7 @@
     <section id="statistik" class="statistics-section">
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-up" data-aos-duration="1000">
-                <h2 class="section-title mx-auto" style="color: var(--navy);">Prestasi Kami</h2>
+                <h2 class="section-title mx-auto" style="color: var(--navy);">Statistik Kami</h2>
                 <p class="text-muted">Kualitas dan keunggulan dalam setiap kegiatan ekstrakurikuler</p>
             </div>
 
@@ -76,8 +76,8 @@
                         <div class="stat-icon">
                             <i class="bi bi-collection"></i>
                         </div>
-                        <h3 class="stat-number">24</h3>
-                        <p class="stat-title">Program Unggulan</p>
+                        <h3 class="stat-number">{{$totalEkstrakurikuler}}</h3>
+                        <p class="stat-title">Ekstrakurikuler</p>
                     </div>
                 </div>
 
@@ -87,7 +87,7 @@
                         <div class="stat-icon">
                             <i class="bi bi-people-fill"></i>
                         </div>
-                        <h3 class="stat-number">850</h3>
+                        <h3 class="stat-number">{{$totalSiswa}}</h3>
                         <p class="stat-title">Siswa Aktif</p>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                             <i class="bi bi-calendar-check-fill"></i>
                         </div>
                         <h3 class="stat-number">18</h3>
-                        <p class="stat-title">Kegiatan Rutin</p>
+                        <p class="stat-title">Logbook Kegiatan</p>
                     </div>
                 </div>
 
@@ -110,7 +110,7 @@
                             <i class="bi bi-trophy-fill"></i>
                         </div>
                         <h3 class="stat-number">75</h3>
-                        <p class="stat-title">Penghargaan</p>
+                        <p class="stat-title">Prestasi</p>
                     </div>
                 </div>
             </div>

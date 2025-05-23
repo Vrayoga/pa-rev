@@ -31,6 +31,10 @@ class Ekstrakurikuler extends Model
         return $this->belongsTo(Kategori::class, 'id_kategori');
     }
 
+    public function siswas()
+    {
+        return $this->belongsToMany(Siswa::class);
+    }
     public function user()
     {
         return $this->belongsTo(User::class, 'id_users');

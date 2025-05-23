@@ -1,18 +1,19 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Services\WhatsAppService;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
 
 // Controllers
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\AbsensiController;
-use App\Http\Controllers\AbsensiEkstrakurikulerController;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\LogbookController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\pendaftaranController;
@@ -22,7 +23,7 @@ use App\Http\Controllers\EkstrakurikulerController;
 use App\Http\Controllers\notifPendaftaranController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\jadwalEkstrakurikulerController;
-use App\Services\WhatsAppService;
+use App\Http\Controllers\AbsensiEkstrakurikulerController;
 
 
 Route::middleware(['guest'])->group(function () {
@@ -194,6 +195,16 @@ Route::prefix('logbook')->middleware(['auth', 'verified', 'role_permission', 'ch
     Route::get('/edit/{logbook}', [LogbookController::class, 'edit'])->name('logbook.edit')->middleware('permission:edit logbook');
     Route::post('/{logbook}', [LogbookController::class, 'update'])->name('logbook.update')->middleware('permission:update logbook');
     Route::delete('/{logbook}', [LogbookController::class, 'destroy'])->name('logbook.destroy')->middleware('permission:delete logbook');
+});
+
+
+Route::prefix('prestasi')->middleware(['auth', 'verified', 'role_permission'])->group(function () {
+     Route::get('/', [PrestasiController::class, 'index'])->name('prestasi.index')->middleware('permission:view logbook');
+    Route::get('/create', [PrestasiController::class, 'create'])->name('prestasi.create');
+    Route::post('/store', [PrestasiController::class, 'store'])->name('prestasi.store');
+    Route::get('/edit/{id}', [PrestasiController::class, 'edit'])->name('prestasi.edit')->middleware('permission:edit prestasi');
+    Route::put('/update/{id}', [PrestasiController::class, 'update'])->name('prestasi.update')->middleware('permission:update prestasi');
+    Route::delete('/delete/{id}', [PrestasiController::class, 'destroy'])->name('prestasi.destroy')->middleware('permission:delete prestasi');
 });
 
 Route::get('/test-session', function () {
