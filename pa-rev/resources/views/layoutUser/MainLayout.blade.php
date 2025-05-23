@@ -1,141 +1,262 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ekskul-SMKN 1 Sumenep</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="{{asset ('')}}assets/css/app.min.css">
- <style>
-  /* css awal ekstra */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #ffffff;
-  }
-
-  .navbar {
-    background-color: #0A3981;
-  }
-
-  .nav-link,
-  .navbar-brand {
-    color: white;
-    font-weight: 500;
-  }
-
-  .nav-link:hover {
-    color: #e0f7fa;
-  }
-
-  .btn-login {
-    background-color: #fff;
-    color: #1da9b4;
-    font-weight: 500;
-    border-radius: 50px;
-    padding: 5px 30px;
-  }
-
-  .hero-section {
-    padding: 60px 0 20px;
-  }
-
-  .card {
-    border: none;
-    border-radius: 20px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .card img {
-    height: 200px;
-    object-fit: cover;
-    width: 100%;
-  }
-
-  .card-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
-    color: white;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-  }
-
-  .card-title-button {
-    background: white;
-    color: black;
-    border-radius: 20px;
-    padding: 5px 20px;
-    text-align: center;
-    margin-top: 10px;
-    font-weight: 600;
-    width: fit-content;
-  }
-
-  .small-author {
-    font-size: 14px;
-    margin-bottom: 5px;
-  }
-
-  /* end tampilan userEkstra */
-
- </style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ekstrakurikuler Premium - SMKN 1 Sumenep</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <link rel="stylesheet" href="{{ asset('') }}assets/css/viewUser.min.css">
 </head>
-<body>
-  <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center" href="#">
-        <img src="{{ asset('') }}assets/images/logo-smk1.png" width="50" class="me-2" alt="logo">
-        Smkn 1 Sumenep
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" href="#">Beranda</a></li>
-          <li>
-            <a href="{{ route('daftar.create', ['modal' => 'daftar']) }}" class="btn btn-primary waves-effect waves-light">
-              Daftar
-            </a>
-          </li>
-          <li class="nav-item"><a class="nav-link" href="#">Prestasi</a></li>
-          <li class="nav-item"><a class="nav-link" href="https://smk1sumenep.sch.id/?post_type=ekskul">Berita</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Kontak</a></li>
-            @auth
-            <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              {{ Auth::user()->name }}
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              {{-- <li><a class="dropdown-item" href="{{ route('profile') }}">Profil</a></li> --}}
-              <li><hr class="dropdown-divider"></li>
-              <li>
-              <form action="{{ route('logout') }}" method="">
-                @csrf
-                <button type="submit" class="dropdown-item">Keluar</button>
-              </form>
-              </li>
-            </ul>
-            </li>
-            @else
-            <li class="nav-item"><a class="btn btn-login" href="/login">Masuk <i class="bi bi-lock-fill"></i></a></li>
-            @endauth
-        </ul>
-      </div>
-    </div>
-  </nav>
 
-  <section class="container hero-section">
- @yield('contentUser')
-  </section>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<body>
+    <!-- Floating Elements -->
+    <div class="floating-element" style="width: 300px; height: 300px; top: -100px; right: -100px;"></div>
+    <div class="floating-element" style="width: 200px; height: 200px; bottom: 100px; left: -50px;"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="{{ asset('') }}/assets/images/smk1.png" width="40" class="me-2" alt="logo">
+                SMKN 1 Sumenep
+            </a>
+            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#beranda">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#statistik">Statistik</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#fitur">Fitur</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#faq">FAQ</a>
+                    </li>
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <a href="/register" class="btn btn-outline-gold">
+                            Daftar
+                        </a>
+                    </li>
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <a class="btn btn-login" href="/login">Masuk <i class="bi bi-arrow-right ms-2"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    @yield('content')
+  
+  <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-5">
+                    <div class="footer-logo">SMKN 1 Sumenep</div>
+                    <p class="footer-text">Sebagai pusat pengembangan bakat unggulan, kami berkomitmen untuk
+                        menyediakan program ekstrakurikuler berkualitas tinggi yang mendorong potensi maksimal setiap
+                        siswa dalam lingkungan yang inspiratif dan profesional.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-youtube"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-lg-2 mb-5">
+                    <h4 class="footer-title">Navigasi</h4>
+                    <ul class="footer-links">
+                        <li><a href="#beranda">Beranda</a></li>
+                        <li><a href="#statistik">Statistik</a></li>
+                        <li><a href="#fitur">Fitur</a></li>
+                        <li><a href="#faq">Informasi</a></li>
+                        <li><a href="#">Galeri</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 col-lg-3 mb-5">
+                    <h4 class="footer-title">Program Unggulan</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Robotic Elite</a></li>
+                        <li><a href="#">Digital Creative</a></li>
+                        <li><a href="#">Young Entrepreneurs</a></li>
+                        <li><a href="#">Debate Masterclass</a></li>
+                        <li><a href="#">Sports Academy</a></li>
+                        <li><a href="#">Arts Performance</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 col-lg-3 mb-5">
+                    <h4 class="footer-title">Hubungi Kami</h4>
+                    <div class="contact-info">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <p>Jl. Trunojoyo No. 294, Sumenep, Jawa Timur 69451</p>
+                    </div>
+                    <div class="contact-info">
+                        <i class="bi bi-telephone-fill"></i>
+                        <p>(0328) 662025<br>+62 812-3456-7890</p>
+                    </div>
+                    <div class="contact-info">
+                        <i class="bi bi-envelope-fill"></i>
+                        <p>info@smkn1sumenep.sch.id<br>ekskul@smkn1sumenep.sch.id</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="copyright">
+                &copy; 2025 SMKN 1 Sumenep. All rights reserved. | Designed with <i class="bi bi-heart-fill"
+                    style="color: var(--gold);"></i> IT PENS 2022
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            once: true,
+            duration: 1000
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.padding = '12px 0';
+                navbar.style.backgroundColor = 'rgba(10, 26, 58, 0.98)';
+            } else {
+                navbar.style.padding = '18px 0';
+                navbar.style.backgroundColor = 'rgba(10, 26, 58, 0.98)';
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 90,
+                        behavior: 'smooth'
+                    });
+
+                    // Update active nav link
+                    document.querySelectorAll('.nav-link').forEach(navLink => {
+                        navLink.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Carousel functionality
+        const carousel = document.querySelector('.carousel-container');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+
+        if (carousel && prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', () => {
+                carousel.scrollBy({
+                    left: -340,
+                    behavior: 'smooth'
+                });
+            });
+
+            nextBtn.addEventListener('click', () => {
+                carousel.scrollBy({
+                    left: 340,
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        // Highlight active section on scroll
+        window.addEventListener('scroll', highlightNavItem);
+
+        function highlightNavItem() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Scroll indicator functionality
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        if (scrollIndicator) {
+            scrollIndicator.addEventListener('click', () => {
+                window.scrollBy({
+                    top: window.innerHeight - 90,
+                    behavior: 'smooth'
+                });
+            });
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > window.innerHeight * 0.5) {
+                    scrollIndicator.style.opacity = '0';
+                    scrollIndicator.style.pointerEvents = 'none';
+                } else {
+                    scrollIndicator.style.opacity = '1';
+                    scrollIndicator.style.pointerEvents = 'auto';
+                }
+            });
+        }
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                const navbarCollapse = document.querySelector('.navbar-collapse');
+                if (navbarCollapse.classList.contains('show')) {
+                    navbarCollapse.classList.remove('show');
+                }
+            });
+        });
+
+        // Prevent horizontal scrolling on mobile
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length === 1) {
+                const touch = e.touches[0];
+                if (touch.clientX <= 10 || touch.clientX >= window.innerWidth - 10) {
+                    e.preventDefault();
+                }
+            }
+        }, {
+            passive: false
+        });
+    </script>
 </body>
+
 </html>
