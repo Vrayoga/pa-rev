@@ -65,7 +65,10 @@ h5,
     height: 42px;
     margin-right: 12px;
     transition: all 0.4s ease;
-    filter: brightness(0) invert(1);
+    /* Hapus atau modifikasi filter berikut: */
+    filter: none; /* Solusi 1: Hapus filter */
+    /* Atau */
+    filter: brightness(1) invert(0); /* Solusi 2: Reset ke default */
 }
 
 .nav-link {

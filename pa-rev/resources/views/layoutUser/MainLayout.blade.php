@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ekstrakurikuler Premium - SMKN 1 Sumenep</title>
+    <title>Ekstrakurikuler - SMKN 1 Sumenep</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,6 +12,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+    <link rel="shortcut icon" href="{{ asset('') }}assets/images/logo-smk1.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
     <link rel="stylesheet" href="{{ asset('') }}assets/css/viewUser.min.css">
 </head>
@@ -21,47 +22,12 @@
     <div class="floating-element" style="width: 300px; height: 300px; top: -100px; right: -100px;"></div>
     <div class="floating-element" style="width: 200px; height: 200px; bottom: 100px; left: -50px;"></div>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="{{ asset('') }}/assets/images/smk1.png" width="40" class="me-2" alt="logo">
-                SMKN 1 Sumenep
-            </a>
-            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#beranda">Beranda</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#statistik">Statistik</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#fitur">Fitur</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#faq">FAQ</a>
-                    </li>
-                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
-                        <a href="/register" class="btn btn-outline-gold">
-                            Daftar
-                        </a>
-                    </li>
-                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
-                        <a class="btn btn-login" href="/login">Masuk <i class="bi bi-arrow-right ms-2"></i></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+
+    @include('layoutUser.Navbar')
 
     @yield('content')
-  
-  <!-- Footer -->
+
+    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="row">
