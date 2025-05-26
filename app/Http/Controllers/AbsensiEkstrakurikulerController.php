@@ -30,7 +30,7 @@ class AbsensiEkstrakurikulerController extends Controller
         // Ambil sesi absensi aktif milik guru ini
         $sesiAktif = SesiAbsensiEkstrakurikuler::where('guru_pembina_id', $user->id)
             ->where('is_active', true)
-            ->with(['jadwals.ekstrakurikuler'])
+            ->with(['jadwal.ekstrakurikuler'])
             ->first();
 
         if (!$sesiAktif) {
@@ -38,7 +38,7 @@ class AbsensiEkstrakurikulerController extends Controller
         }
 
         // Ambil data anggota ekstrakurikuler (siswa yang terdaftar)
-        $ekstrakurikulerId = $sesiAktif->jadwals->ekstrakurikuler->id;
+        $ekstrakurikulerId = $sesiAktif->jadwal->ekstrakurikuler->id;
 
         // Ambil siswa yang terdaftar di ekstrakurikuler ini (dari tabel pendaftaran)
         $anggota = Pendaftaran::where('ekstrakurikuler_id', $ekstrakurikulerId)

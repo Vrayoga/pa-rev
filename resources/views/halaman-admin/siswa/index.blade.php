@@ -1,7 +1,6 @@
 @extends('layout.MainLayout')
 
 @section('content')
-
     <div class="page-content">
         <div class="container-fluid">
             <div class="row">
@@ -23,56 +22,75 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        
+
                         <div class="card-body">
                             <div class="d-flex justify-content-end mb-3">
                                 <a href="/siswa/create" class="btn btn-primary btn-rounded waves-effect waves-light">
                                     <i class="mdi mdi-plus me-1"> Tambah Data Siswa </i>
                                 </a>
                             </div>
-                            
+                            <div>
+                                {{-- Tombol Import --}} @if (session('success'))
+                                    <div class="alert alert-success">{{ session('success') }}</div>
+                                @endif
+                                @if (session('error'))
+                                    <div class="alert alert-danger">{{ session('error') }}</div>
+                                @endif
+                                <form action="{{ route('siswa.import') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="file" name="file_siswa" required>
+                                    <button type="submit">Import Siswa</button>
+                                </form>
+
+
+
+
+                            </div>
                             <h4 class="card-title">Table Siswa</h4>
                             <table id="datatable" class="table table-bordered dt-responsive nowrap w-100">
                                 <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama siswa</th>
-                                    <th>Kode</th>
-                                    <th>Email</th>
-                                    <th>NIS</th>
-                                    <th>Agama</th>
-                                    <th>Tempat Dan Tanggal Lahir</th>
-                                    <th>Jenis kelamin</th>
-                                    <th>No telepon</th>
-                                    <th>tahun masuk</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama siswa</th>
+                                        <th>Kode</th>
+                                        <th>Email</th>
+                                        <th>NIS</th>
+                                        <th>Agama</th>
+                                        <th>Tempat Dan Tanggal Lahir</th>
+                                        <th>Jenis kelamin</th>
+                                        <th>No telepon</th>
+                                        <th>tahun masuk</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
                                 </thead>
 
                                 <tbody>
-                                    @foreach($siswa as $index => $siswa)
-                                    <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ $siswa->nama_siswa }}</td>
-                                        <td>{{ $siswa->kode }}</td>
-                                        <td>{{ $siswa->email }}</td>
-                                        <td>{{ $siswa->nis_nip }}</td>
-                                        <td>{{ $siswa->agama }}</td>
-                                        <td>{{ $siswa->tempat }}, {{ $siswa->tanggal_lahir }}</td>
-                                        <td>{{ $siswa->jenis_kelamin }}</td>
-                                        <td>{{ $siswa->no_telepon }}</td>
-                                        <td>{{ $siswa->tahun_masuk }}</td>
-                                        <td>{{ $siswa->status}}</td>
-                                        <td>
-                                            <a href="{{ route('siswa.edit', $siswa->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                            <form action="{{ route('siswa.destroy', $siswa->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
+                                    @foreach ($siswa as $index => $siswa)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $siswa->nama_siswa }}</td>
+                                            <td>{{ $siswa->kode }}</td>
+                                            <td>{{ $siswa->email }}</td>
+                                            <td>{{ $siswa->nis_nip }}</td>
+                                            <td>{{ $siswa->agama }}</td>
+                                            <td>{{ $siswa->tempat }}, {{ $siswa->tanggal_lahir }}</td>
+                                            <td>{{ $siswa->jenis_kelamin }}</td>
+                                            <td>{{ $siswa->no_telepon }}</td>
+                                            <td>{{ $siswa->tahun_masuk }}</td>
+                                            <td>{{ $siswa->status }}</td>
+                                            <td>
+                                                <a href="{{ route('siswa.edit', $siswa->id) }}"
+                                                    class="btn btn-warning btn-sm">Edit</a>
+                                                <form action="{{ route('siswa.destroy', $siswa->id) }}" method="POST"
+                                                    style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>

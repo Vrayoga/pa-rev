@@ -20,10 +20,10 @@ return new class extends Migration
             $table->string('tempat');
             $table->date('tanggal_lahir');
             $table->enum('jenis_kelamin',['laki-laki', 'perempuan']);
-            $table->enum('agama', ['islam', 'protestan', 'katolik','hindu', 'buddha', 'khonghucu']);
+            $table->enum('agama', ['islam', 'kristen', 'katolik','hindu', 'buddha', 'khonghucu']);
             $table->string('no_telepon');
             $table->string('tahun_masuk');
-            $table->enum('status',['aktif','tidak_aktif']);
+            $table->enum('status',['aktif','tidak_aktif'])->default('aktif');
             $table->string('kode')->nullable();
             $table->timestamps();
         });

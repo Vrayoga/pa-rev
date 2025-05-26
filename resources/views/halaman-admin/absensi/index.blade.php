@@ -21,10 +21,10 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        <h4 class="card-title text-white">Sesi Absensi: {{ $sesiAktif->jadwals->ekstrakurikuler->nama_ekstrakurikuler }}</h4>
+                        <h4 class="card-title text-white">Sesi Absensi: {{ $sesiAktif->jadwal->ekstrakurikuler->nama_ekstrakurikuler }}</h4>
                         <p class="mb-0 text-white-50">
-                            Hari: {{ $sesiAktif->jadwals->hari }}, 
-                            Jam: {{ $sesiAktif->jadwals->jam_mulai }} - {{ $sesiAktif->jadwals->jam_selesai }}
+                            Hari: {{ $sesiAktif->jadwal->hari }}, 
+                            Jam: {{ $sesiAktif->jadwal->jam_mulai }} - {{ $sesiAktif->jadwal->jam_selesai }}
                         </p>
                     </div>
                     

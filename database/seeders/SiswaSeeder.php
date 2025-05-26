@@ -32,7 +32,7 @@ class SiswaSeeder extends Seeder
             }
         }
 
-        $agamaList = ['islam', 'protestan', 'katolik', 'hindu', 'buddha', 'khonghucu'];
+        $agamaList = ['islam', 'kristen', 'katolik', 'hindu', 'buddha', 'khonghucu'];
 
         for ($i = 1; $i <= 50; $i++) {
             $data[] = [

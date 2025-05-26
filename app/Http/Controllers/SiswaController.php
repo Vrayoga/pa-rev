@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kelas;
 use App\Models\User;
+use App\Models\Kelas;
 use App\Models\Siswa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Validators\ValidationException;
+use App\Imports\SiswaImport; // Import class SiswaImport
+use Maatwebsite\Excel\Validators\ValidationException as MaatwebsiteValidationException;
 
 class SiswaController extends Controller
 {
@@ -17,8 +23,16 @@ class SiswaController extends Controller
     public function index()
     {
         $siswa = Siswa::all();
-        return view('halaman-admin.siswa.index',compact('siswa'));
+        return view('halaman-admin.siswa.index', compact('siswa'));
     }
+
+
+public function import(Request $request)
+{
+    Excel::import(new SiswaImport, $request->file('file_siswa'));
+
+    return redirect()->back()->with('success', 'Data berhasil diimpor');
+}
 
     // Tampilkan form tambah siswa
     public function create()
@@ -27,7 +41,7 @@ class SiswaController extends Controller
     }
     public function store(Request $request)
     {
-       
+
         $request->validate([
             'nisn' => 'required|string|max:20|unique:siswa,nisn',
             'nama_siswa' => 'required|string|max:100',
@@ -87,7 +101,7 @@ class SiswaController extends Controller
         //     'alamat' => 'required|string',
         //     'nis' => 'required|string|unique:siswas,nis,' . $siswa->id,
         // ]);
-        
+
         $siswa->update($request->all());
 
         return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil diupdate.');

@@ -117,7 +117,7 @@
                     </li>
                 @endif
 
-                @if (auth()->user()->hasRole('guru'))
+                @if (auth()->user()->hasRole('guru_pembina'))
                     <li>
                         <a href="javascript: void(0);" class="has-arrow waves-effect">
                             <i class="bx bx-group"></i>
