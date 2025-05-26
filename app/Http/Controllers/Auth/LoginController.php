@@ -265,7 +265,7 @@ private function formatPhoneNumber($phone)
         return response()->json([
             'status' => 'success',
             'message' => 'Password berhasil diubah dan pendaftaran ekstrakurikuler diproses.',
-            'redirect' => url('/siswa'),
+            'redirect' => url('/siswa-dashboard'),
         ]);
     }
 }
