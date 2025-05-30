@@ -39,7 +39,7 @@ class Ekstrakurikuler extends Model
     {
         return $this->belongsTo(User::class, 'id_users');
     }
-    public function pendaftaran()
+    public function pendaftarans()
     {
         return $this->hasMany(Pendaftaran::class);
     }
@@ -52,5 +52,10 @@ class Ekstrakurikuler extends Model
     public function sesiAbsen()
     {
         return $this->hasMany(SesiAbsensiEkstrakurikuler::class, 'jadwal_id');
+    }
+    public function pendaftarAktif()
+    {
+        // Menggunakan relasi pendaftarans() yang sudah didefinisikan di atas
+        return $this->pendaftarans()->where('status_validasi', 'diterima')->count();
     }
 }

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\File;
 use App\Models\JadwalEkstrakurikuler;
+use App\Models\SesiAbsensiEkstrakurikuler;
 
 class LogbookController extends Controller
 {
@@ -41,7 +42,7 @@ class LogbookController extends Controller
         $ekstrakurikuler = Ekstrakurikuler::where('id_users', $user->id)->get();
         
         // Ambil semua sesi aktif untuk hari ini milik guru ini dengan relasi jadwal
-        $sesiAbsensiAll = SesiAbsensi::with('jadwalEkstrakurikuler')
+        $sesiAbsensiAll = SesiAbsensiEkstrakurikuler::with('jadwalEkstrakurikuler')
             ->where('guru_id', $user->id)
             ->whereDate('waktu_buka', today())
             ->where('is_active', true)

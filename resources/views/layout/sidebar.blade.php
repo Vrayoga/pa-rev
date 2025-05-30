@@ -161,7 +161,7 @@
                     <li>
                         @php
                             $hasOpenedAttendance = session('has_opened_attendance');
-                            $isGuru = auth()->user()->hasRole('guru');
+                            $isGuru = auth()->user()->hasRole('guru_pembina');
                         @endphp
 
                         {{-- Debug info, hapus setelah selesai --}}

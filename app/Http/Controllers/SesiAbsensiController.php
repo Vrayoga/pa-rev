@@ -150,7 +150,7 @@ class SesiAbsensiController extends Controller
         }
     
         // Pastikan hanya guru yang membuka sesi yang dapat menutupnya
-        if ($sesiAktif->guru_id != $user->id) {
+        if ($sesiAktif->guru_pembina_id != $user->id) {
             return redirect()->back()->with('error', 'Anda tidak berhak menutup sesi ini');
         }
     

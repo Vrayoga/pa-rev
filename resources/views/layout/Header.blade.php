@@ -29,18 +29,10 @@
             </button>
 
             <!-- App Search-->
-            <form class="app-search d-none d-lg-block">
-                <div class="position-relative">
-                    <input type="text" class="form-control" placeholder="Search...">
-                    <span class="bx bx-search-alt"></span>
-                </div>
-            </form>
-
 
         </div>
 
         <div class="d-flex">
-
             <div class="dropdown d-inline-block d-lg-none ms-2">
                 <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-search-dropdown"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -69,14 +61,15 @@
                 </button>
             </div>
             <div class="dropdown d-inline-block">
-                <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown"
-                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn header-item noti-icon waves-effect"
+                    id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
                     <i class="bx bx-bell bx-tada"></i>
-                    @if(isset($unreadNotificationsCount) && $unreadNotificationsCount > 0)
+                    @if (isset($unreadNotificationsCount) && $unreadNotificationsCount > 0)
                         <span class="badge bg-danger rounded-pill">{{ $unreadNotificationsCount }}</span>
                     @endif
                 </button>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                <div id="notif-pendaftaran" class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                     aria-labelledby="page-header-notifications-dropdown">
                     <div class="p-3">
                         <div class="row align-items-center">
@@ -88,15 +81,16 @@
                             </div>
                         </div>
                     </div>
-                    <div data-simplebar style="max-height: 230px;">
+                    <div id="notification-list" data-simplebar style="max-height: 230px;">
                         @forelse($notifications as $notification)
-                            <a href="{{ route('pendaftaran.index') }}" 
-                               class="text-reset notification-item {{ $notification->is_read ? '' : 'unread' }}"
-                               data-id="{{ $notification->id }}"
-                               onclick="markNotificationAsRead(event, {{ $notification->id }})">
+                            <a href="{{ route('pendaftaran.index') }}"
+                                class="text-reset notification-item {{ $notification->is_read ? '' : 'unread' }} "
+                                data-id="{{ $notification->id }}"
+                                onclick="markNotificationAsRead(event, {{ $notification->id }})">
                                 <div class="d-flex">
                                     <div class="avatar-xs me-3">
-                                        <span class="avatar-title bg-{{ $notification->is_read ? 'secondary' : 'primary' }} rounded-circle font-size-16">
+                                        <span
+                                            class="avatar-title bg-{{ $notification->is_read ? 'secondary' : 'primary' }} rounded-circle font-size-16">
                                             <i class="bx bx-bell"></i>
                                         </span>
                                     </div>
@@ -104,7 +98,8 @@
                                         <h6 class="mb-1">{{ $notification->title }}</h6>
                                         <div class="font-size-12 text-muted">
                                             <p class="mb-1">{{ $notification->message }}</p>
-                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i> {{ $notification->created_at->diffForHumans() }}</p>
+                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i>
+                                                {{ $notification->created_at->diffForHumans() }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -116,7 +111,8 @@
                         @endforelse
                     </div>
                     <div class="p-2 border-top d-grid">
-                        <a class="btn btn-sm btn-link font-size-14 text-center" href="{{ route('pendaftaran.index') }}">
+                        <a class="btn btn-sm btn-link font-size-14 text-center"
+                            href="{{ route('pendaftaran.index') }}">
                             <i class="mdi mdi-arrow-right-circle me-1"></i> View More..
                         </a>
                     </div>
@@ -131,7 +127,6 @@
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
-                    <!-- item-->
                     <a class="dropdown-item" href="#"><i class="bx bx-user font-size-16 align-middle me-1"></i>
                         <span key="t-profile">Profile</span></a>
                     <div class="dropdown-divider"></div>
@@ -144,31 +139,94 @@
     </div>
 </header>
 
+<style>
+    #notification-list {
+        max-height: 300px;
+        /* Sesuaikan dengan tinggi yang diinginkan */
+        overflow-y: auto;
+        /* Membuat area notifikasi menjadi scrollable */
+    }
+</style>
+
+
 
 <script>
-    function markNotificationAsRead(event, notificationId) {
-    event.preventDefault(); // Mencegah redirect langsung
-    
-    // Kirim permintaan AJAX untuk menandai sebagai sudah dibaca
-    fetch(`/notifications/mark-as-read/${notificationId}`, {
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Redirect setelah berhasil update
-            window.location.href = "{{ route('pendaftaran.index') }}";
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        // Tetap redirect meskipun ada error
-        window.location.href = "{{ route('pendaftaran.index') }}";
+    function fetchNotifications() {
+        $.ajax({
+            url: '{{ route('notifications.fetch') }}' + '?random=' + new Date()
+                .getTime(), // Endpoint untuk mengambil notifikasi
+            method: 'GET',
+            success: function(response) {
+                console.log(response);
+                const badge = $('#page-header-notifications-dropdown .badge');
+                const count = response.unreadCount;
+
+                // Update badge
+                if (count > 0) {
+                    badge.text(count).removeClass('d-none');
+                } else {
+                    badge.addClass('d-none');
+                }
+
+                const notificationList = $('#notification-list');
+                notificationList.empty();
+
+                if (response.notifications.length > 0) {
+                    response.notifications.forEach(function(notification) {
+                        // Format waktu menggunakan moment.js
+                        let formattedTime = moment(notification.created_at)
+                    .fromNow(); // Format waktu menjadi relatif (misalnya "1 menit yang lalu")
+
+                        notificationList.append(`
+                <a href="{{ route('pendaftaran.index') }}" class="text-reset notification-item ${notification.is_read ? '' : 'unread'}" data-id="${notification.id}" onclick="markNotificationAsRead(event, ${notification.id})">
+                    <div class="d-flex">
+                        <div class="avatar-xs me-3">
+                            <span class="avatar-title bg-${notification.is_read ? 'secondary' : 'primary'} rounded-circle font-size-16">
+                                <i class="bx bx-bell"></i>
+                            </span>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">${notification.title}</h6>
+                            <div class="font-size-12 text-muted">
+                                <p class="mb-1">${notification.message}</p>
+                                <p class="mb-0"><i class="mdi mdi-clock-outline"></i> ${formattedTime}</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            `);
+                    });
+                } else {
+                    notificationList.append(`
+            <div class="text-center p-3">
+                <p class="text-muted mb-0">Tidak ada notifikasi</p>
+            </div>
+        `);
+                }
+            },
+            error: function() {
+                console.error("Error fetching notifications.");
+            }
+        });
+    }
+
+    function markNotificationAsRead(event, id) {
+        event.preventDefault();
+        $.ajax({
+            url: `/notifications/${id}/read`, // Sesuaikan dengan route kamu
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function() {
+                fetchNotifications(); // Refresh list setelah membaca notifikasi
+                window.location.href = "{{ route('pendaftaran.index') }}"; // Arahkan setelah dibaca
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        fetchNotifications(); // Ambil notifikasi pertama kali saat halaman dimuat
+        setInterval(fetchNotifications, 5000); // Polling setiap 10 detik
     });
-}
-    </script>
+</script>

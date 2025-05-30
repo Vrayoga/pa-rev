@@ -133,105 +133,105 @@ class PendaftaranController extends Controller
     }
 
 
-  public function storeRegisEkstra(Request $request)
-{
-    $request->merge([
-        'nomer_wali' => $this->formatPhoneNumber($request->nomer_wali)
-    ]);
+    public function storeRegisEkstra(Request $request)
+    {
+        $request->merge([
+            'nomer_wali' => $this->formatPhoneNumber($request->nomer_wali)
+        ]);
 
-    // Validasi input
-    $request->validate([
-        'ekstrakurikuler_id_1' => 'nullable|exists:ekstrakurikuler,id',
-        'alasan_1' => 'nullable|string|max:255',
-        'ekstrakurikuler_id_2' => 'nullable|different:ekstrakurikuler_id_1|exists:ekstrakurikuler,id',
-        'alasan_2' => 'nullable|string|max:255',
-        'nomer_wali' => ['required', 'regex:/^62[0-9]{9,13}$/'],
-    ]);
+        // Validasi input
+        $request->validate([
+            'ekstrakurikuler_id_1' => 'nullable|exists:ekstrakurikuler,id',
+            'alasan_1' => 'nullable|string|max:255',
+            'ekstrakurikuler_id_2' => 'nullable|different:ekstrakurikuler_id_1|exists:ekstrakurikuler,id',
+            'alasan_2' => 'nullable|string|max:255',
+            'nomer_wali' => ['required', 'regex:/^62[0-9]{9,13}$/'],
+        ]);
 
-    $user = Auth::user();
-    $siswa = $user->siswa;
+        $user = Auth::user();
+        $siswa = $user->siswa;
 
-    // Ambil semua pendaftaran pilihan yang sudah ada (pending dan diterima)
-    $existingPilihanCount = Pendaftaran::where('users_id', $user->id)
-        ->whereIn('status_validasi', ['pending', 'diterima'])
-        ->whereHas('ekstrakurikuler', function($query) {
-            $query->where('jenis', '!=', 'wajib');
-        })
-        ->count();
+        // Ambil semua pendaftaran pilihan yang sudah ada (pending dan diterima)
+        $existingPilihanCount = Pendaftaran::where('users_id', $user->id)
+            ->whereIn('status_validasi', ['pending', 'diterima'])
+            ->whereHas('ekstrakurikuler', function ($query) {
+                $query->where('jenis', '!=', 'wajib');
+            })
+            ->count();
 
-    // Hitung ekstra pilihan yang akan didaftarkan
-    $pilihanToRegister = 0;
-    if ($request->ekstrakurikuler_id_1) $pilihanToRegister++;
-    if ($request->ekstrakurikuler_id_2) $pilihanToRegister++;
+        // Hitung ekstra pilihan yang akan didaftarkan
+        $pilihanToRegister = 0;
+        if ($request->ekstrakurikuler_id_1) $pilihanToRegister++;
+        if ($request->ekstrakurikuler_id_2) $pilihanToRegister++;
 
-    // Validasi jumlah pilihan (maksimal 2)
-    if (($existingPilihanCount + $pilihanToRegister) > 2) {
-        return back()->with('error', 'Anda hanya dapat memilih maksimal 2 ekstrakurikuler pilihan.');
-    }
+        // Validasi jumlah pilihan (maksimal 2)
+        if (($existingPilihanCount + $pilihanToRegister) > 2) {
+            return back()->with('error', 'Anda hanya dapat memilih maksimal 2 ekstrakurikuler pilihan.');
+        }
 
-    $successCount = 0;
-    $errorMessages = [];
+        $successCount = 0;
+        $errorMessages = [];
 
-    // Proses pendaftaran jika ada ekstra 1
-    if ($request->ekstrakurikuler_id_1) {
-        $ekstra1 = Ekstrakurikuler::find($request->ekstrakurikuler_id_1);
-        
-        // Pastikan yang didaftarkan adalah ekstra pilihan
-        if ($ekstra1->jenis == 'wajib') {
-            $errorMessages[] = "Ekstrakurikuler {$ekstra1->nama_ekstrakurikuler} adalah wajib dan sudah didaftarkan saat registrasi.";
-        } else {
-            $registrationSuccess = $this->processRegistration(
-                $user,
-                $siswa,
-                $request->ekstrakurikuler_id_1,
-                $request->alasan_1 ?: 'Tidak ada alasan yang diberikan',
-                $request->nomer_wali,
-                $errorMessages
-            );
+        // Proses pendaftaran jika ada ekstra 1
+        if ($request->ekstrakurikuler_id_1) {
+            $ekstra1 = Ekstrakurikuler::find($request->ekstrakurikuler_id_1);
 
-            if ($registrationSuccess) {
-                $successCount++;
+            // Pastikan yang didaftarkan adalah ekstra pilihan
+            if ($ekstra1->jenis == 'wajib') {
+                $errorMessages[] = "Ekstrakurikuler {$ekstra1->nama_ekstrakurikuler} adalah wajib dan sudah didaftarkan saat registrasi.";
+            } else {
+                $registrationSuccess = $this->processRegistration(
+                    $user,
+                    $siswa,
+                    $request->ekstrakurikuler_id_1,
+                    $request->alasan_1 ?: 'Tidak ada alasan yang diberikan',
+                    $request->nomer_wali,
+                    $errorMessages
+                );
+
+                if ($registrationSuccess) {
+                    $successCount++;
+                }
             }
         }
-    }
 
-    // Proses pendaftaran jika ada ekstra 2
-    if ($request->ekstrakurikuler_id_2) {
-        $ekstra2 = Ekstrakurikuler::find($request->ekstrakurikuler_id_2);
-        
-        // Pastikan yang didaftarkan adalah ekstra pilihan
-        if ($ekstra2->jenis == 'wajib') {
-            $errorMessages[] = "Ekstrakurikuler {$ekstra2->nama_ekstrakurikuler} adalah wajib dan sudah didaftarkan saat registrasi.";
-        } else {
-            $registrationSuccess = $this->processRegistration(
-                $user,
-                $siswa,
-                $request->ekstrakurikuler_id_2,
-                $request->alasan_2 ?: 'Tidak ada alasan yang diberikan',
-                $request->nomer_wali,
-                $errorMessages
-            );
+        // Proses pendaftaran jika ada ekstra 2
+        if ($request->ekstrakurikuler_id_2) {
+            $ekstra2 = Ekstrakurikuler::find($request->ekstrakurikuler_id_2);
 
-            if ($registrationSuccess) {
-                $successCount++;
+            // Pastikan yang didaftarkan adalah ekstra pilihan
+            if ($ekstra2->jenis == 'wajib') {
+                $errorMessages[] = "Ekstrakurikuler {$ekstra2->nama_ekstrakurikuler} adalah wajib dan sudah didaftarkan saat registrasi.";
+            } else {
+                $registrationSuccess = $this->processRegistration(
+                    $user,
+                    $siswa,
+                    $request->ekstrakurikuler_id_2,
+                    $request->alasan_2 ?: 'Tidak ada alasan yang diberikan',
+                    $request->nomer_wali,
+                    $errorMessages
+                );
+
+                if ($registrationSuccess) {
+                    $successCount++;
+                }
             }
         }
-    }
 
-    if ($successCount > 0) {
-        $message = "Pendaftaran ekstrakurikuler pilihan berhasil diajukan untuk $successCount pilihan. Harap tunggu validasi dari pembimbing.";
+        if ($successCount > 0) {
+            $message = "Pendaftaran ekstrakurikuler pilihan berhasil diajukan untuk $successCount pilihan. Harap tunggu validasi dari pembimbing.";
 
-        if (!empty($errorMessages)) {
-            $errorMsg = implode(' ', $errorMessages);
-            return redirect()->route('siswa.dashboard')->with('success', $message)->with('warning', $errorMsg);
+            if (!empty($errorMessages)) {
+                $errorMsg = implode(' ', $errorMessages);
+                return redirect()->route('siswa.dashboard')->with('success', $message)->with('warning', $errorMsg);
+            }
+
+            return redirect()->route('siswa.dashboard')->with('success', $message);
+        } else {
+            $errorMsg = implode(' ', $errorMessages) ?: 'Tidak ada ekstrakurikuler pilihan yang dipilih untuk didaftarkan.';
+            return back()->with('error', 'Pendaftaran gagal: ' . $errorMsg);
         }
-
-        return redirect()->route('siswa.dashboard')->with('success', $message);
-    } else {
-        $errorMsg = implode(' ', $errorMessages) ?: 'Tidak ada ekstrakurikuler pilihan yang dipilih untuk didaftarkan.';
-        return back()->with('error', 'Pendaftaran gagal: ' . $errorMsg);
     }
-}
     /**
      * Proses pendaftaran untuk satu ekstrakurikuler
      * 
@@ -385,4 +385,6 @@ class PendaftaranController extends Controller
 
         return back()->with('success', "Pendaftaran berhasil di$status");
     }
+
+    
 }

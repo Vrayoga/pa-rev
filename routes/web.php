@@ -24,7 +24,7 @@ use App\Http\Controllers\notifPendaftaranController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\jadwalEkstrakurikulerController;
 use App\Http\Controllers\AbsensiEkstrakurikulerController;
-
+use App\Models\NotifPendaftaran;
 
 Route::middleware(['guest'])->group(function () {
     // Welcome page
@@ -101,7 +101,6 @@ Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
         Route::post('/{siswa}', [SiswaController::class, 'update'])->name('siswa.update')->middleware('permission:update siswa');
         Route::delete('/{id}', [SiswaController::class, 'destroy'])->name('siswa.destroy')->middleware('permission:delete siswa');
         Route::post('/import/data', [SiswaController::class, 'import'])->name('siswa.import');
-
     });
 
     // Kelas Management
@@ -170,9 +169,14 @@ Route::middleware(['auth', 'verified', 'role_permission'])->group(function () {
         Route::put('/{id}/validasi', [PendaftaranController::class, 'validasi'])->name('pendaftaran.validasi');
     });
 
-    //notif memberitahu Guru
-    Route::post('/notifications/mark-as-read/{id}', [notifPendaftaranController::class, 'markAsRead'])->name('notifications.markAsRead');
+    Route::get('/pendaftaran/fetch', [PendaftaranController::class, 'fetchPendaftaran'])->name('pendaftaran.fetch');
 
+    // Route untuk mengambil notifikasi
+    Route::get('notifications/fetch', [notifPendaftaranController::class, 'fetchNotifications'])->name('notifications.fetch');
+    Route::get('notifikasi/fetch', [notifPendaftaranController::class, 'notif'])->name('notif.fetch');
+
+    // Route untuk menandai notifikasi sebagai dibaca
+    Route::post('notifications/{id}/read', [notifPendaftaranController::class, 'markAsRead'])->name('notifications.read');
 
     // Ekstrakurikuler Siswa
 

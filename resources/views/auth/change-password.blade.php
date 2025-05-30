@@ -7,22 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="SMKN 1 Sumenep Student Portal" name="description" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!-- Favicon -->
     <link rel="shortcut icon" href="{{ asset('assets/images/logo-smk1.png') }}">
 
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- jQuery Steps CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-steps/1.1.0/jquery.steps.min.css">
-
-    <!-- Custom CSS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         :root {
             --primary: #0A3981;
@@ -75,7 +66,6 @@
             padding: 2rem;
         }
 
-        /* Wizard Form Styling */
         .wizard>.steps {
             margin-bottom: 2rem;
         }
@@ -184,7 +174,6 @@
             color: var(--gray);
         }
 
-        /* Form Styling */
         .form-label {
             font-weight: 500;
             margin-bottom: 0.5rem;
@@ -230,7 +219,6 @@
             color: #721c24;
         }
 
-        /* Responsive Adjustments */
         @media (max-width: 768px) {
             .auth-container {
                 margin: 1rem;
@@ -265,7 +253,6 @@
             <form id="wizard-form" action="{{ route('change.password.post') }}" method="POST">
                 @csrf
                 <div id="basic-example">
-                    <!-- Step 1: Change Password -->
                     <h3>Mengatur Kata Sandi</h3>
                     <section>
                         <div class="row">
@@ -301,11 +288,10 @@
 
                         <div class="alert alert-info">
                             <i class="fas fa-info-circle me-2"></i>
-                            Harap buat kata sandi yang kuat.
+                            Harap buat kata sandi yang kuat (minimal 6 karakter).
                         </div>
                     </section>
 
-                    <!-- Step 2: Mandatory Extracurricular -->
                     <h3>Ekstrakurikuler Wajib</h3>
                     <section>
                         <div class="row">
@@ -314,24 +300,19 @@
                                 @if ($mandatoryEkstra)
                                     <input type="text" class="form-control"
                                         value="{{ $mandatoryEkstra->nama_ekstrakurikuler }}" readonly>
-                                    <input type="hidden" name="ekstrakurikuler_id" value="{{ $mandatoryEkstra->id }}">
                                 @else
                                     <div class="alert alert-danger">
                                         <i class="fas fa-exclamation-triangle me-2"></i>
-                                        Tidak ada ekstrakurikuler Wajib
+                                        Tidak ada ekstrakurikuler Wajib yang dikonfigurasi.
                                     </div>
                                 @endif
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Kelas</label>
                                 <input type="text" class="form-control"
-                                    value="{{ $siswa->kelasAktif->kelas->tingkat ?? '' }} {{ $kelas->jurusan->nama_jurusan ?? '' }} {{ $siswa->kelasAktif->kelas->kode_kelas ?? '' }}"
+                                    value="{{ $siswa->kelasAktif->kelas->tingkat ?? '' }} {{ $siswa->kelasAktif->kelas->jurusan->nama_jurusan ?? ($kelas->jurusan->nama_jurusan ?? '') }} {{ $siswa->kelasAktif->kelas->kode_kelas ?? '' }}"
                                     readonly>
-
-                                <input type="hidden" name="kelas_siswa_id" value="{{ $siswa->kelasAktif->id ?? '' }}">
                             </div>
-
-
                         </div>
 
                         <div class="row">
@@ -343,36 +324,43 @@
                             <div class="col-md-6 mb-3">
                                 <label for="no_telepon" class="form-label">No telpon</label>
                                 <input type="text" class="form-control" name="no_telepon" id="no_telepon"
-                                    value="{{ Auth::user()->siswa->no_telepon ?? '' }}" required>
+                                    value="{{ old('no_telepon', Auth::user()->siswa->no_telepon ?? '') }}" required>
+                                @error('no_telepon')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="alasan" class="form-label">Alasan</label>
-                                <input type="text" class="form-control" name="alasan" id="alasan"
-                                    value="Untuk Ekstra Wajib Otomatis Diisi Oleh Sistem" required readonly>
+                                <label for="alasan_wajib" class="form-label">Alasan (Ekstra Wajib)</label>
+                                <input type="text" class="form-control" name="alasan_wajib" id="alasan_wajib"
+                                    value="Pendaftaran otomatis ekstrakurikuler wajib" readonly>
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label for="nomer_wali" class="form-label">Nomer Wali</label>
                                 <input type="text" class="form-control @error('nomer_wali') is-invalid @enderror"
-                                    name="nomer_wali" id="nomer_wali" value="{{ old('nomer_wali') }}" required>
+                                    name="nomer_wali" id="nomer_wali" value="{{ old('nomer_wali') }}"
+                                    placeholder="Contoh: 6281234567890" required>
                                 @error('nomer_wali')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
+                                <div class="form-text">Gunakan format internasional, contoh: 6281234567890.</div>
                             </div>
                         </div>
                     </section>
 
-                    <!-- Step 3: Optional Extracurricular -->
-                    <h3>Ekstrakurikuler Pilihan(Optional)</h3>
+                    <h3>Ekstrakurikuler Pilihan (Opsional)</h3>
                     <section>
+                        <div class="alert alert-info">
+                            Anda dapat memilih maksimal 2 ekstrakurikuler pilihan.
+                        </div>
                         <div class="row">
                             <div class="col-12 mb-4">
-                                <p class="fw-medium">Pilih Ekstrakurikuler Pilihan (if desired):</p>
+                                <p class="fw-medium">Pilih Ekstrakurikuler Pilihan (jika diinginkan):</p>
                                 <div class="row">
-                                    @foreach ($ekstrakurikulerPilihan as $ekstra)
+                                    @forelse ($ekstrakurikulerPilihan as $ekstra)
                                         <div class="col-md-6 mb-3">
                                             <div class="card">
                                                 <div class="card-body">
@@ -384,17 +372,26 @@
                                                         <label class="form-check-label fw-medium"
                                                             for="ekstra_{{ $ekstra->id }}">
                                                             {{ $ekstra->nama_ekstrakurikuler }}
+                                                            @if ($ekstra->kuota !== null)
+                                                                (Kuota:
+                                                                {{-- Assuming you have a method pendaftarAktif() in your Ekstrakurikuler model --}}
+                                                                {{ $ekstra->pendaftarAktif() }}/{{ $ekstra->kuota }})
+                                                            @endif
                                                         </label>
                                                     </div>
                                                     <div class="mt-2">
-                                                        <input type="text" class="form-control"
+                                                        <input type="text" class="form-control form-control-sm"
                                                             name="alasan_pilihan[{{ $ekstra->id }}]"
-                                                            placeholder="Reason (optional)">
+                                                            placeholder="Alasan (opsional)">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    @endforeach
+                                    @empty
+                                        <div class="col-12">
+                                            <p>Tidak ada ekstrakurikuler pilihan yang tersedia saat ini.</p>
+                                        </div>
+                                    @endforelse
                                 </div>
                             </div>
                         </div>
@@ -404,23 +401,14 @@
         </div>
     </div>
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- jQuery Steps -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-steps/1.1.0/jquery.steps.min.js"></script>
 
-    <!-- Custom Script -->
     <script>
         $(document).ready(function() {
-            // Password toggle functionality
             $('.password-toggle-btn').click(function() {
                 const input = $(this).siblings('input');
                 const icon = $(this).find('i');
-
                 if (input.attr('type') === 'password') {
                     input.attr('type', 'text');
                     icon.removeClass('fa-eye').addClass('fa-eye-slash');
@@ -430,54 +418,84 @@
                 }
             });
 
-            // Initialize form wizard
             $("#basic-example").steps({
                 headerTag: "h3",
                 bodyTag: "section",
                 transitionEffect: "slide",
-                enableAllSteps: true,
+                autoFocus: true,
                 enableFinishButton: true,
                 labels: {
-                    finish: "Simpan",
+                    finish: "Simpan & Lanjutkan",
                     next: "Lanjut",
-                    previous: "Kembali"
+                    previous: "Kembali",
+                    loading: "Memuat..."
                 },
                 onStepChanging: function(event, currentIndex, newIndex) {
-                    // Validate current step before moving to next
+                    if (newIndex < currentIndex) {
+                        return true;
+                    }
                     if (currentIndex === 0) {
                         const password = $("#password").val();
                         const confirmPassword = $("#password_confirmation").val();
-
                         if (password === "" || confirmPassword === "") {
-                            alert("Please fill in all password fields");
+                            alert("Mohon isi kolom Password Baru dan Konfirmasi Password.");
+                            $("#password").focus();
                             return false;
                         }
-
-                        if (password.length < 8) {
-                            alert("Password must be at least 8 characters long");
+                        if (password.length < 6) {
+                            alert("Password minimal harus 6 karakter.");
+                            $("#password").focus();
                             return false;
                         }
-
                         if (password !== confirmPassword) {
-                            alert("Passwords do not match");
+                            alert("Password Baru dan Konfirmasi Password tidak cocok.");
+                            $("#password_confirmation").focus();
                             return false;
                         }
                     }
-
                     if (currentIndex === 1) {
                         const nomerWali = $("#nomer_wali").val();
+                        const noTeleponSiswa = $("#no_telepon").val();
+                        if (!noTeleponSiswa) {
+                            alert("Mohon isi No Telepon siswa.");
+                            $("#no_telepon").focus();
+                            return false;
+                        }
+                        const phoneRegexSimple = /^62[0-9]{9,13}$/;
                         if (!nomerWali) {
-                            alert("Please enter guardian's phone number");
+                            alert("Mohon isi Nomer Wali.");
+                            $("#nomer_wali").focus();
+                            return false;
+                        }
+                        if (!phoneRegexSimple.test(nomerWali)) {
+                            alert(
+                                "Format Nomer Wali tidak valid. Gunakan format 62xxxxxxxxxxx (11-15 digit). Contoh: 6281234567890");
+                            $("#nomer_wali").focus();
                             return false;
                         }
                     }
-
+                    if (currentIndex === 2) { 
+                        const pilihanCount = $('input[name="ekstrakurikuler_pilihan_id[]"]:checked')
+                            .length;
+                        if (pilihanCount > 2) {
+                            alert("Anda hanya dapat memilih maksimal 2 ekstrakurikuler pilihan.");
+                            return false;
+                        }
+                    }
                     return true;
+                },
+                onFinishing: function(event, currentIndex) {
+                    const pilihanCount = $('input[name="ekstrakurikuler_pilihan_id[]"]:checked').length;
+                    if (pilihanCount > 2) {
+                        alert("Anda hanya dapat memilih maksimal 2 ekstrakurikuler pilihan.");
+                        return false; 
+                    }
+                    return true; 
                 },
                 onFinished: function(event, currentIndex) {
                     event.preventDefault();
+                    $("a[href='#finish']").addClass('disabled').text('Memproses...');
 
-                    // Submit form via AJAX
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -489,15 +507,37 @@
                         method: "POST",
                         data: $("#wizard-form").serialize(),
                         success: function(response) {
+                            // The fetchNotifications() call here is unlikely to update a separate header
+                            // on *this* page before redirect. The update will be visible on the next page.
+                            // if (typeof fetchNotifications === 'function') { 
+                            //     fetchNotifications(); 
+                            // }
+
                             if (response.redirect) {
+                                if (response.message) {
+                                    alert(response.message);
+                                }
                                 window.location.href = response.redirect;
+                            } else {
+                                alert(response.message || "Proses pendaftaran selesai.");
+                                $("a[href='#finish']").removeClass('disabled').text(
+                                    'Simpan & Lanjutkan');
                             }
                         },
                         error: function(xhr) {
-                            if (xhr.responseJSON && xhr.responseJSON.message) {
+                            $("a[href='#finish']").removeClass('disabled').text(
+                                'Simpan & Lanjutkan');
+                            if (xhr.responseJSON && xhr.responseJSON.errors) {
+                                let errorMessages = "Terdapat kesalahan input:\n";
+                                $.each(xhr.responseJSON.errors, function(key, value) {
+                                    errorMessages += `- ${value.join(', ')}\n`;
+                                });
+                                alert(errorMessages);
+                            } else if (xhr.responseJSON && xhr.responseJSON.message) {
                                 alert("Error: " + xhr.responseJSON.message);
                             } else {
-                                alert("An error occurred. Please try again.");
+                                alert("Terjadi kesalahan pada server. Silakan coba lagi. Status: " +
+                                    xhr.statusText);
                             }
                         }
                     });
@@ -506,5 +546,4 @@
         });
     </script>
 </body>
-
 </html>
